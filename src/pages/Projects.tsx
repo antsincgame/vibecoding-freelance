@@ -1,4 +1,5 @@
 import SEO from "../components/SEO";
+import AIMatching from '../components/AIMatching';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Clock, DollarSign, Tag, User, MessageCircle, Filter, ChevronDown } from 'lucide-react';
@@ -117,6 +118,11 @@ export default function Projects() {
           </div>
         </div>
       )}
+
+      {/* AI Matching */}
+      <div className="mb-8">
+        <AIMatching />
+      </div>
 
       {/* Filters */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">

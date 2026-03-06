@@ -7,6 +7,7 @@ import Skeleton from '../components/ui/Skeleton';
 import { useGig, useCategories } from '../hooks/useData';
 import { updateGig } from '../lib/freelance-db';
 import { uploadImage } from '../lib/upload';
+import AIGigAnalyzer from '../components/AIGigAnalyzer';
 import toast from 'react-hot-toast';
 
 export default function EditGig() {
@@ -154,6 +155,8 @@ export default function EditGig() {
             );
           })}
         </div>
+
+        <AIGigAnalyzer title={form.title} description={form.description} tags={form.tags} price={Number(form.economy.price) || 0} />
 
         <Button variant="primary" size="lg" className="w-full" onClick={handleSave} disabled={saving}>
           <Save size={16} /> {saving ? 'Сохранение...' : 'Сохранить изменения'}

@@ -11,6 +11,7 @@ import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
 import Skeleton from '../components/ui/Skeleton';
 import SEO from '../components/SEO';
+import AIMatching from '../components/AIMatching';
 import { useCategories, useFeaturedGigs, useTopFreelancers } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
@@ -190,6 +191,11 @@ export default function Home() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* AI MATCHING */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+        <AIMatching />
       </section>
 
       {/* PROJECTS PROMO */}

@@ -7,6 +7,7 @@ import Badge from '../components/ui/Badge';
 import { useCategories } from '../hooks/useData';
 import { createGig } from '../lib/freelance-db';
 import { uploadImage } from '../lib/upload';
+import AIGigAnalyzer from '../components/AIGigAnalyzer';
 import toast from 'react-hot-toast';
 
 export default function CreateGig() {
@@ -161,6 +162,7 @@ export default function CreateGig() {
           <div className="space-y-6">
             <div className="flex items-center gap-2 mb-4"><Eye size={20} className="text-gold" /><h3 className="text-base font-semibold text-heading">{t('create_gig.preview')}</h3></div>
             {form.images.length > 0 && <img src={form.images[0]} alt="" className="w-full aspect-video object-cover rounded-xl mb-4" />}
+            <AIGigAnalyzer title={form.title} description={form.description} tags={form.tags} price={Number(form.economy.price) || 0} />
             <div className="space-y-4">
               <div><p className="text-xs text-muted mb-1">{t('create_gig.gig_title')}</p><p className="text-lg font-medium text-heading">{form.title || t('gig.not_specified')}</p></div>
               <div><p className="text-xs text-muted mb-1">{t('create_gig.category')}</p><p className="text-sm text-body">{(categories || []).find((c) => c.slug === form.category)?.name || t('gig.not_selected')}</p></div>

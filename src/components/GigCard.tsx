@@ -4,6 +4,8 @@ import { Package } from 'lucide-react';
 import type { Gig } from '../types';
 import Avatar from './ui/Avatar';
 import StarRating from './ui/StarRating';
+import { VibeScoreBadge } from './VibeScore';
+import { calculateVibeScore } from './VibeScore';
 
 interface GigCardProps {
   gig: Gig;

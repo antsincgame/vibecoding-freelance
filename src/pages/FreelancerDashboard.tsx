@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import Skeleton from '../components/ui/Skeleton';
+import Achievements from '../components/Achievements';
+import VibeScore from '../components/VibeScore';
 import { useMyOrders, useFreelancerGigs, useCurrentFreelancer } from '../hooks/useData';
 import { deleteGig, updateGig } from '../lib/freelance-db';
 import toast from 'react-hot-toast';
@@ -63,7 +65,10 @@ export default function FreelancerDashboard() {
 
           {activeSection === 'overview' && (
             <div className="space-y-8">
-              <h1 className="text-2xl font-bold text-heading">{t('freelancer_dashboard.title')}</h1>
+              <div className="flex items-center gap-4">
+                <h1 className="text-2xl font-bold text-heading">{t('freelancer_dashboard.title')}</h1>
+                {freelancer && <VibeScore skills={freelancer.skills} ordersCompleted={freelancer.ordersCompleted} rating={freelancer.rating} reviewCount={freelancer.reviewCount} gigTags={allGigs.flatMap(g => g.tags)} />}
+              </div>
               <div className="card p-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-neon-pink/5" />
                 <div className="relative z-10">
@@ -79,6 +84,9 @@ export default function FreelancerDashboard() {
                   { label: t('freelancer_dashboard.rating'), value: freelancer?.rating?.toFixed(1) || '-', color: 'text-accent-amber' },
                 ].map((stat) => (<div key={stat.label} className="card p-5"><p className="text-xs text-muted mb-1">{stat.label}</p><p className={`text-2xl font-bold font-mono ${stat.color}`}>{stat.value}</p></div>))}
               </div>
+              {freelancer && (
+                <Achievements compact stats={{ ordersCompleted: freelancer.ordersCompleted, reviewCount: freelancer.reviewCount, rating: freelancer.rating, gigsCount: allGigs.length, memberDays: 30, aiGigsCount: allGigs.filter(g => g.tags.some(t => ['AI','OpenAI','GPT','Claude'].some(ai => t.toLowerCase().includes(ai.toLowerCase())))).length, fastDeliveries: 0, level: freelancer.level }} />
+              )}
               <div>
                 <h2 className="text-lg font-semibold text-heading mb-4">{t('freelancer_dashboard.active_orders_title')}</h2>
                 <div className="space-y-3">

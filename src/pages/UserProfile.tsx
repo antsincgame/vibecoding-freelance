@@ -10,6 +10,8 @@ import Tabs from '../components/ui/Tabs';
 import GigCard from '../components/GigCard';
 import Skeleton from '../components/ui/Skeleton';
 import Portfolio from '../components/Portfolio';
+import VibeScore from '../components/VibeScore';
+import Achievements from '../components/Achievements';
 import { useFreelancerByUsername, useFreelancerGigs, useGigReviews } from '../hooks/useData';
 
 export default function UserProfile() {
@@ -63,6 +65,7 @@ export default function UserProfile() {
               <h1 className="text-2xl font-heading font-bold text-heading">{user.name}</h1>
               {user.level === 'pro' && <Badge variant="amber">PRO</Badge>}
               {user.level === 'verified' && <Badge variant="blue"><ShieldCheck size={12} className="mr-1" />{t('profile.verified')}</Badge>}
+              <VibeScore skills={user.skills} ordersCompleted={user.ordersCompleted} rating={user.rating} reviewCount={user.reviewCount} gigTags={(userGigs || []).flatMap(g => g.tags)} size="sm" />
             </div>
             <p className="text-body">{user.title}</p>
             <div className="flex flex-wrap items-center gap-4 text-sm">
@@ -82,6 +85,7 @@ export default function UserProfile() {
       <div className="mt-8 space-y-8">
         <div><h2 className="text-lg font-heading font-semibold text-heading mb-3">{t('profile.about')}</h2><p className="text-sm text-body leading-relaxed">{user.bio}</p></div>
         <div><h2 className="text-lg font-heading font-semibold text-heading mb-3">{t('profile.skills')}</h2><div className="flex flex-wrap gap-2">{user.skills.map((skill) => <span key={skill} className="px-3 py-1.5 text-sm bg-gold/10 text-body rounded-lg border border-gold/20">{skill}</span>)}</div></div>
+        <Achievements stats={{ ordersCompleted: user.ordersCompleted, reviewCount: user.reviewCount, rating: user.rating, gigsCount: (userGigs || []).length, memberDays: 30, aiGigsCount: (userGigs || []).filter(g => g.tags.some(t => ['AI','OpenAI','GPT','Claude','LangChain'].some(ai => t.toLowerCase().includes(ai.toLowerCase())))).length, fastDeliveries: 0, level: user.level }} showLocked />
         <Tabs tabs={tabsData} />
       </div>
     </div>
