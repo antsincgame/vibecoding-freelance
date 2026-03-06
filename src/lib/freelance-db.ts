@@ -1,9 +1,11 @@
 /**
  * Freelance DB — data layer for VibeCoder Freelance
- * Uses shared Supabase-compatible Appwrite wrapper
+ * Uses shared Supabase-compatible Appwrite wrapper.
+ * Fallback на mock-данные при недоступности AppWrite.
  */
 import { getSupabase, getAccount } from '@vibecoding/shared';
 import type { Gig, GigPackage, Freelancer, Category, Review, Order, Message } from '../types';
+import { MOCK_CATEGORIES, MOCK_FREELANCERS, MOCK_GIGS, MOCK_REVIEWS } from './mock-data';
 
 const db = () => getSupabase();
 
@@ -149,26 +151,31 @@ function formatDate(iso: string): string {
 // ============================================
 
 export async function getCategories(): Promise<Category[]> {
-  const { data, error } = await db().from('fl_categories').select('*').order('sort_order', { ascending: true });
-  if (error || !data) return [];
-  const cats = (Array.isArray(data) ? data : [data]).map(mapCategory);
-  
-  // Count real gigs per category
   try {
-    const { data: gigs } = await db().from('fl_gigs').select('*').eq('status', 'active');
-    const gigList = Array.isArray(gigs) ? gigs : gigs ? [gigs] : [];
-    for (const cat of cats) {
-      cat.gigCount = gigList.filter((g: any) => g.category_slug === cat.slug).length;
-    }
-  } catch {}
-  
-  return cats;
+    const { data, error } = await db().from('fl_categories').select('*').order('sort_order', { ascending: true });
+    if (error || !data) return MOCK_CATEGORIES;
+    const cats = (Array.isArray(data) ? data : [data]).map(mapCategory);
+    try {
+      const { data: gigs } = await db().from('fl_gigs').select('*').eq('status', 'active');
+      const gigList = Array.isArray(gigs) ? gigs : gigs ? [gigs] : [];
+      for (const cat of cats) {
+        cat.gigCount = gigList.filter((g: any) => g.category_slug === cat.slug).length;
+      }
+    } catch {}
+    return cats;
+  } catch {
+    return MOCK_CATEGORIES;
+  }
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const { data, error } = await db().from('fl_categories').select('*').eq('slug', slug).maybeSingle();
-  if (error || !data) return null;
-  return mapCategory(data);
+  try {
+    const { data, error } = await db().from('fl_categories').select('*').eq('slug', slug).maybeSingle();
+    if (error || !data) return MOCK_CATEGORIES.find((c) => c.slug === slug) ?? null;
+    return mapCategory(data);
+  } catch {
+    return MOCK_CATEGORIES.find((c) => c.slug === slug) ?? null;
+  }
 }
 
 // ============================================
@@ -176,25 +183,38 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 // ============================================
 
 export async function getGigs(opts?: { category_slug?: string; featured?: boolean; limit?: number; offset?: number; search?: string }): Promise<Gig[]> {
-  let q = db().from('fl_gigs').select('*');
-  
-  if (opts?.category_slug) q = q.eq('category_slug', opts.category_slug);
-  if (opts?.featured) q = q.eq('is_featured', true);
-  q = q.eq('status', 'active');
-  if (opts?.search) q = q.ilike('title', `%${opts.search}%`);
-  if (opts?.limit) q = q.limit(opts.limit);
-  if (opts?.offset) q = q.range(opts.offset, opts.offset + (opts.limit || 20) - 1);
-  
-  q = q.order('rating', { ascending: false });
+  try {
+    let q = db().from('fl_gigs').select('*');
+    if (opts?.category_slug) q = q.eq('category_slug', opts.category_slug);
+    if (opts?.featured) q = q.eq('is_featured', true);
+    q = q.eq('status', 'active');
+    if (opts?.search) q = q.ilike('title', `%${opts.search}%`);
+    if (opts?.limit) q = q.limit(opts.limit);
+    if (opts?.offset) q = q.range(opts.offset, opts.offset + (opts.limit || 20) - 1);
+    q = q.order('rating', { ascending: false });
 
-  const { data, error } = await q;
-  if (error || !data) return [];
-  const rows = Array.isArray(data) ? data : [data];
-  const gigs = rows.map(mapGig);
-  
-  // Enrich freelancer avatars from profiles
-  await enrichGigAvatars(gigs);
-  return gigs;
+    const { data, error } = await q;
+    if (error || !data) return filterMockGigs(opts);
+    const rows = Array.isArray(data) ? data : [data];
+    const gigs = rows.map(mapGig);
+    await enrichGigAvatars(gigs);
+    return gigs;
+  } catch {
+    return filterMockGigs(opts);
+  }
+}
+
+function filterMockGigs(opts?: { category_slug?: string; featured?: boolean; limit?: number; offset?: number; search?: string }): Gig[] {
+  let result = [...MOCK_GIGS];
+  if (opts?.category_slug) result = result.filter((g) => g.categorySlug === opts.category_slug);
+  if (opts?.featured) result = result.filter((g) => g.isFeatured);
+  if (opts?.search) {
+    const q = opts.search.toLowerCase();
+    result = result.filter((g) => g.title.toLowerCase().includes(q) || g.tags.some((t) => t.toLowerCase().includes(q)));
+  }
+  const offset = opts?.offset ?? 0;
+  const limit = opts?.limit ?? 20;
+  return result.slice(offset, offset + limit);
 }
 
 async function enrichGigAvatars(gigs: Gig[]) {
@@ -215,19 +235,27 @@ async function enrichGigAvatars(gigs: Gig[]) {
 }
 
 export async function getGigById(id: string): Promise<Gig | null> {
-  const { data, error } = await db().from('fl_gigs').select('*').eq('id', id).maybeSingle();
-  if (error || !data) return null;
-  const gig = mapGig(data);
-  await enrichGigAvatars([gig]);
-  return gig;
+  try {
+    const { data, error } = await db().from('fl_gigs').select('*').eq('id', id).maybeSingle();
+    if (error || !data) return MOCK_GIGS.find((g) => g.id === id) ?? null;
+    const gig = mapGig(data);
+    await enrichGigAvatars([gig]);
+    return gig;
+  } catch {
+    return MOCK_GIGS.find((g) => g.id === id) ?? null;
+  }
 }
 
 export async function getGigsByFreelancer(freelancerId: string): Promise<Gig[]> {
-  const { data, error } = await db().from('fl_gigs').select('*').eq('freelancer_id', freelancerId).eq('status', 'active');
-  if (error || !data) return [];
-  const gigs = (Array.isArray(data) ? data : [data]).map(mapGig);
-  await enrichGigAvatars(gigs);
-  return gigs;
+  try {
+    const { data, error } = await db().from('fl_gigs').select('*').eq('freelancer_id', freelancerId).eq('status', 'active');
+    if (error || !data) return MOCK_GIGS.filter((g) => g.freelancer.id === freelancerId);
+    const gigs = (Array.isArray(data) ? data : [data]).map(mapGig);
+    await enrichGigAvatars(gigs);
+    return gigs;
+  } catch {
+    return MOCK_GIGS.filter((g) => g.freelancer.id === freelancerId);
+  }
 }
 
 export async function createGig(gigData: any): Promise<Gig | null> {
@@ -299,21 +327,33 @@ export async function deleteGig(gigId: string): Promise<boolean> {
 // ============================================
 
 export async function getFreelancerByUsername(username: string): Promise<Freelancer | null> {
-  const { data, error } = await db().from('fl_profiles').select('*').eq('username', username).maybeSingle();
-  if (error || !data) return null;
-  return mapFreelancer(data);
+  try {
+    const { data, error } = await db().from('fl_profiles').select('*').eq('username', username).maybeSingle();
+    if (error || !data) return MOCK_FREELANCERS.find((f) => f.username === username) ?? null;
+    return mapFreelancer(data);
+  } catch {
+    return MOCK_FREELANCERS.find((f) => f.username === username) ?? null;
+  }
 }
 
 export async function getFreelancerById(userId: string): Promise<Freelancer | null> {
-  const { data, error } = await db().from('fl_profiles').select('*').eq('user_id', userId).maybeSingle();
-  if (error || !data) return null;
-  return mapFreelancer(data);
+  try {
+    const { data, error } = await db().from('fl_profiles').select('*').eq('user_id', userId).maybeSingle();
+    if (error || !data) return MOCK_FREELANCERS.find((f) => f.id === userId) ?? null;
+    return mapFreelancer(data);
+  } catch {
+    return MOCK_FREELANCERS.find((f) => f.id === userId) ?? null;
+  }
 }
 
 export async function getTopFreelancers(limit = 8): Promise<Freelancer[]> {
-  const { data, error } = await db().from('fl_profiles').select('*').order('rating', { ascending: false }).limit(limit);
-  if (error || !data) return [];
-  return (Array.isArray(data) ? data : [data]).map(mapFreelancer);
+  try {
+    const { data, error } = await db().from('fl_profiles').select('*').order('rating', { ascending: false }).limit(limit);
+    if (error || !data) return MOCK_FREELANCERS.slice(0, limit);
+    return (Array.isArray(data) ? data : [data]).map(mapFreelancer);
+  } catch {
+    return MOCK_FREELANCERS.slice(0, limit);
+  }
 }
 
 export async function getCurrentFreelancerProfile(): Promise<Freelancer | null> {
@@ -380,15 +420,23 @@ export async function updateFreelancerProfile(updates: Partial<Freelancer>): Pro
 // ============================================
 
 export async function getReviewsByGig(gigId: string): Promise<Review[]> {
-  const { data, error } = await db().from('fl_reviews').select('*').eq('gig_id', gigId).order('$createdAt', { ascending: false });
-  if (error || !data) return [];
-  return (Array.isArray(data) ? data : [data]).map(mapReview);
+  try {
+    const { data, error } = await db().from('fl_reviews').select('*').eq('gig_id', gigId).order('$createdAt', { ascending: false });
+    if (error || !data) return MOCK_REVIEWS;
+    return (Array.isArray(data) ? data : [data]).map(mapReview);
+  } catch {
+    return MOCK_REVIEWS;
+  }
 }
 
 export async function getLatestReviews(limit = 3): Promise<Review[]> {
-  const { data, error } = await db().from('fl_reviews').select('*').order('$createdAt', { ascending: false }).limit(limit);
-  if (error || !data) return [];
-  return (Array.isArray(data) ? data : [data]).map(mapReview);
+  try {
+    const { data, error } = await db().from('fl_reviews').select('*').order('$createdAt', { ascending: false }).limit(limit);
+    if (error || !data) return MOCK_REVIEWS.slice(0, limit);
+    return (Array.isArray(data) ? data : [data]).map(mapReview);
+  } catch {
+    return MOCK_REVIEWS.slice(0, limit);
+  }
 }
 
 export async function createReview(review: { gig_id: string; order_id?: string; rating: number; text: string }): Promise<boolean> {

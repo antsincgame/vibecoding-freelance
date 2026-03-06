@@ -3,22 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Search, Zap, ShieldCheck, ArrowRight,
-  Globe, Smartphone, Bot, Brain, Layout, Server, Database, Rocket,
-  ClipboardList, CreditCard, MessageSquare, Sparkles, Code, Bug, Cloud,
+  Globe, Smartphone, Bot, Brain, Layout, Server, Database,
+  Sparkles, Code, Bug, Cloud,
 } from 'lucide-react';
 import GigCard from '../components/GigCard';
 import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
 import Skeleton from '../components/ui/Skeleton';
 import SEO from '../components/SEO';
-import AIMatching from '../components/AIMatching';
 import LiveOrderTicker from '../components/LiveOrderTicker';
 import { useCategories, useFeaturedGigs, useTopFreelancers, useLatestReviews } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
 
 const iconMap: Record<string, React.ElementType> = {
-  Globe, Smartphone, Bot, Brain, Layout, Server, Database, Rocket, Sparkles, Code, Bug, Cloud,
+  Globe, Smartphone, Bot, Brain, Layout, Server, Database, Sparkles, Code, Bug, Cloud,
 };
 
 function ParticleField() {
@@ -35,10 +34,8 @@ export default function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const { ref: whyRef, isInView: whyVisible } = useInView();
   const { ref: catRef, isInView: catVisible } = useInView();
   const { ref: gigsRef, isInView: gigsVisible } = useInView();
-  const { ref: stepsRef, isInView: stepsVisible } = useInView();
 
   const { data: categories, loading: catLoading } = useCategories();
   const { data: featuredGigs, loading: gigsLoading } = useFeaturedGigs();
@@ -49,13 +46,6 @@ export default function Home() {
     e.preventDefault();
     if (searchQuery.trim()) navigate(`/categories/all?search=${encodeURIComponent(searchQuery.trim())}`);
   };
-
-  const steps = [
-    { num: 1, icon: Search, title: t('home.step1'), desc: t('home.step1_desc') },
-    { num: 2, icon: ClipboardList, title: t('home.step2'), desc: t('home.step2_desc') },
-    { num: 3, icon: CreditCard, title: t('home.step3'), desc: t('home.step3_desc') },
-    { num: 4, icon: MessageSquare, title: t('home.step4'), desc: t('home.step4_desc') },
-  ];
 
   return (
     <div className="pb-20 md:pb-0">
@@ -101,8 +91,20 @@ export default function Home() {
         </div>
       </section>
 
+      <section ref={gigsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">{t('home.featuredGigs')}</h2>
+            <p className="text-body font-heading font-light">{t('home.best_offers')}</p>
+          </div>
+        </div>
+        <div className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-opacity duration-700 ${gigsVisible ? 'opacity-100' : 'opacity-0'}`}>
+          {gigsLoading ? Array.from({ length: 4 }).map((_, i) => (<div key={i} className="card overflow-hidden"><Skeleton className="aspect-video" /><div className="p-4 space-y-3"><Skeleton className="h-4 w-full" /><Skeleton className="h-3 w-2/3" /></div></div>)) : (featuredGigs || []).map((gig, i) => <GigCard key={gig.id} gig={gig} index={i} />)}
+        </div>
+      </section>
+
       {/* LIVE STATS */}
-      <section className="relative py-12 -mt-12 z-10">
+      <section className="relative py-12 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="card p-6 sm:p-8 flex flex-wrap items-center justify-center gap-8 sm:gap-16 text-center">
             <div><p className="text-3xl sm:text-4xl font-bold font-mono text-gold">{(categories || []).reduce((sum, c) => sum + c.gigCount, 0) || '...'}</p><p className="text-xs text-muted mt-1">Услуг в каталоге</p></div>
@@ -116,22 +118,6 @@ export default function Home() {
       {/* LIVE ORDER TICKER */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         <LiveOrderTicker />
-      </section>
-
-      <section ref={whyRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-14">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">{t('home.whyVibeCoders')}</h2>
-          <p className="text-body font-heading font-light tracking-wide">{t('home.whyDesc')}</p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[{ icon: Zap, color: 'text-gold', title: t('home.why_cheaper'), desc: t('home.why_cheaper_desc') }, { icon: Rocket, color: 'text-neon-pink', title: t('home.why_faster'), desc: t('home.why_faster_desc') }, { icon: ShieldCheck, color: 'text-neon-green', title: t('home.why_transparent'), desc: t('home.why_transparent_desc') }].map((item, i) => (
-            <div key={i} className={`card p-8 text-center transition-all duration-700 ${whyVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${i*200}ms` }}>
-              <div className="w-16 h-16 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-6"><item.icon size={30} className={item.color} /></div>
-              <h3 className="text-lg font-heading font-semibold text-heading mb-3 tracking-wide">{item.title}</h3>
-              <p className="text-sm text-body leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section ref={catRef} className="py-24 relative">
@@ -157,39 +143,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={gigsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="flex items-center justify-between mb-12">
-          <div>
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">{t('home.featuredGigs')}</h2>
-            <p className="text-body font-heading font-light">{t('home.best_offers')}</p>
-          </div>
-        </div>
-        <div className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-opacity duration-700 ${gigsVisible ? 'opacity-100' : 'opacity-0'}`}>
-          {gigsLoading ? Array.from({ length: 4 }).map((_, i) => (<div key={i} className="card overflow-hidden"><Skeleton className="aspect-video" /><div className="p-4 space-y-3"><Skeleton className="h-4 w-full" /><Skeleton className="h-3 w-2/3" /></div></div>)) : (featuredGigs || []).map((gig, i) => <GigCard key={gig.id} gig={gig} index={i} />)}
-        </div>
-      </section>
-
-      <section ref={stepsRef} id="how-it-works" className="py-24 relative">
-        <div className="absolute inset-0 bg-deep-space" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">{t('home.howItWorks')}</h2>
-            <p className="text-body font-heading font-light">{t('home.steps_subtitle')}</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-            <div className="hidden lg:block absolute top-10 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-            {steps.map((step, i) => (
-              <div key={step.num} className={`relative text-center transition-all duration-700 ${stepsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: `${i*200}ms` }}>
-                <div className="w-20 h-20 rounded-full border border-gold/30 bg-void flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_25px_rgba(0,255,249,0.15)]"><step.icon size={28} className="text-gold" /></div>
-                <span className="text-xs font-mono text-gold/60 mb-2 block tracking-[0.2em] uppercase">{step.num}</span>
-                <h3 className="text-base font-heading font-semibold text-heading mb-2">{step.title}</h3>
-                <p className="text-sm text-body leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TOP FREELANCERS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-12">
@@ -209,34 +162,6 @@ export default function Home() {
               {f.level === 'pro' && <span className="inline-block mt-2 text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">PRO</span>}
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS MINI */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-deep-space sacred-bg" />
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Как это работает</h2>
-            <p className="text-body font-heading font-light">3 простых шага</p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-8">
-            {[
-              { num: '01', title: 'Выберите услугу', desc: 'Найдите кворк в каталоге или опишите задачу — AI подберёт специалиста', icon: '🔍' },
-              { num: '02', title: 'Оформите заказ', desc: 'Выберите пакет, опишите требования. Деньги в безопасности до приёмки', icon: '📦' },
-              { num: '03', title: 'Получите результат', desc: 'Фрилансер сдаёт работу. Проверьте, примите, оставьте отзыв', icon: '✅' },
-            ].map((step) => (
-              <div key={step.num} className="text-center card p-6">
-                <div className="text-4xl mb-4">{step.icon}</div>
-                <div className="text-xs text-gold font-mono mb-2">{step.num}</div>
-                <h3 className="text-base font-heading font-semibold text-heading mb-2">{step.title}</h3>
-                <p className="text-sm text-body leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link to="/how-it-works" className="text-sm text-gold hover:underline">Подробнее →</Link>
-          </div>
         </div>
       </section>
 
@@ -296,62 +221,6 @@ export default function Home() {
               <p className="text-[10px] text-muted mt-3">{news.date}</p>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* BECOME FREELANCER CTA */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-neon-cyan/5 to-accent-violet/5" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="font-display text-3xl font-bold tracking-[0.1em] uppercase mb-4">
-            <span className="text-heading">Ты </span>
-            <span className="neon-text text-[var(--neon-cyan)]">вайб-кодер?</span>
-          </h2>
-          <p className="text-body text-lg font-heading font-light mb-8 max-w-2xl mx-auto">Зарабатывай на своих навыках. Создавай проекты с AI-инструментами, получай заказы, расти в рейтинге. 0% комиссия.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/for-sellers"><Button variant="primary" size="lg">Стать фрилансером <ArrowRight size={18} /></Button></Link>
-            <Link to="/how-it-works"><Button variant="secondary" size="lg">Как это работает</Button></Link>
-          </div>
-        </div>
-      </section>
-
-      {/* AI MATCHING */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-        <AIMatching />
-      </section>
-
-      {/* PROJECTS PROMO */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-deep-space sacred-bg" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">Нужен специалист?</h2>
-          <p className="text-body text-lg font-heading font-light mb-8 max-w-2xl mx-auto">Разместите проект на бирже — фрилансеры сами предложат свои решения и цены. Быстро, удобно, бесплатно.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/projects"><Button variant="primary" size="lg">Разместить проект <ArrowRight size={18} /></Button></Link>
-            <Link to="/categories/all"><Button variant="secondary" size="lg">Искать услуги</Button></Link>
-          </div>
-          <div className="flex items-center justify-center gap-6 mt-8 text-sm text-muted">
-            <span>✓ Без комиссии</span>
-            <span>✓ Безопасная сделка</span>
-            <span>✓ Гарантия результата</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="relative rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-nebula via-nebula-light to-nebula" />
-          <div className="absolute inset-0 sacred-bg opacity-50" />
-          <div className="absolute inset-0 border border-gold/30 rounded-2xl" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
-          <div className="relative p-12 sm:p-16 text-center space-y-6">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-[0.08em] uppercase">
-              <span className="text-gold-gradient">{t('home.cta_title')}</span><br />
-              <span className="text-heading text-2xl sm:text-3xl tracking-[0.12em]">{t('home.cta_subtitle')}</span>
-            </h2>
-            <p className="text-body max-w-lg mx-auto font-heading font-light">{t('home.cta_desc')}</p>
-            <Link to="/auth"><Button variant="primary" size="lg" className="mt-4">{t('home.becomeFreelancer')}<ArrowRight size={18} /></Button></Link>
-          </div>
         </div>
       </section>
 

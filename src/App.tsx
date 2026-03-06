@@ -121,7 +121,7 @@ function AppContent() {
   return (
     <>
       <div className="cyber-grid-bg" />
-      <div className="scan-line" />
+
       <ScrollToTop />
       <Header
         logoText="VIBECODER" logoImage="/logo.png"
