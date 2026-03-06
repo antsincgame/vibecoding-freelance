@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Shield, Trash2, Award, ChevronUp, ChevronDown, ExternalLink } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import { adminGetProfiles, adminSetUserLevel, adminDeleteProfile } from '../../lib/admin-api';
+import { adminGetProfiles, adminSetUserLevel, adminDeleteProfile, adminUpdateProfile } from '../../lib/admin-api';
 import toast from 'react-hot-toast';
 
 const LEVELS: Record<string, { label: string; color: string }> = {
@@ -64,7 +64,13 @@ export default function AdminUsers() {
                       </div>
                     </td>
                     <td className="py-3 px-4 text-sm text-muted font-mono">@{p.username}</td>
-                    <td className="py-3 px-4 text-sm text-muted">{p.role || 'freelancer'}</td>
+                    <td className="py-3 px-4">
+                      <select value={p.role || 'freelancer'} onChange={(e) => { adminUpdateProfile(p.id, { role: e.target.value }); toast.success('Роль обновлена'); load(); }} className="bg-transparent text-sm text-muted cursor-pointer focus:outline-none">
+                        <option value="freelancer">freelancer</option>
+                        <option value="client">client</option>
+                        <option value="admin">admin</option>
+                      </select>
+                    </td>
                     <td className="py-3 px-4">
                       <select value={p.level || 'new'} onChange={(e) => handleLevel(p.id, e.target.value)} className="bg-transparent text-sm cursor-pointer focus:outline-none" style={{ color: lvl.color === 'text-gold' ? '#d4af37' : lvl.color === 'text-neon-cyan' ? '#00fff9' : '#888' }}>
                         {Object.entries(LEVELS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
