@@ -36,6 +36,7 @@ import ForSellers from './pages/ForSellers';
 import FAQ from './pages/FAQ';
 import HowItWorks from './pages/HowItWorks';
 import News from './pages/News';
+import NewsPost from './pages/NewsPost';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
@@ -152,6 +153,7 @@ function AppContent() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsPost />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/users/:username" element={<UserProfile />} />
