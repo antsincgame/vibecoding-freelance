@@ -29,6 +29,8 @@ export default function GigDetail() {
   const [activePackage, setActivePackage] = useState<PackageKey>('standard');
   const [currentImage, setCurrentImage] = useState(0);
   const [ordering, setOrdering] = useState(false);
+  const [showOrderForm, setShowOrderForm] = useState(false);
+  const [requirements, setRequirements] = useState('');
 
   if (loading) return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -51,8 +53,9 @@ export default function GigDetail() {
 
   const handleOrder = async () => {
     if (!user) { toast.error('Войдите чтобы заказать'); return; }
+    if (!showOrderForm) { setShowOrderForm(true); return; }
     setOrdering(true);
-    const order = await createOrder({ gig_id: gig.id, package_type: activePackage });
+    const order = await createOrder({ gig_id: gig.id, package_type: activePackage, requirements });
     setOrdering(false);
     if (order) { toast.success('Заказ создан!'); navigate(`/orders/${order.id}`); } else { toast.error('Ошибка создания заказа'); }
   };
@@ -169,7 +172,21 @@ export default function GigDetail() {
                 <div className="flex items-center gap-2 text-sm text-muted"><Clock size={14} /><span>{t('gig.deliveryTime')}: <span className="text-body font-mono">{pkg.deliveryDays} {t('common.days')}</span></span></div>
                 <div className="space-y-2 pt-2">{pkg.features.map((f) => <div key={f} className="flex items-center gap-2"><Check size={14} className="text-neon-emerald flex-shrink-0" /><span className="text-sm text-body">{f}</span></div>)}</div>
               </div>
-              <Button variant="primary" size="lg" className="w-full" onClick={handleOrder} disabled={ordering}>{ordering ? '...' : `${t('gig.orderNow')} ${pkg.price.toLocaleString('ru-RU')} ₽`}</Button>
+              {showOrderForm && (
+                <div className="space-y-3 pt-2">
+                  <div className="border-t border-gold/20 pt-3">
+                    <p className="text-xs text-gold mb-2">Опишите ваши требования:</p>
+                    <textarea
+                      rows={3}
+                      placeholder="Что именно вам нужно? Ссылки, примеры, ТЗ..."
+                      value={requirements}
+                      onChange={(e) => setRequirements(e.target.value)}
+                      className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold resize-none"
+                    />
+                  </div>
+                </div>
+              )}
+              <Button variant="primary" size="lg" className="w-full" onClick={handleOrder} disabled={ordering}>{ordering ? '...' : showOrderForm ? `Подтвердить заказ ${pkg.price.toLocaleString('ru-RU')} ₽` : `${t('gig.orderNow')} ${pkg.price.toLocaleString('ru-RU')} ₽`}</Button>
               <div className="flex items-center justify-center gap-2 text-xs text-muted"><ShieldCheck size={14} className="text-neon-cyan" /><span>{t('gig.safe_deal')}</span></div>
             </div>
             <div className="card p-6 space-y-4">

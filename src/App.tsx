@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from '@vibecoding/shared';
 import { Header } from '@vibecoding/shared';
 import '@vibecoding/shared/styles';
 import CategoriesBar from './components/CategoriesBar';
+import NotificationBell from './components/NotificationBell';
 import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
 import CommandPalette from './components/CommandPalette';
@@ -31,6 +32,8 @@ import Chat from './pages/Chat';
 import EditProfile from './pages/EditProfile';
 import EditGig from './pages/EditGig';
 import Projects from './pages/Projects';
+import ForSellers from './pages/ForSellers';
+import FAQ from './pages/FAQ';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -121,12 +124,16 @@ function AppContent() {
         profilePath="/dashboard"
         navLinks={[
           { to: '/projects', label: 'Биржа' },
+          { to: '/for-sellers', label: 'Фрилансеру' },
           { to: '/#how-it-works', label: 'Как работает' },
         ]}
         extraLinks={[
           { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
         ]}
       />
+      <div className="fixed top-3 right-[200px] z-[51] hidden md:block">
+        <NotificationBell />
+      </div>
       <CategoriesBar />
       <main className="pt-[100px] min-h-screen bg-void relative z-[1]">
         <Routes>
@@ -134,6 +141,8 @@ function AppContent() {
           <Route path="/categories/:slug" element={<Category />} />
           <Route path="/gigs/:id" element={<GigDetail />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/for-sellers" element={<ForSellers />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/setup-profile" element={
