@@ -33,17 +33,31 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 function RequireFlProfile({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
+  const { user, profile, loading } = useAuth();
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (!user) return;
-    getCurrentFreelancerProfile().then(p => setHasProfile(!!p));
+    (async () => {
+      const existing = await getCurrentFreelancerProfile();
+      if (!existing) {
+        // Auto-create fl_profile from Appwrite account data
+        const { createFreelancerProfile } = await import('./lib/freelance-db');
+        const name = profile?.full_name || user.name || user.email?.split('@')[0] || 'User';
+        const username = (user.email?.split('@')[0] || 'user_' + Date.now()).toLowerCase().replace(/[^a-z0-9_]/g, '');
+        await createFreelancerProfile({
+          username,
+          name,
+          avatar: profile?.avatar_url || '',
+          role: 'client',
+        });
+      }
+      setReady(true);
+    })();
   }, [user]);
 
-  if (loading || hasProfile === null) return null;
+  if (loading || !ready) return null;
   if (!user) return <Navigate to="/auth" replace />;
-  if (!hasProfile) return <Navigate to="/setup-profile" replace />;
   return <>{children}</>;
 }
 
