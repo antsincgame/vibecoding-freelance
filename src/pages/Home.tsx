@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="pb-20 md:pb-0">
-      <SEO title="Маркетплейс AI-разработчиков" description="Фриланс-маркетплейс нового поколения. Найдите AI-разработчиков, вайб-кодеров и IT-специалистов." />
+      <SEO title="Фриланс биржа вайбкодеров — лучший фриланс с AI" description="VibeCoder — лучшая фриланс биржа вайбкодеров. Разработка сайтов, дизайн, Telegram-боты дёшево и быстро с помощью AI. Топ фрилансеров с жёстким отбором. Вайб-кодинг — безопасно, быстро, качественно." />
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden sacred-bg">
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,rgba(0,255,249,0.12)_0%,transparent_60%)] animate-glow-breathe" />
@@ -63,10 +63,10 @@ export default function Home() {
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center py-20 sm:py-28 space-y-10">
           <div className="space-y-6">
             <h1 className="font-display text-4xl sm:text-5xl lg:text-7xl font-bold tracking-[0.08em] uppercase leading-[1.1]">
-              <span className="neon-text text-[var(--neon-cyan)]">{t('home.heroTitle')}</span><br />
-              <span className="text-heading text-3xl sm:text-4xl lg:text-5xl tracking-[0.15em]">{t('home.heroSubtitle')}</span>
+              <span className="neon-text text-[var(--neon-cyan)]">Фриланс биржа</span><br />
+              <span className="text-heading text-3xl sm:text-4xl lg:text-5xl tracking-[0.15em]">вайбкодеров и AI-разработчиков</span>
             </h1>
-            <p className="text-lg sm:text-xl text-body max-w-2xl mx-auto font-heading font-light tracking-wide">{t('home.heroDesc')}</p>
+            <p className="text-lg sm:text-xl text-body max-w-2xl mx-auto font-heading font-light tracking-wide">Лучший фриланс нового поколения — разработка с&nbsp;AI быстрее и&nbsp;дешевле. Жёсткий отбор исполнителей, ревью кода, гарантия качества.</p>
           </div>
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
             <div className="bg-nebula/80 backdrop-blur-md rounded-xl border-2 border-gold/50 p-1.5 shadow-[0_0_30px_rgba(0,255,249,0.15)] group focus-within:border-gold focus-within:shadow-[0_0_40px_rgba(0,255,249,0.3)] transition-all duration-500">
@@ -94,8 +94,8 @@ export default function Home() {
       <section ref={gigsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">{t('home.featuredGigs')}</h2>
-            <p className="text-body font-heading font-light">{t('home.best_offers')}</p>
+            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Лучшие кворки — фриланс дёшево и качественно</h2>
+            <p className="text-body font-heading font-light">Топ услуг от проверенных вайб-кодеров с AI-инструментами</p>
           </div>
         </div>
         <div className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-opacity duration-700 ${gigsVisible ? 'opacity-100' : 'opacity-0'}`}>
@@ -125,8 +125,8 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">{t('home.categories')}</h2>
-              <p className="text-body font-heading font-light">{t('home.find_specialist')}</p>
+              <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Категории — фриланс дизайн, разработка, AI</h2>
+              <p className="text-body font-heading font-light">Найдите специалиста в любой IT-области</p>
             </div>
             <Link to="/categories/all" className="hidden sm:flex items-center gap-1.5 text-sm text-gold/70 hover:text-gold transition-colors font-heading font-medium tracking-wide">{t('home.all_categories')} <ArrowRight size={14} /></Link>
           </div>
@@ -146,8 +146,8 @@ export default function Home() {
       {/* TOP FREELANCERS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Топ специалисты</h2>
-          <p className="text-body font-heading font-light">Проверенные вайб-кодеры с лучшими рейтингами</p>
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Топ фрилансеров — лучшие вайб-кодеры</h2>
+          <p className="text-body font-heading font-light">Проверенные AI-разработчики с жёстким отбором и высокими рейтингами</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {(freelancers || []).slice(0, 8).map((f, i) => (
@@ -168,7 +168,7 @@ export default function Home() {
       {/* TESTIMONIALS */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-20">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Отзывы заказчиков</h2>
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Отзывы заказчиков о фриланс бирже</h2>
         </div>
         <div className="grid sm:grid-cols-3 gap-6">
           {(latestReviews || []).map((review, i) => (
@@ -190,8 +190,8 @@ export default function Home() {
       {/* AI TOOL SHOWCASE */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">AI-инструменты наших кодеров</h2>
-          <p className="text-body font-heading font-light">Мы используем лучшие AI для максимальной скорости</p>
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">AI-инструменты — фриланс где брать скорость</h2>
+          <p className="text-body font-heading font-light">Наши кодеры используют лучшие AI для быстрой и дешёвой разработки</p>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-4">
           {['Cursor', 'Claude', 'ChatGPT', 'v0', 'Bolt', 'Copilot', 'Midjourney', 'Windsurf', 'Replit', 'LangChain'].map(tool => (
@@ -222,6 +222,69 @@ export default function Home() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* SEO-ТЕКСТ */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16" itemScope itemType="https://schema.org/WebPage">
+        <article className="prose prose-invert max-w-none space-y-6 text-body text-sm leading-relaxed">
+          <h2 className="font-display text-2xl font-bold text-gold-gradient tracking-[0.08em] uppercase">
+            VibeCoder — фриланс биржа вайбкодеров нового поколения
+          </h2>
+          <p>
+            <strong>VibeCoder</strong> — это первая <strong>фриланс биржа вайбкодеров</strong>, где исполнители открыто
+            используют искусственный интеллект для разработки проектов. Если вы&nbsp;ищете <em>лучший фриланс</em> с&nbsp;быстрым
+            результатом и&nbsp;доступными ценами — вы&nbsp;нашли его. Наши специалисты создают сайты, боты,
+            приложения и&nbsp;дизайн с&nbsp;помощью Cursor, Claude, ChatGPT, v0 и&nbsp;других AI-инструментов.
+            Результат — <strong>фриланс дёшево</strong>, без потери качества.
+          </p>
+
+          <h3 className="font-display text-xl font-bold text-heading tracking-wide">
+            Почему вайб-кодинг безопасен?
+          </h3>
+          <p>
+            Вайб-кодинг — это метод разработки, при котором AI генерирует код, а&nbsp;разработчик проводит
+            ревью, отладку и&nbsp;тестирование. На&nbsp;нашей бирже действуют <strong>строгие правила для
+            исполнителей</strong>: каждый проект проходит обязательный code review, ручную проверку логики
+            и&nbsp;финальное тестирование перед сдачей. Мы&nbsp;отбираем только ответственных разработчиков,
+            которые понимают, что AI — инструмент, а&nbsp;не&nbsp;замена инженерной экспертизы. Жёсткий отбор
+            гарантирует, что вы&nbsp;получите рабочий, чистый и&nbsp;безопасный код.
+          </p>
+
+          <h3 className="font-display text-xl font-bold text-heading tracking-wide">
+            Лучшие фриланс биржи — чем VibeCoder отличается?
+          </h3>
+          <p>
+            Среди <em>лучших фриланс бирж</em> VibeCoder выделяется прозрачностью: исполнители не&nbsp;скрывают
+            использование AI, а&nbsp;заказчики получают выгоду — проекты выполняются в&nbsp;2–5&nbsp;раз быстрее
+            при стоимости ниже рыночной. Это не&nbsp;просто <em>фриланс биржа в&nbsp;России</em> — это
+            глобальная платформа для тех, кто ценит скорость, честность и&nbsp;результат.
+            Комиссия 0%, безопасная сделка, гарантия возврата.
+          </p>
+
+          <h3 className="font-display text-xl font-bold text-heading tracking-wide">
+            Топ фрилансеров для любых задач
+          </h3>
+          <p>
+            Наш <em>топ фрилансеров</em> включает специалистов по&nbsp;всем направлениям:
+            <strong> фриланс дизайн</strong> (UI/UX, логотипы, фирменный стиль),
+            веб-разработка (React, Next.js, WordPress), мобильные приложения,
+            Telegram-боты и&nbsp;<strong>фриланс ТГ</strong>-интеграции, AI-чатботы,
+            RAG-системы и&nbsp;автоматизация бизнес-процессов. Не&nbsp;знаете, <em>фриланс где брать</em>
+            &nbsp;исполнителя? На&nbsp;VibeCoder — топовые вайб-кодеры уже ждут ваш заказ.
+          </p>
+
+          <h3 className="font-display text-xl font-bold text-heading tracking-wide">
+            Как работает наша фриланс биржа?
+          </h3>
+          <p>
+            Разместите задачу или выберите готовый кворк. Исполнитель создаёт проект с&nbsp;помощью AI,
+            проводит code review и&nbsp;отладку, затем сдаёт результат. Вы&nbsp;проверяете и&nbsp;принимаете
+            работу через безопасную сделку. Средний срок выполнения MVP — 1–3&nbsp;дня. Наши
+            фрилансеры работают прозрачно: вы&nbsp;видите процесс, инструменты и&nbsp;промежуточные
+            результаты. <strong>VibeCoder — лучший фриланс</strong> для тех, кто хочет получить
+            качественный продукт быстро и&nbsp;по&nbsp;разумной цене.
+          </p>
+        </article>
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
