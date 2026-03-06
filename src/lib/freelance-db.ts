@@ -16,7 +16,7 @@ function mapGig(row: any): Gig {
     id: row.freelancer_id,
     username: row.freelancer_username || '',
     name: row.freelancer_name || '',
-    avatar: row.freelancer_avatar || '',
+    avatar: '', // loaded separately from fl_profiles
     title: '',
     rating: row.rating || 0,
     reviewCount: row.review_count || 0,
@@ -44,7 +44,7 @@ function mapGig(row: any): Gig {
     description: row.description || '',
     shortDescription: row.short_description || '',
     image: row.image || '',
-    images: Array.isArray(row.images) ? row.images : [],
+    images: Array.isArray(row.images) ? row.images : (typeof row.images === 'string' ? (() => { try { return JSON.parse(row.images); } catch { return []; } })() : []),
     freelancer,
     rating: row.rating || 0,
     reviewCount: row.review_count || 0,
@@ -76,7 +76,7 @@ function mapFreelancer(row: any): Freelancer {
     location: row.location || '',
     memberSince: row.member_since || '',
     bio: row.bio || '',
-    skills: Array.isArray(row.skills) ? row.skills : [],
+    skills: Array.isArray(row.skills) ? row.skills : (typeof row.skills === 'string' ? (() => { try { return JSON.parse(row.skills); } catch { return []; } })() : []),
     successRate: row.success_rate || 0,
     level: row.level || 'new',
   };
@@ -190,19 +190,45 @@ export async function getGigs(opts?: { category_slug?: string; featured?: boolea
   const { data, error } = await q;
   if (error || !data) return [];
   const rows = Array.isArray(data) ? data : [data];
-  return rows.map(mapGig);
+  const gigs = rows.map(mapGig);
+  
+  // Enrich freelancer avatars from profiles
+  await enrichGigAvatars(gigs);
+  return gigs;
+}
+
+async function enrichGigAvatars(gigs: Gig[]) {
+  if (gigs.length === 0) return;
+  const uniqueIds = [...new Set(gigs.map(g => g.freelancer.id).filter(Boolean))];
+  if (uniqueIds.length === 0) return;
+  try {
+    const { data } = await db().from('fl_profiles').select('*');
+    const profiles = Array.isArray(data) ? data : data ? [data] : [];
+    for (const gig of gigs) {
+      const prof = profiles.find((p: any) => p.user_id === gig.freelancer.id);
+      if (prof) {
+        gig.freelancer.avatar = prof.avatar || '';
+        gig.freelancer.level = prof.level || 'new';
+      }
+    }
+  } catch {}
+}
 }
 
 export async function getGigById(id: string): Promise<Gig | null> {
   const { data, error } = await db().from('fl_gigs').select('*').eq('id', id).maybeSingle();
   if (error || !data) return null;
-  return mapGig(data);
+  const gig = mapGig(data);
+  await enrichGigAvatars([gig]);
+  return gig;
 }
 
 export async function getGigsByFreelancer(freelancerId: string): Promise<Gig[]> {
   const { data, error } = await db().from('fl_gigs').select('*').eq('freelancer_id', freelancerId).eq('status', 'active');
   if (error || !data) return [];
-  return (Array.isArray(data) ? data : [data]).map(mapGig);
+  const gigs = (Array.isArray(data) ? data : [data]).map(mapGig);
+  await enrichGigAvatars(gigs);
+  return gigs;
 }
 
 export async function createGig(gigData: any): Promise<Gig | null> {
@@ -221,7 +247,6 @@ export async function createGig(gigData: any): Promise<Gig | null> {
       images: JSON.stringify(gigData.images || []),
       freelancer_id: user.$id,
       freelancer_name: profile.name,
-      freelancer_avatar: profile.avatar || '',
       freelancer_username: profile.username,
       rating: 0,
       review_count: 0,
