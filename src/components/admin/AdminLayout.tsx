@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '@vibecoding/shared';
-import { LayoutDashboard, FolderTree, Package, Users, ShoppingBag, Star, Settings, ArrowLeft, Shield, HeadphonesIcon } from 'lucide-react';
+import { LayoutDashboard, FolderTree, Package, Users, ShoppingBag, Star, Settings, ArrowLeft, Shield, HeadphonesIcon, MessageCircle } from 'lucide-react';
 import { isAdmin } from '../../lib/admin-api';
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { path: '/admin/orders', icon: ShoppingBag, label: 'Заказы' },
   { path: '/admin/reviews', icon: Star, label: 'Отзывы' },
   { path: '/admin/tickets', icon: HeadphonesIcon, label: 'Поддержка' },
+  { path: '/admin/chat', icon: MessageCircle, label: 'Чат' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

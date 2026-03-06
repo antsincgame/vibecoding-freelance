@@ -1,3 +1,4 @@
+import SEO from "../components/SEO";
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Clock, DollarSign, Tag, User, MessageCircle, Filter, ChevronDown } from 'lucide-react';
@@ -64,6 +65,7 @@ export default function Projects() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
+      <SEO title="Биржа проектов" description="Разместите задачу — фрилансеры предложат решения. Биржа проектов VibeCoder." />
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase">Биржа проектов</h1>

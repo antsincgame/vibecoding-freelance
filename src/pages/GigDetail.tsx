@@ -7,6 +7,7 @@ import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import StarRating from '../components/ui/StarRating';
+import SEO from "../components/SEO";
 import Skeleton from '../components/ui/Skeleton';
 import { useGig, useGigReviews, useFavoriteStatus } from '../hooks/useData';
 import { createOrder, startConversation } from '../lib/freelance-db';
@@ -65,6 +66,7 @@ export default function GigDetail() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
+      <SEO title={gig.title} description={gig.shortDescription || gig.title} />
       <Breadcrumbs items={[{ label: t('category.home'), href: '/' }, { label: gig.category, href: `/categories/${gig.categorySlug}` }, { label: gig.title }]} />
       <div className="mt-6 flex flex-col lg:flex-row gap-8">
         <div className="flex-1 min-w-0 space-y-8">

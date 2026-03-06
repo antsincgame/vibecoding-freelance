@@ -10,6 +10,7 @@ import GigCard from '../components/GigCard';
 import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
 import Skeleton from '../components/ui/Skeleton';
+import SEO from '../components/SEO';
 import { useCategories, useFeaturedGigs, useTopFreelancers } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
@@ -39,7 +40,7 @@ export default function Home() {
 
   const { data: categories, loading: catLoading } = useCategories();
   const { data: featuredGigs, loading: gigsLoading } = useFeaturedGigs();
-  const { data: freelancers } = useTopFreelancers(4);
+  const { data: freelancers } = useTopFreelancers(8);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +56,7 @@ export default function Home() {
 
   return (
     <div className="pb-20 md:pb-0">
+      <SEO title="Маркетплейс AI-разработчиков" description="Фриланс-маркетплейс нового поколения. Найдите AI-разработчиков, вайб-кодеров и IT-специалистов." />
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden sacred-bg">
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,rgba(0,255,249,0.12)_0%,transparent_60%)] animate-glow-breathe" />
@@ -164,6 +166,46 @@ export default function Home() {
                 <p className="text-sm text-body leading-relaxed">{step.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TOP FREELANCERS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Топ специалисты</h2>
+          <p className="text-body font-heading font-light">Проверенные вайб-кодеры с лучшими рейтингами</p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {(freelancers || []).slice(0, 8).map((f, i) => (
+            <Link key={f.id} to={`/users/${f.username}`} className="card p-5 text-center group hover:border-gold/30 transition-all opacity-0 animate-fade-in" style={{ animationDelay: `${i * 80}ms` }}>
+              <Avatar src={f.avatar} alt={f.name} size="lg" className="mx-auto mb-3" isOnline={f.isOnline} />
+              <h3 className="text-sm font-heading font-semibold text-heading group-hover:text-gold transition-colors">{f.name}</h3>
+              <p className="text-xs text-muted mt-0.5">{f.title}</p>
+              <div className="flex items-center justify-center gap-3 mt-3 text-xs">
+                <span className="text-gold font-mono">★ {f.rating}</span>
+                <span className="text-muted">{f.ordersCompleted} заказов</span>
+              </div>
+              {f.level === 'pro' && <span className="inline-block mt-2 text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">PRO</span>}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* PROJECTS PROMO */}
+      <section className="py-24 relative">
+        <div className="absolute inset-0 bg-deep-space sacred-bg" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">Нужен специалист?</h2>
+          <p className="text-body text-lg font-heading font-light mb-8 max-w-2xl mx-auto">Разместите проект на бирже — фрилансеры сами предложат свои решения и цены. Быстро, удобно, бесплатно.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/projects"><Button variant="primary" size="lg">Разместить проект <ArrowRight size={18} /></Button></Link>
+            <Link to="/categories/all"><Button variant="secondary" size="lg">Искать услуги</Button></Link>
+          </div>
+          <div className="flex items-center justify-center gap-6 mt-8 text-sm text-muted">
+            <span>✓ Без комиссии</span>
+            <span>✓ Безопасная сделка</span>
+            <span>✓ Гарантия результата</span>
           </div>
         </div>
       </section>

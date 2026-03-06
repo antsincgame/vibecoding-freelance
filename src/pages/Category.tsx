@@ -1,3 +1,4 @@
+import SEO from "../components/SEO";
 import { useState, useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -58,6 +59,7 @@ export default function Category() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
+      <SEO title={catName} description={catDesc || `Услуги в категории ${catName}`} />
       <Breadcrumbs items={[{ label: t('category.home'), href: '/' }, { label: t('category.categories'), href: '/' }, { label: catName }]} />
       <div className="mt-6 mb-8">
         <h1 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase mb-2">{catName}</h1>

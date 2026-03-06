@@ -24,6 +24,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminReviews from './pages/admin/AdminReviews';
 import AdminTickets from './pages/admin/AdminTickets';
+import AdminChat from './pages/admin/AdminChat';
 import Support from './pages/Support';
 import OrderDetail from './pages/OrderDetail';
 import Chat from './pages/Chat';
@@ -101,6 +102,7 @@ function AppContent() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/reviews" element={<AdminReviews />} />
         <Route path="/admin/tickets" element={<AdminTickets />} />
+        <Route path="/admin/chat" element={<AdminChat />} />
       </Routes>
     );
   }
@@ -117,7 +119,13 @@ function AppContent() {
         searchPlaceholder="Найти услуги"
         loginPath="/auth"
         profilePath="/dashboard"
-        extraLinks={[{ to: '/admin', label: 'Админка', style: { color: '#ff006e' } }]}
+        navLinks={[
+          { to: '/projects', label: 'Биржа' },
+          { to: '/#how-it-works', label: 'Как работает' },
+        ]}
+        extraLinks={[
+          { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
+        ]}
       />
       <CategoriesBar />
       <main className="pt-[100px] min-h-screen bg-void relative z-[1]">

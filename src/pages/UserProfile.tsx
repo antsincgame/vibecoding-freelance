@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Clock, Calendar, TrendingUp, Star, ShieldCheck } from 'lucide-react';
+import SEO from "../components/SEO";
 import Breadcrumbs from '../components/ui/Breadcrumbs';
 import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
@@ -58,6 +59,7 @@ export default function UserProfile() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
       <Breadcrumbs items={[{ label: t('profile.home'), href: '/' }, { label: t('profile.freelancers') }, { label: user.name }]} />
+      <SEO title={`${user.name} — ${user.title}`} description={user.bio?.slice(0, 160) || `Профиль фрилансера ${user.name}`} />
       <div className="mt-8 card p-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-neon-pink/5" />
         <div className="absolute inset-0 sacred-bg opacity-20" />
