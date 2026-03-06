@@ -95,7 +95,7 @@ export default function Home() {
             <div className="flex -space-x-2">
               {(freelancers || []).slice(0, 4).map((f) => <Avatar key={f.id} src={f.avatar} alt={f.name} size="sm" className="ring-2 ring-void" />)}
             </div>
-            <div className="text-sm text-body"><span className="text-gold font-semibold font-mono">500+</span> {t('home.orders_completed')}</div>
+            <div className="text-sm text-body"><span className="text-gold font-semibold font-mono">{(freelancers || []).reduce((sum, f) => sum + f.ordersCompleted, 0) || '...'}+</span> {t('home.orders_completed')}</div>
           </div>
         </div>
       </section>
@@ -106,7 +106,7 @@ export default function Home() {
           <div className="card p-6 sm:p-8 flex flex-wrap items-center justify-center gap-8 sm:gap-16 text-center">
             <div><p className="text-3xl sm:text-4xl font-bold font-mono text-gold">{(categories || []).reduce((sum, c) => sum + c.gigCount, 0) || '...'}</p><p className="text-xs text-muted mt-1">Услуг в каталоге</p></div>
             <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-cyan">{(freelancers || []).length || '...'}</p><p className="text-xs text-muted mt-1">AI-фрилансеров</p></div>
-            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-green">4.8 ★</p><p className="text-xs text-muted mt-1">Средний рейтинг</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-green">{freelancers && freelancers.length > 0 ? (freelancers.reduce((s, f) => s + f.rating, 0) / freelancers.length).toFixed(1) : '...'} ★</p><p className="text-xs text-muted mt-1">Средний рейтинг</p></div>
             <div><p className="text-3xl sm:text-4xl font-bold font-mono text-accent-violet">0%</p><p className="text-xs text-muted mt-1">Комиссия</p></div>
           </div>
         </div>

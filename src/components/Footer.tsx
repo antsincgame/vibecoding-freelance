@@ -60,7 +60,7 @@ export default function Footer() {
         {/* Stats bar */}
         <div className="mt-12 pt-8 border-t border-gold/10 flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-6 text-xs text-muted">
-            <span className="flex items-center gap-1"><Star size={12} className="text-gold" /> 500+ услуг</span>
+            <span className="flex items-center gap-1"><Star size={12} className="text-gold" /> Каталог услуг</span>
             <span className="flex items-center gap-1"><Shield size={12} className="text-neon-cyan" /> Безопасные сделки</span>
             <span className="flex items-center gap-1"><Zap size={12} className="text-neon-green" /> 0% комиссия</span>
           </div>

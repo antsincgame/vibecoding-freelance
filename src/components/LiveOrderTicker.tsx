@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Zap, ShoppingBag, Clock } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
+import { getSupabase } from '@vibecoding/shared';
 
-// Simulated live orders for demo (when real orders exist, use those)
+// Demo orders shown when no real orders exist
 const DEMO_ORDERS = [
   { buyer: 'Михаил К.', gig: 'MVP SaaS на Next.js', price: 15000, time: '2 мин назад' },
   { buyer: 'Ольга С.', gig: 'Telegram бот с ChatGPT', price: 8000, time: '5 мин назад' },
@@ -15,17 +16,47 @@ const DEMO_ORDERS = [
   { buyer: 'Ирина Ш.', gig: 'Интеграция Claude API', price: 12000, time: '1 час назад' },
 ];
 
+function timeAgo(date: string): string {
+  const diff = Date.now() - new Date(date).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'только что';
+  if (mins < 60) return `${mins} мин назад`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} ч назад`;
+  return `${Math.floor(hours / 24)} дн назад`;
+}
+
 export default function LiveOrderTicker() {
+  const [orders, setOrders] = useState(DEMO_ORDERS);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setOffset(prev => (prev + 1) % DEMO_ORDERS.length);
-    }, 4000);
-    return () => clearInterval(interval);
+    // Try to load real orders
+    (async () => {
+      try {
+        const db = getSupabase();
+        const { data } = await db.from('fl_orders').select('*').order('$createdAt', { ascending: false }).limit(10);
+        const list = Array.isArray(data) ? data : data ? [data] : [];
+        if (list.length > 0) {
+          setOrders(list.map(o => ({
+            buyer: o.seller_name || 'Покупатель',
+            gig: o.gig_title || 'Услуга',
+            price: o.price || 0,
+            time: o.$createdAt ? timeAgo(o.$createdAt) : '',
+          })));
+        }
+      } catch {}
+    })();
   }, []);
 
-  const visible = [...DEMO_ORDERS, ...DEMO_ORDERS].slice(offset, offset + 3);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffset(prev => (prev + 1) % orders.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [orders.length]);
+
+  const visible = [...orders, ...orders].slice(offset, offset + 3);
 
   return (
     <div className="w-full overflow-hidden">
