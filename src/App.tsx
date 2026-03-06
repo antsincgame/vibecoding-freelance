@@ -34,6 +34,8 @@ import EditGig from './pages/EditGig';
 import Projects from './pages/Projects';
 import ForSellers from './pages/ForSellers';
 import FAQ from './pages/FAQ';
+import HowItWorks from './pages/HowItWorks';
+import News from './pages/News';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
@@ -129,7 +131,8 @@ function AppContent() {
         navLinks={[
           { to: '/projects', label: 'Биржа' },
           { to: '/for-sellers', label: 'Фрилансеру' },
-          { to: '/#how-it-works', label: 'Как работает' },
+          { to: '/how-it-works', label: 'Как работает' },
+          { to: '/news', label: 'Новости' },
         ]}
         extraLinks={[
           { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
@@ -147,6 +150,8 @@ function AppContent() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/for-sellers" element={<ForSellers />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/news" element={<News />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/users/:username" element={<UserProfile />} />

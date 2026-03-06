@@ -99,6 +99,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* LIVE STATS */}
+      <section className="relative py-12 -mt-12 z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="card p-6 sm:p-8 flex flex-wrap items-center justify-center gap-8 sm:gap-16 text-center">
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-gold">500+</p><p className="text-xs text-muted mt-1">Услуг в каталоге</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-cyan">50+</p><p className="text-xs text-muted mt-1">AI-фрилансеров</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-green">1 000+</p><p className="text-xs text-muted mt-1">Выполненных заказов</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-accent-violet">4.8 ★</p><p className="text-xs text-muted mt-1">Средний рейтинг</p></div>
+          </div>
+        </div>
+      </section>
+
       <section ref={whyRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-14">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">{t('home.whyVibeCoders')}</h2>
@@ -189,6 +201,72 @@ export default function Home() {
               </div>
               {f.level === 'pro' && <span className="inline-block mt-2 text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">PRO</span>}
             </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* HOW IT WORKS MINI */}
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-deep-space sacred-bg" />
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Как это работает</h2>
+            <p className="text-body font-heading font-light">3 простых шага</p>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-8">
+            {[
+              { num: '01', title: 'Выберите услугу', desc: 'Найдите кворк в каталоге или опишите задачу — AI подберёт специалиста', icon: '🔍' },
+              { num: '02', title: 'Оформите заказ', desc: 'Выберите пакет, опишите требования. Деньги в безопасности до приёмки', icon: '📦' },
+              { num: '03', title: 'Получите результат', desc: 'Фрилансер сдаёт работу. Проверьте, примите, оставьте отзыв', icon: '✅' },
+            ].map((step) => (
+              <div key={step.num} className="text-center card p-6">
+                <div className="text-4xl mb-4">{step.icon}</div>
+                <div className="text-xs text-gold font-mono mb-2">{step.num}</div>
+                <h3 className="text-base font-heading font-semibold text-heading mb-2">{step.title}</h3>
+                <p className="text-sm text-body leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link to="/how-it-works" className="text-sm text-gold hover:underline">Подробнее →</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Отзывы заказчиков</h2>
+        </div>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {[
+            { name: 'Михаил К.', role: 'Стартап-фаундер', text: 'MVP был готов за 2 дня. Раньше это занимало месяц. Вайб-кодинг — это революция.', rating: 5, avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80' },
+            { name: 'Ольга С.', role: 'Владелец бизнеса', text: 'AI-бот для поддержки экономит нам 3 часа в день. Окупился за первую неделю.', rating: 5, avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&q=80' },
+            { name: 'Алексей И.', role: 'Продакт-менеджер', text: 'Получил полноценный SaaS с подписками за 7 дней. Cursor + Claude = космос.', rating: 5, avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&q=80' },
+          ].map((t, i) => (
+            <div key={i} className="card p-6">
+              <div className="flex gap-0.5 mb-3">{Array.from({length: t.rating}).map((_, j) => <span key={j} className="text-gold text-sm">★</span>)}</div>
+              <p className="text-sm text-body leading-relaxed mb-4">"{t.text}"</p>
+              <div className="flex items-center gap-3">
+                <img src={t.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
+                <div><p className="text-sm font-medium text-heading">{t.name}</p><p className="text-xs text-muted">{t.role}</p></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* AI TOOL SHOWCASE */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center mb-10">
+          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">AI-инструменты наших кодеров</h2>
+          <p className="text-body font-heading font-light">Мы используем лучшие AI для максимальной скорости</p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {['Cursor', 'Claude', 'ChatGPT', 'v0', 'Bolt', 'Copilot', 'Midjourney', 'Windsurf', 'Replit', 'LangChain'].map(tool => (
+            <div key={tool} className="px-5 py-3 rounded-xl bg-gold/5 border border-gold/15 text-sm text-body font-mono hover:border-gold/40 hover:bg-gold/10 transition-all">
+              ⚡ {tool}
+            </div>
           ))}
         </div>
       </section>

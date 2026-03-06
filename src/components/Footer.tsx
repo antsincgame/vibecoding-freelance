@@ -27,7 +27,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link to="/categories/all" className="text-sm text-muted hover:text-gold transition-colors">Каталог услуг</Link></li>
               <li><Link to="/projects" className="text-sm text-muted hover:text-gold transition-colors">Биржа проектов</Link></li>
-              <li><Link to="/#how-it-works" className="text-sm text-muted hover:text-gold transition-colors">Как заказать</Link></li>
+              <li><Link to="/how-it-works" className="text-sm text-muted hover:text-gold transition-colors">Как это работает</Link></li>
               <li><Link to="/faq" className="text-sm text-muted hover:text-gold transition-colors">FAQ</Link></li>
             </ul>
           </div>
@@ -48,6 +48,7 @@ export default function Footer() {
             <h4 className="text-sm font-heading font-semibold text-heading mb-4">Компания</h4>
             <ul className="space-y-2.5">
               <li><Link to="/support" className="text-sm text-muted hover:text-gold transition-colors">Поддержка</Link></li>
+              <li><Link to="/news" className="text-sm text-muted hover:text-gold transition-colors">Новости</Link></li>
               <li><Link to="/faq" className="text-sm text-muted hover:text-gold transition-colors">Вопросы и ответы</Link></li>
               <li><Link to="/terms" className="text-sm text-muted hover:text-gold transition-colors">Правила сервиса</Link></li>
               <li><Link to="/privacy" className="text-sm text-muted hover:text-gold transition-colors">Конфиденциальность</Link></li>
