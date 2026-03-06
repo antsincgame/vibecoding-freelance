@@ -213,7 +213,6 @@ async function enrichGigAvatars(gigs: Gig[]) {
     }
   } catch {}
 }
-}
 
 export async function getGigById(id: string): Promise<Gig | null> {
   const { data, error } = await db().from('fl_gigs').select('*').eq('id', id).maybeSingle();
