@@ -17,6 +17,12 @@ import Dashboard from './pages/Dashboard';
 import FreelancerDashboard from './pages/FreelancerDashboard';
 import CreateGig from './pages/CreateGig';
 import SetupProfile from './pages/SetupProfile';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminGigs from './pages/admin/AdminGigs';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminReviews from './pages/admin/AdminReviews';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -63,6 +69,8 @@ function RequireFlProfile({ children }: { children: React.ReactNode }) {
 
 function AppContent() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
@@ -72,6 +80,20 @@ function AppContent() {
     document.addEventListener('open-search', handler);
     return () => document.removeEventListener('open-search', handler);
   }, []);
+
+  // Admin routes — no main layout
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/categories" element={<AdminCategories />} />
+        <Route path="/admin/gigs" element={<AdminGigs />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/reviews" element={<AdminReviews />} />
+      </Routes>
+    );
+  }
 
   return (
     <>
