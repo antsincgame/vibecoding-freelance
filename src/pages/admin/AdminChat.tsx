@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Send, ArrowLeft, User, Search, MessageCircle, Shield } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import Avatar from '../../components/ui/Avatar';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { getSupabase, getAccount } from '../../lib/appwrite';
 import toast from 'react-hot-toast';
 
 export default function AdminChat() {

@@ -12,7 +12,7 @@ import Skeleton from '../components/ui/Skeleton';
 import GigExtras from '../components/GigExtras';
 import { useGig, useGigReviews, useFavoriteStatus } from '../hooks/useData';
 import { createOrder, startConversation } from '../lib/freelance-db';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import type { GigPackage } from '../types';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';

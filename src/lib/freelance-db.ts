@@ -3,7 +3,7 @@
  * Uses shared Supabase-compatible Appwrite wrapper.
  * Fallback на mock-данные при недоступности AppWrite.
  */
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { getSupabase, getAccount } from './appwrite';
 import type { Gig, GigPackage, Freelancer, Category, Review, Order, Message } from '../types';
 import { MOCK_CATEGORIES, MOCK_FREELANCERS, MOCK_GIGS, MOCK_REVIEWS } from './mock-data';
 

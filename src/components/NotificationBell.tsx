@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Bell, Package, MessageCircle, Star, AlertCircle, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@vibecoding/shared';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
+import { getSupabase, getAccount } from '../lib/appwrite';
 
 interface Notification {
   id: string;

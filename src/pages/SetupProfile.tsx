@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Zap, AtSign, MapPin, Briefcase, Code, ArrowRight } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import { createFreelancerProfile } from '../lib/freelance-db';
 import toast from 'react-hot-toast';
 

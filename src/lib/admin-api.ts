@@ -2,7 +2,7 @@
  * Admin API — data layer for admin panel
  * Uses shared Appwrite wrapper
  */
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { getSupabase, getAccount } from './appwrite';
 
 const db = () => getSupabase();
 

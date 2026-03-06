@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../../lib/auth';
 import { LayoutDashboard, FolderTree, Package, Users, ShoppingBag, Star, ArrowLeft, Shield, HeadphonesIcon, MessageCircle } from 'lucide-react';
 import { getAdminRole, type AdminRole } from '../../lib/admin-api';
 

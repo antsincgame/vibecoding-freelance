@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
-import { getSupabase } from '@vibecoding/shared';
+import { getSupabase } from '../lib/appwrite';
 
 const DEMO_ORDERS = [
   { buyer: 'Михаил К.', gig: 'MVP SaaS на Next.js', price: 15000, time: '2 мин назад' },

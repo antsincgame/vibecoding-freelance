@@ -5,8 +5,8 @@ import { ArrowLeft, Clock, Check, X, Star, Send, Package, AlertCircle, MessageCi
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Avatar from '../components/ui/Avatar';
-import { useAuth } from '@vibecoding/shared';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
+import { getSupabase, getAccount } from '../lib/appwrite';
 import { createReview } from '../lib/freelance-db';
 import toast from 'react-hot-toast';
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Check } from 'lucide-react';
-import { getSupabase } from '@vibecoding/shared';
+import { getSupabase } from '../lib/appwrite';
 
 interface GigExtra {
   id: string;

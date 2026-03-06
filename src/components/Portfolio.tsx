@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, X, ExternalLink, Loader2, Image as ImageIcon } from 'lucide-react';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { getSupabase, getAccount } from '../lib/appwrite';
 import { uploadImage } from '../lib/upload';
 import toast from 'react-hot-toast';
 

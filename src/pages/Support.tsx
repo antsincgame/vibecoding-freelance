@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, MessageCircle, Clock, CheckCircle, AlertCircle, Send, ArrowLeft, HelpCircle } from 'lucide-react';
 import Button from '../components/ui/Button';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import { getMyTickets, getTicketMessages, replyToTicket, createTicket } from '../lib/admin-api';
 import toast from 'react-hot-toast';
 

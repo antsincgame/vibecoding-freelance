@@ -4,7 +4,7 @@ import { Camera, Save, ArrowLeft } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Avatar from '../components/ui/Avatar';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import { getCurrentFreelancerProfile, updateFreelancerProfile } from '../lib/freelance-db';
 import { uploadImage } from '../lib/upload';
 import Portfolio from '../components/Portfolio';

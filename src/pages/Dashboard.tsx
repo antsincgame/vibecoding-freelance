@@ -8,7 +8,7 @@ import Button from '../components/ui/Button';
 import GigCard from '../components/GigCard';
 import Skeleton from '../components/ui/Skeleton';
 import { useMyOrders, useFavoriteGigs } from '../hooks/useData';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import type { Order } from '../types';
 
 export default function Dashboard() {

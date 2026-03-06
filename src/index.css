@@ -742,7 +742,4 @@
 }
 
 /* Header nav reorder */
-.vc-nav-desktop { flex: 1; }
-.vc-nav-desktop .vc-search-btn { order: 10; margin-left: auto; }
-.vc-nav-desktop .vc-auth-btn { order: 20; }
-.vc-nav-desktop .vc-nav-link { order: 1; }
+

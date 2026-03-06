@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Sparkles, Loader2, Star, Zap, ArrowRight, Target } from 'lucide-react';
 import Button from './ui/Button';
 import Avatar from './ui/Avatar';
-import { getSupabase } from '@vibecoding/shared';
+import { getSupabase } from '../lib/appwrite';
 
 interface MatchResult {
   id: string;

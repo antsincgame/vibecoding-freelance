@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Zap, ChevronDown, Flame } from 'lucide-react';
+import { Search, Menu, X, Zap, ChevronDown, Flame, User, LogOut, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Button from './ui/Button';
 import LanguageSwitcher from './LanguageSwitcher';
 import { megaMenuCategories } from '../data/megaMenu';
+import { useAuth } from '../lib/auth';
+import { getAdminRole } from '../lib/admin-api';
 
 interface HeaderProps {
   onOpenSearch: () => void;
@@ -12,9 +14,11 @@ interface HeaderProps {
 
 export default function Header({ onOpenSearch }: HeaderProps) {
   const { t } = useTranslation();
+  const { user, profile, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
+  const [isAdminOrMod, setIsAdminOrMod] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const location = useLocation();
@@ -29,6 +33,10 @@ export default function Header({ onOpenSearch }: HeaderProps) {
     setMobileOpen(false);
     setActiveMega(null);
   }, [location]);
+
+  useEffect(() => {
+    if (user) getAdminRole().then(r => setIsAdminOrMod(!!r));
+  }, [user]);
 
   const handleMegaEnter = (slug: string) => {
     clearTimeout(timeoutRef.current);
@@ -79,12 +87,31 @@ export default function Header({ onOpenSearch }: HeaderProps) {
 
           <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher />
-            <Link to="/auth">
-              <Button variant="ghost" size="sm">{t('common.login')}</Button>
-            </Link>
-            <Link to="/auth">
-              <Button variant="primary" size="sm">{t('common.register')}</Button>
-            </Link>
+            {isAdminOrMod && (
+              <Link to="/admin">
+                <Button variant="ghost" size="sm" className="!text-[#00f5ff]"><Shield size={14} /> Админка</Button>
+              </Link>
+            )}
+            {user ? (
+              <>
+                <Link to="/dashboard" className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[rgba(0,245,255,0.05)] border border-[rgba(0,245,255,0.15)] hover:border-[rgba(0,245,255,0.4)] transition-all">
+                  <User size={14} className="text-[#00f5ff]" />
+                  <span className="text-sm text-heading">{profile?.full_name || user?.email?.split('@')[0] || 'Профиль'}</span>
+                </Link>
+                <button onClick={signOut} className="p-2 text-muted hover:text-[#00f5ff] transition-colors cursor-pointer" title="Выйти">
+                  <LogOut size={16} />
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm">{t('common.login')}</Button>
+                </Link>
+                <Link to="/auth?tab=signup">
+                  <Button variant="primary" size="sm">{t('common.register')}</Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -184,12 +211,25 @@ export default function Header({ onOpenSearch }: HeaderProps) {
               <LanguageSwitcher />
             </div>
             <div className="flex gap-3 pt-2 border-t border-[#00f5ff]/20">
-              <Link to="/auth" className="flex-1">
-                <Button variant="secondary" size="md" className="w-full">{t('common.login')}</Button>
-              </Link>
-              <Link to="/auth" className="flex-1">
-                <Button variant="primary" size="md" className="w-full">{t('common.register')}</Button>
-              </Link>
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="flex-1">
+                    <Button variant="secondary" size="md" className="w-full">Профиль</Button>
+                  </Link>
+                  <button onClick={signOut} className="flex-1">
+                    <Button variant="ghost" size="md" className="w-full">Выход</Button>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth" className="flex-1">
+                    <Button variant="secondary" size="md" className="w-full">{t('common.login')}</Button>
+                  </Link>
+                  <Link to="/auth?tab=signup" className="flex-1">
+                    <Button variant="primary" size="md" className="w-full">{t('common.register')}</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

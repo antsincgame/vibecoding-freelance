@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Send, ArrowLeft, MessageCircle, User } from 'lucide-react';
 import Avatar from '../components/ui/Avatar';
-import { useAuth } from '@vibecoding/shared';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
+import { getSupabase, getAccount } from '../lib/appwrite';
 import { getConversations, getMessages, sendMessage } from '../lib/freelance-db';
 import toast from 'react-hot-toast';
 

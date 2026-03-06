@@ -11,11 +11,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true,
-    "paths": {
-      "@vibecoding/shared": ["./shared/src"],
-      "@vibecoding/shared/*": ["./shared/src/*"]
-    }
+    "strict": true
   },
-  "include": ["src", "shared/src"]
+  "include": ["src"]
 }

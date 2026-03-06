@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider, useAuth } from '@vibecoding/shared';
-import { Header } from '@vibecoding/shared';
-import '@vibecoding/shared/styles';
+import { AuthProvider, useAuth } from './lib/auth';
+import Header from './components/Header';
 import { megaMenuCategories } from './data/megaMenu';
 import NotificationBell from './components/NotificationBell';
 import WishlistBadge from './components/WishlistBadge';
@@ -124,19 +123,7 @@ function AppContent() {
     <>
       <CursorTrail />
       <ScrollToTop />
-      <Header
-        logoText="VIBECODER" logoImage="/logo.png"
-        logoTo="/"
-        loginPath="/auth"
-        profilePath="/dashboard"
-        navLinks={[
-          ...(user ? [{ to: '/projects', label: 'Биржа' }] : []),
-        ]}
-        megaMenu={megaMenuCategories}
-        extraLinks={[
-          { to: '/admin', label: 'Админка', style: { color: '#00f5ff' } },
-        ]}
-      />
+      <Header onOpenSearch={openSearch} />
       <div className="fixed top-3 right-[200px] z-[51] hidden md:flex items-center gap-2">
         <WishlistBadge />
         <NotificationBell />

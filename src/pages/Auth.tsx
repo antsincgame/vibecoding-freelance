@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
 import { Mail, Lock, User, Github, Globe, Eye, EyeOff } from 'lucide-react';
 import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';

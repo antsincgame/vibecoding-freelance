@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@vibecoding/shared';
-import { getSupabase, getAccount } from '@vibecoding/shared';
+import { useAuth } from '../lib/auth';
+import { getSupabase, getAccount } from '../lib/appwrite';
 
 export default function WishlistBadge() {
   const { user } = useAuth();
