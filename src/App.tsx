@@ -121,7 +121,7 @@ function AppContent() {
 
   return (
     <>
-      <div className="cyber-grid-bg" />
+      {/* Neon: no background overlay needed — sacred-bg on sections */}
 
       <ScrollToTop />
       <Header
@@ -134,14 +134,14 @@ function AppContent() {
         ]}
         megaMenu={megaMenuCategories}
         extraLinks={[
-          { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
+          { to: '/admin', label: 'Админка', style: { color: '#ffd700' } },
         ]}
       />
       <div className="fixed top-3 right-[200px] z-[51] hidden md:flex items-center gap-2">
         <WishlistBadge />
         <NotificationBell />
       </div>
-      <main className="pt-[100px] min-h-screen bg-void relative z-[1]">
+      <main className="min-h-screen bg-[#0a0a0f] relative z-[1]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories/:slug" element={<Category />} />
@@ -199,10 +199,11 @@ function AppContent() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#13131a',
-            color: '#e0e0e0',
-            border: '1px solid rgba(0, 255, 249, 0.2)',
-            fontFamily: "'Rajdhani', sans-serif",
+            background: '#12121f',
+            color: '#fff',
+            border: '1px solid rgba(255, 215, 0, 0.15)',
+            fontFamily: "'Inter', system-ui, sans-serif",
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.04)',
           },
         }}
       />

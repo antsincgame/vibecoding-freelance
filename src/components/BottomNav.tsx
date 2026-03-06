@@ -19,7 +19,7 @@ export default function BottomNav({ onOpenSearch }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-void/95 backdrop-blur-xl border-t border-gold/20">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#0a0a0f]/95 backdrop-blur-xl border-t border-[rgba(255,215,0,0.08)]">
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map((item) => {
           const isActive = item.href !== '#search' && location.pathname === item.href;
@@ -32,8 +32,8 @@ export default function BottomNav({ onOpenSearch }: BottomNavProps) {
                 onClick={onOpenSearch}
                 className="flex flex-col items-center gap-1 px-3 py-1 cursor-pointer"
               >
-                <Icon size={20} className="text-muted" />
-                <span className="text-[10px] text-muted">{item.label}</span>
+                <Icon size={20} className="text-[rgba(255,255,255,0.35)]" />
+                <span className="text-[10px] text-[rgba(255,255,255,0.35)]">{item.label}</span>
               </button>
             );
           }
@@ -44,8 +44,8 @@ export default function BottomNav({ onOpenSearch }: BottomNavProps) {
               to={item.href}
               className="flex flex-col items-center gap-1 px-3 py-1"
             >
-              <Icon size={20} className={isActive ? 'text-gold' : 'text-muted'} />
-              <span className={`text-[10px] ${isActive ? 'text-gold font-medium' : 'text-muted'}`}>{item.label}</span>
+              <Icon size={20} className={isActive ? 'text-[#ffd700]' : 'text-[rgba(255,255,255,0.35)]'} />
+              <span className={`text-[10px] ${isActive ? 'text-[#ffd700] font-medium' : 'text-[rgba(255,255,255,0.35)]'}`}>{item.label}</span>
             </Link>
           );
         })}

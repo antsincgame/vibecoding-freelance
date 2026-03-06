@@ -21,7 +21,6 @@ export default function Auth() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  // Set initial mode based on URL query parameter
   useEffect(() => {
     const tab = searchParams.get('tab');
     if (tab === 'signup' || tab === 'register') {
@@ -29,7 +28,6 @@ export default function Auth() {
     }
   }, [searchParams]);
 
-  // Redirect if already logged in
   if (user) {
     navigate('/dashboard', { replace: true });
     return null;
@@ -78,34 +76,35 @@ export default function Auth() {
   };
 
   const inputClass = (field: string) =>
-    `w-full bg-gold/10 border ${errors[field] ? 'border-neon-rose' : 'border-gold/30 focus:border-gold'} rounded-xl px-4 py-3 pl-10 text-sm text-heading placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-gold/40 transition-all`;
+    `w-full bg-[#0d0d1a] border ${errors[field] ? 'border-rose-700' : 'border-[rgba(255,215,0,0.1)] focus:border-[#ffd700]'} rounded px-4 py-3 pl-10 text-sm text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none focus:ring-1 focus:ring-[rgba(255,215,0,0.2)] focus:shadow-[0_0_15px_rgba(255,215,0,0.06)] transition-all duration-300`;
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sacred-bg">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sacred-bg relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.06)_0%,transparent_60%)] animate-glow-breathe pointer-events-none" />
+      <div className="w-full max-w-md space-y-8 relative z-10">
         <div className="text-center">
-          <h1 className="text-2xl font-heading font-bold text-heading">
+          <h1 className="text-2xl font-display font-bold tracking-[0.1em] uppercase quantum-shimmer">
             {mode === 'login' ? t('auth.welcome') : t('auth.create_account')}
           </h1>
-          <p className="text-sm text-muted mt-1">
+          <p className="text-sm text-[rgba(255,255,255,0.4)] mt-1 tracking-wide">
             {mode === 'login' ? t('auth.login_to_account') : t('auth.join_vibecoder')}
           </p>
         </div>
 
         <div className="card p-8 space-y-6">
-          <div className="flex rounded-xl overflow-hidden border border-gold/30">
+          <div className="flex rounded overflow-hidden border border-[rgba(255,215,0,0.1)]">
             <button
               onClick={() => { setMode('login'); setErrors({}); }}
-              className={`flex-1 py-3 text-sm font-medium text-center transition-all cursor-pointer ${
-                mode === 'login' ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body'
+              className={`flex-1 py-3 text-sm font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
+                mode === 'login' ? 'bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
               }`}
             >
               {t('auth.tab_login')}
             </button>
             <button
               onClick={() => { setMode('register'); setErrors({}); }}
-              className={`flex-1 py-3 text-sm font-medium text-center transition-all cursor-pointer ${
-                mode === 'register' ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body'
+              className={`flex-1 py-3 text-sm font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
+                mode === 'register' ? 'bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
               }`}
             >
               {t('auth.tab_register')}
@@ -116,40 +115,40 @@ export default function Auth() {
             {mode === 'register' && (
               <div>
                 <div className="relative">
-                  <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                  <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.3)]" />
                   <input type="text" placeholder={t('auth.name')} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputClass('name')} />
                 </div>
-                {errors.name && <p className="text-xs text-neon-rose mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-xs text-rose-500 mt-1">{errors.name}</p>}
               </div>
             )}
             <div>
               <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.3)]" />
                 <input type="email" placeholder={t('auth.email')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={inputClass('email')} />
               </div>
-              {errors.email && <p className="text-xs text-neon-rose mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-xs text-rose-500 mt-1">{errors.email}</p>}
             </div>
             <div>
               <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.3)]" />
                 <input type={showPassword ? 'text' : 'password'} placeholder={t('auth.password')} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className={inputClass('password')} />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-body cursor-pointer">
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[rgba(255,255,255,0.3)] hover:text-white cursor-pointer">
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
-              {errors.password && <p className="text-xs text-neon-rose mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-xs text-rose-500 mt-1">{errors.password}</p>}
             </div>
 
             {mode === 'register' && (
               <div>
-                <p className="text-sm text-muted mb-2">{t('auth.role')}</p>
+                <p className="text-sm text-[rgba(255,255,255,0.4)] mb-2 tracking-wide">{t('auth.role')}</p>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setRole('client')}
-                    className={`flex-1 py-3 text-sm rounded-xl border transition-all cursor-pointer ${role === 'client' ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>
+                    className={`flex-1 py-3 text-sm rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'client' ? 'border-[#ffd700] bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'border-[rgba(255,215,0,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
                     {t('auth.customer')}
                   </button>
                   <button type="button" onClick={() => setRole('freelancer')}
-                    className={`flex-1 py-3 text-sm rounded-xl border transition-all cursor-pointer ${role === 'freelancer' ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>
+                    className={`flex-1 py-3 text-sm rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'freelancer' ? 'border-[#ffd700] bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'border-[rgba(255,215,0,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
                     {t('auth.freelancer')}
                   </button>
                 </div>
@@ -162,15 +161,15 @@ export default function Auth() {
           </form>
 
           <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gold/20" /></div>
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[rgba(255,215,0,0.08)]" /></div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-nebula px-3 text-muted">{t('auth.orContinueWith')}</span>
+              <span className="bg-[#12121f] px-3 text-[rgba(255,255,255,0.35)]">{t('auth.orContinueWith')}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-3">
             <button onClick={handleGoogle}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl border border-gold/20 text-sm text-muted hover:text-gold hover:border-gold/25 transition-all cursor-pointer">
+              className="flex items-center justify-center gap-2 py-3 rounded border border-[rgba(255,215,0,0.1)] text-sm text-[rgba(255,255,255,0.5)] hover:text-[#ffd700] hover:border-[rgba(255,215,0,0.25)] hover:shadow-[0_0_15px_rgba(255,215,0,0.06)] transition-all duration-300 cursor-pointer tracking-wider uppercase font-heading">
               <Globe size={16} />
               <span>Google</span>
             </button>

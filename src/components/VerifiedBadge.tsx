@@ -6,37 +6,37 @@ interface Props {
   showLabel?: boolean;
 }
 
-const LEVEL_CONFIG: Record<string, { icon: any; label: string; color: string; bg: string; border: string; glow?: string }> = {
+const LEVEL_CONFIG: Record<string, { icon: typeof ShieldCheck; label: string; color: string; bg: string; border: string; glow?: string }> = {
   verified: {
     icon: ShieldCheck,
     label: 'Верифицирован',
-    color: 'text-neon-cyan',
-    bg: 'bg-neon-cyan/15',
-    border: 'border-neon-cyan/30',
-    glow: 'shadow-[0_0_8px_rgba(0,255,249,0.2)]',
+    color: 'text-[#00f5ff]',
+    bg: 'bg-[rgba(0,245,255,0.08)]',
+    border: 'border-[rgba(0,245,255,0.2)]',
+    glow: 'shadow-[0_0_8px_rgba(0,245,255,0.15)]',
   },
   pro: {
     icon: Crown,
     label: 'PRO',
-    color: 'text-gold',
-    bg: 'bg-gold/15',
-    border: 'border-gold/30',
-    glow: 'shadow-[0_0_10px_rgba(212,175,55,0.3)]',
+    color: 'text-[#ffd700]',
+    bg: 'bg-[rgba(255,215,0,0.08)]',
+    border: 'border-[rgba(255,215,0,0.2)]',
+    glow: 'shadow-[0_0_10px_rgba(255,215,0,0.15)]',
   },
   moderator: {
     icon: ShieldCheck,
     label: 'Модератор',
-    color: 'text-accent-violet',
-    bg: 'bg-accent-violet/15',
-    border: 'border-accent-violet/30',
+    color: 'text-[#8b5cf6]',
+    bg: 'bg-[rgba(139,92,246,0.08)]',
+    border: 'border-[rgba(139,92,246,0.2)]',
   },
   admin: {
     icon: Sparkles,
     label: 'Админ',
-    color: 'text-neon-rose',
-    bg: 'bg-neon-rose/15',
-    border: 'border-neon-rose/30',
-    glow: 'shadow-[0_0_10px_rgba(255,0,110,0.2)]',
+    color: 'text-[#f953c6]',
+    bg: 'bg-[rgba(249,83,198,0.08)]',
+    border: 'border-[rgba(249,83,198,0.2)]',
+    glow: 'shadow-[0_0_10px_rgba(249,83,198,0.15)]',
   },
 };
 
@@ -53,14 +53,13 @@ export default function VerifiedBadge({ level, size = 'md', showLabel = true }: 
   const s = sizes[size];
 
   return (
-    <span className={`inline-flex items-center ${s.gap} ${s.px} rounded-full ${config.bg} ${config.color} border ${config.border} ${config.glow || ''} font-bold ${s.text}`}>
+    <span className={`inline-flex items-center ${s.gap} ${s.px} rounded ${config.bg} ${config.color} border ${config.border} ${config.glow || ''} font-medium ${s.text} tracking-wider`}>
       <Icon size={s.icon} />
       {showLabel && config.label}
     </span>
   );
 }
 
-// Inline checkmark for card/list usage
 export function VerifiedCheck({ level }: { level: string }) {
   if (level === 'new') return null;
   const config = LEVEL_CONFIG[level];

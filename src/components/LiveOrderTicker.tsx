@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { getSupabase } from '@vibecoding/shared';
 
-// Demo orders shown when no real orders exist
 const DEMO_ORDERS = [
   { buyer: 'Михаил К.', gig: 'MVP SaaS на Next.js', price: 15000, time: '2 мин назад' },
   { buyer: 'Ольга С.', gig: 'Telegram бот с ChatGPT', price: 8000, time: '5 мин назад' },
@@ -31,7 +30,6 @@ export default function LiveOrderTicker() {
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    // Try to load real orders
     (async () => {
       try {
         const db = getSupabase();
@@ -61,24 +59,24 @@ export default function LiveOrderTicker() {
   return (
     <div className="w-full overflow-hidden">
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
-        <span className="text-xs text-muted uppercase tracking-wider font-heading">Последние заказы</span>
+        <div className="w-2 h-2 bg-[#ffd700] rounded-full animate-aura-pulse" />
+        <span className="text-xs text-[rgba(255,255,255,0.4)] uppercase tracking-widest font-heading">Последние заказы</span>
       </div>
       <div className="space-y-2">
         {visible.map((order, i) => (
           <div
             key={`${order.buyer}-${offset}-${i}`}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-gold/5 border border-gold/10 animate-fade-in"
+            className="flex items-center gap-3 px-4 py-2.5 rounded bg-[rgba(255,215,0,0.03)] border border-[rgba(255,215,0,0.08)] animate-fade-in"
             style={{ animationDuration: '0.5s' }}
           >
-            <ShoppingBag size={14} className="text-gold flex-shrink-0" />
+            <ShoppingBag size={14} className="text-[#ffd700] flex-shrink-0" />
             <div className="flex-1 min-w-0 flex items-center gap-2">
-              <span className="text-xs text-heading font-medium truncate">{order.buyer}</span>
-              <span className="text-xs text-muted">заказал</span>
-              <span className="text-xs text-gold truncate">«{order.gig}»</span>
+              <span className="text-xs text-white font-medium truncate">{order.buyer}</span>
+              <span className="text-xs text-[rgba(255,255,255,0.35)]">заказал</span>
+              <span className="text-xs text-[#ffd700] truncate">&laquo;{order.gig}&raquo;</span>
             </div>
-            <span className="text-xs text-heading font-mono font-bold flex-shrink-0">{order.price.toLocaleString('ru-RU')} ₽</span>
-            <span className="text-[10px] text-muted flex-shrink-0 hidden sm:block">{order.time}</span>
+            <span className="text-xs text-white font-mono font-bold flex-shrink-0">{order.price.toLocaleString('ru-RU')} ₽</span>
+            <span className="text-[10px] text-[rgba(255,255,255,0.3)] flex-shrink-0 hidden sm:block">{order.time}</span>
           </div>
         ))}
       </div>
