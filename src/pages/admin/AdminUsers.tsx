@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const LEVELS: Record<string, { label: string; color: string }> = {
   new: { label: 'Новый', color: 'text-muted' },
   verified: { label: 'Верифицирован', color: 'text-neon-cyan' },
-  pro: { label: 'PRO', color: 'text-gold' },
+  pro: { label: 'PRO', color: 'text-[#00f5ff]' },
 };
 
 export default function AdminUsers() {
@@ -39,7 +39,7 @@ export default function AdminUsers() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gold/20">
+              <tr className="border-b border-[#00f5ff]/20">
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">Пользователь</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">Username</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">Роль</th>
@@ -52,14 +52,14 @@ export default function AdminUsers() {
             </thead>
             <tbody>
               {loading ? Array.from({ length: 4 }).map((_, i) => (
-                <tr key={i} className="border-b border-gold/10"><td colSpan={8} className="py-4 px-4"><div className="h-4 bg-gold/10 rounded animate-pulse" /></td></tr>
+                <tr key={i} className="border-b border-[#00f5ff]/10"><td colSpan={8} className="py-4 px-4"><div className="h-4 bg-[#00f5ff]/10 rounded animate-pulse" /></td></tr>
               )) : profiles.map((p) => {
                 const lvl = LEVELS[p.level] || LEVELS.new;
                 return (
-                  <tr key={p.id} className="border-b border-gold/10 hover:bg-gold/5 transition-colors">
+                  <tr key={p.id} className="border-b border-[#00f5ff]/10 hover:bg-[#00f5ff]/5 transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        {p.avatar ? <img src={p.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /> : <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-xs text-gold">{(p.name || '?')[0]}</div>}
+                        {p.avatar ? <img src={p.avatar} alt="" className="w-8 h-8 rounded-full object-cover" /> : <div className="w-8 h-8 rounded-full bg-[#00f5ff]/20 flex items-center justify-center text-xs text-[#00f5ff]">{(p.name || '?')[0]}</div>}
                         <span className="text-sm text-heading">{p.name}</span>
                       </div>
                     </td>
@@ -73,7 +73,7 @@ export default function AdminUsers() {
                       </select>
                     </td>
                     <td className="py-3 px-4">
-                      <select value={p.level || 'new'} onChange={(e) => handleLevel(p.id, e.target.value)} className="bg-transparent text-sm cursor-pointer focus:outline-none" style={{ color: lvl.color === 'text-gold' ? '#d4af37' : lvl.color === 'text-neon-cyan' ? '#00fff9' : '#888' }}>
+                      <select value={p.level || 'new'} onChange={(e) => handleLevel(p.id, e.target.value)} className="bg-transparent text-sm cursor-pointer focus:outline-none" style={{ color: lvl.color === 'text-[#00f5ff]' ? '#00f5ff' : lvl.color === 'text-neon-cyan' ? '#00fff9' : '#888' }}>
                         {Object.entries(LEVELS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                       </select>
                     </td>
@@ -83,12 +83,12 @@ export default function AdminUsers() {
                     <td className="py-3 px-4 text-right">
                       <div className="flex gap-1 justify-end">
                         {(p.level === 'new') ? (
-                          <button onClick={() => { adminVerifyUser(p.id); toast.success('Верифицирован'); load(); }} className="p-2 text-muted hover:text-neon-cyan hover:bg-gold/10 rounded-lg cursor-pointer" title="Верифицировать"><ShieldCheck size={14} /></button>
+                          <button onClick={() => { adminVerifyUser(p.id); toast.success('Верифицирован'); load(); }} className="p-2 text-muted hover:text-neon-cyan hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer" title="Верифицировать"><ShieldCheck size={14} /></button>
                         ) : (p.level === 'verified') ? (
-                          <button onClick={() => { adminSetUserLevel(p.id, 'pro'); toast.success('PRO!'); load(); }} className="p-2 text-neon-cyan hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer" title="Повысить до PRO"><Award size={14} /></button>
+                          <button onClick={() => { adminSetUserLevel(p.id, 'pro'); toast.success('PRO!'); load(); }} className="p-2 text-neon-cyan hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer" title="Повысить до PRO"><Award size={14} /></button>
                         ) : null}
-                        <a href={`/users/${p.username}`} target="_blank" className="p-2 text-muted hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer"><ExternalLink size={14} /></a>
-                        <button onClick={() => handleDelete(p.id, p.name)} className="p-2 text-muted hover:text-neon-rose hover:bg-gold/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
+                        <a href={`/users/${p.username}`} target="_blank" className="p-2 text-muted hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><ExternalLink size={14} /></a>
+                        <button onClick={() => handleDelete(p.id, p.name)} className="p-2 text-muted hover:text-neon-rose hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>

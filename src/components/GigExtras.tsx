@@ -49,8 +49,8 @@ export default function GigExtras({ gigId, onExtrasChange }: Props) {
   if (loading || extras.length === 0) return null;
 
   return (
-    <div className="space-y-2 pt-3 border-t border-gold/20">
-      <p className="text-xs text-gold font-heading font-medium uppercase tracking-wider">Дополнительные опции</p>
+    <div className="space-y-2 pt-3 border-t border-[#00f5ff]/20">
+      <p className="text-xs text-[#00f5ff] font-heading font-medium uppercase tracking-wider">Дополнительные опции</p>
       {extras.map((extra) => {
         const isSelected = selected.has(extra.id);
         return (
@@ -58,11 +58,11 @@ export default function GigExtras({ gigId, onExtrasChange }: Props) {
             key={extra.id}
             onClick={() => toggle(extra.id)}
             className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
-              isSelected ? 'border-gold bg-gold/10' : 'border-gold/20 hover:border-gold/40'
+              isSelected ? 'border-[#00f5ff] bg-[#00f5ff]/10' : 'border-[#00f5ff]/20 hover:border-[#00f5ff]/40'
             }`}
           >
             <div className={`w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 ${
-              isSelected ? 'bg-gold border-gold' : 'border-gold/30'
+              isSelected ? 'bg-[#00f5ff] border-[#00f5ff]' : 'border-[#00f5ff]/30'
             }`}>
               {isSelected && <Check size={12} className="text-void" />}
             </div>
@@ -71,7 +71,7 @@ export default function GigExtras({ gigId, onExtrasChange }: Props) {
               {extra.description && <p className="text-xs text-muted">{extra.description}</p>}
               {extra.delivery_days_add > 0 && <p className="text-[10px] text-muted">+{extra.delivery_days_add} дн. к сроку</p>}
             </div>
-            <span className="text-sm font-mono font-bold text-gold flex-shrink-0">+{extra.price.toLocaleString('ru-RU')} ₽</span>
+            <span className="text-sm font-mono font-bold text-[#00f5ff] flex-shrink-0">+{extra.price.toLocaleString('ru-RU')} ₽</span>
           </button>
         );
       })}

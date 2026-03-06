@@ -72,13 +72,13 @@ export default function EditProfile() {
     else toast.error('Ошибка сохранения');
   };
 
-  if (loading) return <div className="max-w-2xl mx-auto px-4 py-8"><div className="animate-pulse space-y-4"><div className="h-6 bg-gold/10 rounded w-1/3" /><div className="card p-6"><div className="h-40 bg-gold/10 rounded" /></div></div></div>;
+  if (loading) return <div className="max-w-2xl mx-auto px-4 py-8"><div className="animate-pulse space-y-4"><div className="h-6 bg-[#00f5ff]/10 rounded w-1/3" /><div className="card p-6"><div className="h-40 bg-[#00f5ff]/10 rounded" /></div></div></div>;
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3.5 text-base text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all';
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 pb-24">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted hover:text-gold mb-6 cursor-pointer">
+      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted hover:text-[#00f5ff] mb-6 cursor-pointer">
         <ArrowLeft size={16} /> Назад
       </button>
 
@@ -89,7 +89,7 @@ export default function EditProfile() {
         <div className="flex items-center gap-6">
           <div className="relative">
             <Avatar src={form.avatar} alt={form.name} size="xl" />
-            <label className={`absolute bottom-0 right-0 w-8 h-8 rounded-full bg-gold/80 flex items-center justify-center cursor-pointer hover:bg-gold transition-colors ${uploading ? 'opacity-50' : ''}`}>
+            <label className={`absolute bottom-0 right-0 w-8 h-8 rounded-full bg-[#00f5ff]/80 flex items-center justify-center cursor-pointer hover:bg-[#00f5ff] transition-colors ${uploading ? 'opacity-50' : ''}`}>
               <Camera size={14} className="text-void" />
               <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} disabled={uploading} />
             </label>
@@ -97,7 +97,7 @@ export default function EditProfile() {
           <div>
             <p className="text-sm font-medium text-heading">{form.name || 'Ваше имя'}</p>
             <p className="text-xs text-muted">@{form.username}</p>
-            {uploading && <p className="text-xs text-gold mt-1">Загрузка...</p>}
+            {uploading && <p className="text-xs text-[#00f5ff] mt-1">Загрузка...</p>}
           </div>
         </div>
 

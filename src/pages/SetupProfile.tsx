@@ -53,15 +53,15 @@ export default function SetupProfile() {
     }
   };
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 pl-10 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3.5 pl-10 text-base text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all';
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sacred-bg">
       <div className="w-full max-w-lg space-y-8">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 mb-6">
-            <Zap size={28} className="text-gold" />
-            <span className="text-2xl font-display font-bold tracking-wider text-gold-gradient">VIBECODER</span>
+            <Zap size={28} className="text-[#00f5ff]" />
+            <span className="text-2xl font-display font-bold tracking-wider text-neon-gradient">VIBECODER</span>
           </div>
           <h1 className="text-2xl font-heading font-bold text-heading">Добро пожаловать!</h1>
           <p className="text-sm text-muted mt-1">Настройте профиль чтобы начать</p>
@@ -74,14 +74,14 @@ export default function SetupProfile() {
             <div className="flex gap-3">
               <button
                 onClick={() => setForm({ ...form, role: 'freelancer' })}
-                className={`flex-1 py-4 text-sm rounded-xl border transition-all cursor-pointer text-center ${form.role === 'freelancer' ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}
+                className={`flex-1 py-4 text-sm rounded-xl border transition-all cursor-pointer text-center ${form.role === 'freelancer' ? 'border-[#00f5ff] bg-[#00f5ff]/10 text-[#00f5ff]' : 'border-[#00f5ff]/20 text-muted hover:text-body'}`}
               >
                 <Code size={20} className="mx-auto mb-1" />
                 Предлагать услуги
               </button>
               <button
                 onClick={() => setForm({ ...form, role: 'client' })}
-                className={`flex-1 py-4 text-sm rounded-xl border transition-all cursor-pointer text-center ${form.role === 'client' ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}
+                className={`flex-1 py-4 text-sm rounded-xl border transition-all cursor-pointer text-center ${form.role === 'client' ? 'border-[#00f5ff] bg-[#00f5ff]/10 text-[#00f5ff]' : 'border-[#00f5ff]/20 text-muted hover:text-body'}`}
               >
                 <Briefcase size={20} className="mx-auto mb-1" />
                 Заказывать услуги
@@ -148,7 +148,7 @@ export default function SetupProfile() {
                   value={form.skillInput}
                   onChange={(e) => setForm({ ...form, skillInput: e.target.value })}
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
-                  className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all"
+                  className="w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all"
                 />
                 <Button variant="secondary" size="md" onClick={addSkill}>+</Button>
               </div>
@@ -173,7 +173,7 @@ export default function SetupProfile() {
                 placeholder="Расскажите о своём опыте..."
                 value={form.bio}
                 onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all resize-none"
+                className="w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all resize-none"
               />
             </div>
           )}

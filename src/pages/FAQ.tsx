@@ -23,8 +23,8 @@ export default function FAQ() {
       <SEO title="Вопросы и ответы" description="Часто задаваемые вопросы о VibeCoder — фриланс-маркетплейсе нового поколения." />
       
       <div className="text-center mb-12">
-        <HelpCircle size={48} className="text-gold mx-auto mb-4" />
-        <h1 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase mb-3">Вопросы и ответы</h1>
+        <HelpCircle size={48} className="text-[#00f5ff] mx-auto mb-4" />
+        <h1 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.08em] uppercase mb-3">Вопросы и ответы</h1>
         <p className="text-body font-heading font-light">Всё что нужно знать о VibeCoder</p>
       </div>
 
@@ -33,10 +33,10 @@ export default function FAQ() {
           <div key={i} className="card overflow-hidden">
             <button
               onClick={() => setOpen(open === i ? null : i)}
-              className="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-gold/5 transition-colors"
+              className="w-full flex items-center justify-between p-5 text-left cursor-pointer hover:bg-[#00f5ff]/5 transition-colors"
             >
               <span className="text-sm font-heading font-semibold text-heading pr-4">{faq.q}</span>
-              <ChevronDown size={18} className={`text-muted flex-shrink-0 transition-transform ${open === i ? 'rotate-180 text-gold' : ''}`} />
+              <ChevronDown size={18} className={`text-muted flex-shrink-0 transition-transform ${open === i ? 'rotate-180 text-[#00f5ff]' : ''}`} />
             </button>
             {open === i && (
               <div className="px-5 pb-5">

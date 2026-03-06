@@ -43,7 +43,7 @@ export default function HowItWorks() {
       {/* For Buyers */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-12">
-          <h2 className="font-display text-2xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-2">Для заказчиков</h2>
+          <h2 className="font-display text-2xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-2">Для заказчиков</h2>
           <p className="text-body text-sm">5 шагов до результата</p>
         </div>
         <div className="space-y-6">
@@ -71,18 +71,18 @@ export default function HowItWorks() {
         <div className="absolute inset-0 bg-deep-space sacred-bg" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <h2 className="font-display text-2xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-2">Для фрилансеров</h2>
+            <h2 className="font-display text-2xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-2">Для фрилансеров</h2>
             <p className="text-body text-sm">5 шагов до первого заработка</p>
           </div>
           <div className="space-y-6">
             {sellerSteps.map((step, i) => (
               <div key={i} className="flex items-start gap-5 card p-6">
-                <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-display font-bold text-gold">{i + 1}</span>
+                <div className="w-14 h-14 rounded-2xl bg-[#00f5ff]/10 border border-[#00f5ff]/30 flex items-center justify-center flex-shrink-0">
+                <span className="text-xl font-display font-bold text-[#00f5ff]">{i + 1}</span>
                 </div>
                 <div>
                   <h3 className="text-base font-heading font-semibold text-heading mb-1 flex items-center gap-2">
-                    <step.icon size={18} className="text-gold" /> {step.title}
+                    <step.icon size={18} className="text-[#00f5ff]" /> {step.title}
                   </h3>
                   <p className="text-sm text-body leading-relaxed">{step.desc}</p>
                 </div>
@@ -98,12 +98,12 @@ export default function HowItWorks() {
       {/* Guarantees */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-12">
-          <h2 className="font-display text-2xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-2">Гарантии</h2>
+          <h2 className="font-display text-2xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-2">Гарантии</h2>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
           {guarantees.map((g, i) => (
             <div key={i} className="card p-6 flex items-start gap-4">
-              <g.icon size={24} className="text-gold flex-shrink-0 mt-0.5" />
+              <g.icon size={24} className="text-[#00f5ff] flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="text-sm font-heading font-semibold text-heading mb-1">{g.title}</h3>
                 <p className="text-xs text-body leading-relaxed">{g.desc}</p>

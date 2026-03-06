@@ -32,17 +32,17 @@ export default function Avatar({ src, alt, size = 'md', isOnline, className = ''
         <img
           src={src}
           alt={alt}
-          className={`${sizeClasses[size]} rounded-full object-cover ${isOnline ? 'ring-2 ring-[#00ff88]' : ''}`}
+          className={`${sizeClasses[size]} rounded-full object-cover ${isOnline ? 'ring-2 ring-[#00ff88] shadow-[0_0_8px_rgba(0,255,136,0.4)]' : ''}`}
           loading="lazy"
           onError={() => setBroken(true)}
         />
       ) : (
-        <div className={`${sizeClasses[size]} rounded-full bg-[#1a1a2e] flex items-center justify-center ${textSizes[size]} font-bold text-[#ffd700] ${isOnline ? 'ring-2 ring-[#00ff88]' : ''}`}>
+        <div className={`${sizeClasses[size]} rounded-full bg-[#0f0f24] flex items-center justify-center ${textSizes[size]} font-bold text-[#00f5ff] border border-[rgba(0,245,255,0.2)] ${isOnline ? 'ring-2 ring-[#00ff88] shadow-[0_0_8px_rgba(0,255,136,0.4)]' : ''}`}>
           {initials}
         </div>
       )}
       {isOnline && (
-        <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#00ff88] rounded-full border-2 border-[#0a0a0f]" />
+        <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#00ff88] rounded-full border-2 border-[#050510] shadow-[0_0_6px_rgba(0,255,136,0.6)]" />
       )}
     </div>
   );

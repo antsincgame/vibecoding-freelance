@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> = {
   active: { label: 'Активен', color: 'text-neon-green', bg: 'bg-neon-green/15' },
-  paused: { label: 'Пауза', color: 'text-accent-amber', bg: 'bg-accent-amber/15' },
+  paused: { label: 'Пауза', color: 'text-[#00f5ff]', bg: 'bg-[#00f5ff]/15' },
   pending: { label: 'Модерация', color: 'text-accent-violet', bg: 'bg-accent-violet/15' },
   rejected: { label: 'Отклонён', color: 'text-neon-rose', bg: 'bg-neon-rose/15' },
   deleted: { label: 'Удалён', color: 'text-muted', bg: 'bg-white/5' },
@@ -69,7 +69,7 @@ export default function AdminGigs() {
 
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {['all', 'pending', 'active', 'paused', 'rejected', 'deleted'].map((s) => (
-          <button key={s} onClick={() => setFilter(s)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === s ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>
+          <button key={s} onClick={() => setFilter(s)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === s ? 'border-[#00f5ff] bg-[#00f5ff]/10 text-[#00f5ff]' : 'border-[#00f5ff]/20 text-muted hover:text-body'}`}>
             {s === 'all' ? 'Все' : STATUS_MAP[s]?.label || s}
             {s === 'pending' && pendingCount > 0 && <span className="ml-1 w-5 h-5 inline-flex items-center justify-center bg-accent-violet text-void text-[10px] font-bold rounded-full">{pendingCount}</span>}
           </button>
@@ -78,7 +78,7 @@ export default function AdminGigs() {
 
       <div className="space-y-3">
         {loading ? Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="card p-5 animate-pulse"><div className="h-5 bg-gold/10 rounded w-2/3 mb-2" /><div className="h-4 bg-gold/10 rounded w-1/3" /></div>
+          <div key={i} className="card p-5 animate-pulse"><div className="h-5 bg-[#00f5ff]/10 rounded w-2/3 mb-2" /><div className="h-4 bg-[#00f5ff]/10 rounded w-1/3" /></div>
         )) : gigs.map((gig) => {
           const econ = parsePkg(gig.package_economy);
           const status = STATUS_MAP[gig.status] || { label: gig.status, color: 'text-muted', bg: 'bg-white/5' };
@@ -91,8 +91,8 @@ export default function AdminGigs() {
                   {gig.image && <img src={gig.image} alt="" className="w-full sm:w-28 h-20 rounded-xl object-cover flex-shrink-0" />}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <button onClick={() => setExpandedGig(expanded ? null : gig.id)} className="text-sm font-medium text-heading truncate hover:text-gold transition-colors cursor-pointer text-left">{gig.title}</button>
-                      {gig.is_featured && <span className="text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">TOP</span>}
+                      <button onClick={() => setExpandedGig(expanded ? null : gig.id)} className="text-sm font-medium text-heading truncate hover:text-[#00f5ff] transition-colors cursor-pointer text-left">{gig.title}</button>
+                      {gig.is_featured && <span className="text-[10px] font-bold bg-[#00f5ff]/20 text-[#00f5ff] px-2 py-0.5 rounded-full border border-[#00f5ff]/30">TOP</span>}
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${status.bg} ${status.color}`}>{status.label}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
@@ -100,7 +100,7 @@ export default function AdminGigs() {
                       <span className="font-mono">{gig.category_slug}</span>
                       <span className="font-mono">★ {gig.rating}</span>
                       {econ && <span className="font-mono">от {econ.price?.toLocaleString('ru-RU')} ₽</span>}
-                      {gig.moderated_by && <span className="text-gold/60">Модератор: {gig.moderated_by}</span>}
+                      {gig.moderated_by && <span className="text-[#00f5ff]/60">Модератор: {gig.moderated_by}</span>}
                     </div>
                     {gig.rejection_reason && (
                       <div className="mt-2 px-3 py-2 bg-neon-rose/10 border border-neon-rose/20 rounded-lg">
@@ -122,29 +122,29 @@ export default function AdminGigs() {
                       </>
                     )}
                     {gig.status === 'active' && (
-                      <button onClick={() => handleStatus(gig.id, 'paused')} className="p-2 text-muted hover:text-accent-amber hover:bg-gold/10 rounded-lg cursor-pointer" title="Пауза"><Pause size={14} /></button>
+                      <button onClick={() => handleStatus(gig.id, 'paused')} className="p-2 text-muted hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer" title="Пауза"><Pause size={14} /></button>
                     )}
                     {(gig.status === 'paused' || gig.status === 'rejected') && (
-                      <button onClick={() => handleApprove(gig.id)} className="p-2 text-muted hover:text-neon-green hover:bg-gold/10 rounded-lg cursor-pointer" title="Активировать"><Play size={14} /></button>
+                      <button onClick={() => handleApprove(gig.id)} className="p-2 text-muted hover:text-neon-green hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer" title="Активировать"><Play size={14} /></button>
                     )}
-                    <a href={`/gigs/${gig.id}`} target="_blank" className="p-2 text-muted hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer"><ExternalLink size={14} /></a>
-                    <button onClick={() => handleFeatured(gig.id, !gig.is_featured)} className={`p-2 hover:bg-gold/10 rounded-lg cursor-pointer ${gig.is_featured ? 'text-gold' : 'text-muted hover:text-gold'}`}><Star size={14} fill={gig.is_featured ? 'currentColor' : 'none'} /></button>
-                    <button onClick={() => handleDelete(gig.id)} className="p-2 text-muted hover:text-neon-rose hover:bg-gold/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
+                    <a href={`/gigs/${gig.id}`} target="_blank" className="p-2 text-muted hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><ExternalLink size={14} /></a>
+                    <button onClick={() => handleFeatured(gig.id, !gig.is_featured)} className={`p-2 hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer ${gig.is_featured ? 'text-[#00f5ff]' : 'text-muted hover:text-[#00f5ff]'}`}><Star size={14} fill={gig.is_featured ? 'currentColor' : 'none'} /></button>
+                    <button onClick={() => handleDelete(gig.id)} className="p-2 text-muted hover:text-neon-rose hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
                   </div>
                 </div>
               </div>
 
               {/* Expanded details */}
               {expanded && (
-                <div className="px-5 pb-5 pt-0 border-t border-gold/10">
+                <div className="px-5 pb-5 pt-0 border-t border-[#00f5ff]/10">
                   <div className="grid sm:grid-cols-3 gap-4 mt-4 text-xs">
                     {['economy', 'standard', 'premium'].map((pkg) => {
                       const p = parsePkg(gig[`package_${pkg}`]);
                       if (!p) return null;
                       return (
-                        <div key={pkg} className="bg-gold/5 rounded-lg p-3 border border-gold/10">
+                        <div key={pkg} className="bg-[#00f5ff]/5 rounded-lg p-3 border border-[#00f5ff]/10">
                           <p className="font-medium text-heading mb-1">{p.name || pkg}</p>
-                          <p className="text-gold font-mono font-bold">{p.price?.toLocaleString('ru-RU')} ₽</p>
+                          <p className="text-[#00f5ff] font-mono font-bold">{p.price?.toLocaleString('ru-RU')} ₽</p>
                           <p className="text-muted">{p.deliveryDays} дн.</p>
                           {p.features?.map((f: string) => <p key={f} className="text-muted">• {f}</p>)}
                         </div>
@@ -164,7 +164,7 @@ export default function AdminGigs() {
       {rejectModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setRejectModal(null)}>
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-          <div className="relative w-full max-w-md bg-nebula-light border border-gold/30 rounded-2xl p-6 space-y-4" onClick={e => e.stopPropagation()}>
+          <div className="relative w-full max-w-md bg-nebula-light border border-[#00f5ff]/30 rounded-2xl p-6 space-y-4" onClick={e => e.stopPropagation()}>
             <h3 className="text-lg font-bold text-heading">Отклонить гиг</h3>
             <p className="text-sm text-muted truncate">«{rejectModal.title}»</p>
             <div>
@@ -174,7 +174,7 @@ export default function AdminGigs() {
                 placeholder="Опишите причину отклонения..."
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
-                className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 resize-none"
+                className="w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 resize-none"
                 autoFocus
               />
             </div>

@@ -10,7 +10,7 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
   delivered: { label: 'Доставлен', color: 'bg-accent-emerald/20 text-accent-emerald' },
   completed: { label: 'Завершён', color: 'bg-neon-cyan/20 text-neon-cyan' },
   cancelled: { label: 'Отменён', color: 'bg-neon-rose/20 text-neon-rose' },
-  dispute: { label: 'Спор', color: 'bg-accent-amber/20 text-accent-amber' },
+  dispute: { label: 'Спор', color: 'bg-[#00f5ff]/20 text-[#00f5ff]' },
 };
 
 export default function AdminOrders() {
@@ -36,13 +36,13 @@ export default function AdminOrders() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-heading">Заказы</h1>
         <div className="text-sm text-muted">
-          Выручка: <span className="text-gold font-mono font-bold">{totalRevenue.toLocaleString('ru-RU')} ₽</span>
+          Выручка: <span className="text-[#00f5ff] font-mono font-bold">{totalRevenue.toLocaleString('ru-RU')} ₽</span>
         </div>
       </div>
 
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {['all', ...Object.keys(STATUS_MAP)].map((s) => (
-          <button key={s} onClick={() => setFilter(s)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === s ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>
+          <button key={s} onClick={() => setFilter(s)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === s ? 'border-[#00f5ff] bg-[#00f5ff]/10 text-[#00f5ff]' : 'border-[#00f5ff]/20 text-muted hover:text-body'}`}>
             {s === 'all' ? `Все (${orders.length})` : STATUS_MAP[s]?.label || s}
           </button>
         ))}
@@ -52,7 +52,7 @@ export default function AdminOrders() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gold/20">
+              <tr className="border-b border-[#00f5ff]/20">
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">ID</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">Гиг</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase">Продавец</th>
@@ -64,11 +64,11 @@ export default function AdminOrders() {
             </thead>
             <tbody>
               {loading ? Array.from({ length: 3 }).map((_, i) => (
-                <tr key={i} className="border-b border-gold/10"><td colSpan={7} className="py-4 px-4"><div className="h-4 bg-gold/10 rounded animate-pulse" /></td></tr>
+                <tr key={i} className="border-b border-[#00f5ff]/10"><td colSpan={7} className="py-4 px-4"><div className="h-4 bg-[#00f5ff]/10 rounded animate-pulse" /></td></tr>
               )) : orders.map((order) => {
-                const st = STATUS_MAP[order.status] || { label: order.status, color: 'bg-gold/10 text-muted' };
+                const st = STATUS_MAP[order.status] || { label: order.status, color: 'bg-[#00f5ff]/10 text-muted' };
                 return (
-                  <tr key={order.id} className="border-b border-gold/10 hover:bg-gold/5 transition-colors">
+                  <tr key={order.id} className="border-b border-[#00f5ff]/10 hover:bg-[#00f5ff]/5 transition-colors">
                     <td className="py-3 px-4 text-xs text-muted font-mono">{order.id?.slice(0, 8)}</td>
                     <td className="py-3 px-4 text-sm text-heading truncate max-w-[200px]">{order.gig_title || '-'}</td>
                     <td className="py-3 px-4 text-sm text-muted">{order.seller_name || '-'}</td>

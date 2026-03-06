@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 const STATUS_MAP: Record<string, { label: string; color: string }> = {
   open: { label: 'Открыт', color: 'text-neon-green' },
   answered: { label: 'Отвечен', color: 'text-neon-cyan' },
-  waiting: { label: 'Ожидает', color: 'text-accent-amber' },
+  waiting: { label: 'Ожидает', color: 'text-[#00f5ff]' },
   closed: { label: 'Закрыт', color: 'text-muted' },
 };
 
@@ -68,14 +68,14 @@ export default function Support() {
     setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3.5 text-base text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all';
 
   // Conversation view
   if (selectedTicket) {
     const st = STATUS_MAP[selectedTicket.status] || STATUS_MAP.open;
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
-        <button onClick={() => setSelectedTicket(null)} className="flex items-center gap-2 text-sm text-muted hover:text-gold mb-4 cursor-pointer">
+        <button onClick={() => setSelectedTicket(null)} className="flex items-center gap-2 text-sm text-muted hover:text-[#00f5ff] mb-4 cursor-pointer">
           <ArrowLeft size={16} /> Мои обращения
         </button>
         <div className="mb-6">
@@ -89,11 +89,11 @@ export default function Support() {
           <div className="max-h-[60vh] overflow-y-auto p-4 space-y-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex gap-3 ${msg.is_admin ? '' : 'flex-row-reverse'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${msg.is_admin ? 'bg-gold/20 text-gold' : 'bg-accent-violet/20 text-accent-violet'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${msg.is_admin ? 'bg-[#00f5ff]/20 text-[#00f5ff]' : 'bg-accent-violet/20 text-accent-violet'}`}>
                   {msg.is_admin ? '🛡' : '👤'}
                 </div>
                 <div className={`max-w-[70%] ${msg.is_admin ? '' : 'text-right'}`}>
-                  <div className={`inline-block px-4 py-3 rounded-2xl text-sm ${msg.is_admin ? 'bg-gold/10 text-heading' : 'bg-nebula border border-gold/20 text-body'}`}>
+                  <div className={`inline-block px-4 py-3 rounded-2xl text-sm ${msg.is_admin ? 'bg-[#00f5ff]/10 text-heading' : 'bg-nebula border border-[#00f5ff]/20 text-body'}`}>
                     {msg.message}
                   </div>
                   <div className={`text-[10px] text-muted mt-1 ${msg.is_admin ? '' : 'text-right'}`}>
@@ -105,7 +105,7 @@ export default function Support() {
             <div ref={messagesEndRef} />
           </div>
           {selectedTicket.status !== 'closed' && (
-            <div className="border-t border-gold/20 p-4">
+            <div className="border-t border-[#00f5ff]/20 p-4">
               <div className="flex gap-3">
                 <textarea
                   rows={2}
@@ -113,16 +113,16 @@ export default function Support() {
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleReply(); } }}
-                  className="flex-1 bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold resize-none"
+                  className="flex-1 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] resize-none"
                 />
-                <button onClick={handleReply} disabled={sending || !reply.trim()} className="px-4 py-2 bg-gold/20 text-gold rounded-xl hover:bg-gold/30 transition-all cursor-pointer disabled:opacity-50 self-end">
+                <button onClick={handleReply} disabled={sending || !reply.trim()} className="px-4 py-2 bg-[#00f5ff]/20 text-[#00f5ff] rounded-xl hover:bg-[#00f5ff]/30 transition-all cursor-pointer disabled:opacity-50 self-end">
                   <Send size={18} />
                 </button>
               </div>
             </div>
           )}
           {selectedTicket.status === 'closed' && (
-            <div className="border-t border-gold/20 p-4 text-center text-sm text-muted">Тикет закрыт</div>
+            <div className="border-t border-[#00f5ff]/20 p-4 text-center text-sm text-muted">Тикет закрыт</div>
           )}
         </div>
       </div>
@@ -133,7 +133,7 @@ export default function Support() {
   if (creating) {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
-        <button onClick={() => setCreating(false)} className="flex items-center gap-2 text-sm text-muted hover:text-gold mb-4 cursor-pointer">
+        <button onClick={() => setCreating(false)} className="flex items-center gap-2 text-sm text-muted hover:text-[#00f5ff] mb-4 cursor-pointer">
           <ArrowLeft size={16} /> Назад
         </button>
         <h1 className="text-2xl font-bold text-heading mb-6">Новое обращение</h1>
@@ -175,7 +175,7 @@ export default function Support() {
 
       {loading ? (
         <div className="space-y-3">
-          {Array.from({ length: 3 }).map((_, i) => <div key={i} className="card p-5 animate-pulse"><div className="h-4 bg-gold/10 rounded w-1/2 mb-2" /><div className="h-3 bg-gold/10 rounded w-1/3" /></div>)}
+          {Array.from({ length: 3 }).map((_, i) => <div key={i} className="card p-5 animate-pulse"><div className="h-4 bg-[#00f5ff]/10 rounded w-1/2 mb-2" /><div className="h-3 bg-[#00f5ff]/10 rounded w-1/3" /></div>)}
         </div>
       ) : tickets.length === 0 ? (
         <div className="card p-12 text-center">
@@ -189,7 +189,7 @@ export default function Support() {
           {tickets.map((ticket) => {
             const st = STATUS_MAP[ticket.status] || STATUS_MAP.open;
             return (
-              <div key={ticket.id} onClick={() => openTicket(ticket)} className="card p-5 cursor-pointer hover:border-gold/30 transition-all">
+              <div key={ticket.id} onClick={() => openTicket(ticket)} className="card p-5 cursor-pointer hover:border-[#00f5ff]/30 transition-all">
                 <div className="flex items-center gap-4">
                   <MessageCircle size={18} className={st.color} />
                   <div className="flex-1 min-w-0">

@@ -40,13 +40,13 @@ export default function AdminCategories() {
     setForm({ slug: cat.slug, name: cat.name, icon: cat.icon || 'Globe', description: cat.description || '', sort_order: cat.sort_order || 0 });
   };
 
-  const inputClass = 'bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all';
 
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-heading">Категории</h1>
-        <button onClick={() => { setAdding(true); resetForm(); setForm(f => ({ ...f, sort_order: categories.length + 1 })); }} className="flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-xl text-sm text-gold hover:bg-gold/20 transition-all cursor-pointer">
+        <button onClick={() => { setAdding(true); resetForm(); setForm(f => ({ ...f, sort_order: categories.length + 1 })); }} className="flex items-center gap-2 px-4 py-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl text-sm text-[#00f5ff] hover:bg-[#00f5ff]/20 transition-all cursor-pointer">
           <Plus size={16} /> Добавить
         </button>
       </div>
@@ -65,8 +65,8 @@ export default function AdminCategories() {
           </div>
           <input placeholder="Описание" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className={`${inputClass} w-full`} />
           <div className="flex gap-2">
-            <button onClick={handleCreate} className="flex items-center gap-1 px-4 py-2 bg-gold/20 text-gold rounded-lg text-sm hover:bg-gold/30 transition-all cursor-pointer"><Save size={14} /> Создать</button>
-            <button onClick={resetForm} className="flex items-center gap-1 px-4 py-2 bg-gold/10 text-muted rounded-lg text-sm hover:text-body transition-all cursor-pointer"><X size={14} /> Отмена</button>
+            <button onClick={handleCreate} className="flex items-center gap-1 px-4 py-2 bg-[#00f5ff]/20 text-[#00f5ff] rounded-lg text-sm hover:bg-[#00f5ff]/30 transition-all cursor-pointer"><Save size={14} /> Создать</button>
+            <button onClick={resetForm} className="flex items-center gap-1 px-4 py-2 bg-[#00f5ff]/10 text-muted rounded-lg text-sm hover:text-body transition-all cursor-pointer"><X size={14} /> Отмена</button>
           </div>
         </div>
       )}
@@ -76,7 +76,7 @@ export default function AdminCategories() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gold/20">
+              <tr className="border-b border-[#00f5ff]/20">
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase tracking-wider">#</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase tracking-wider">Slug</th>
                 <th className="text-left py-3 px-4 text-xs text-muted font-medium uppercase tracking-wider">Название</th>
@@ -89,10 +89,10 @@ export default function AdminCategories() {
             <tbody>
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
-                  <tr key={i} className="border-b border-gold/10"><td colSpan={7} className="py-4 px-4"><div className="h-4 bg-gold/10 rounded animate-pulse" /></td></tr>
+                  <tr key={i} className="border-b border-[#00f5ff]/10"><td colSpan={7} className="py-4 px-4"><div className="h-4 bg-[#00f5ff]/10 rounded animate-pulse" /></td></tr>
                 ))
               ) : categories.map((cat) => (
-                <tr key={cat.id} className="border-b border-gold/10 hover:bg-gold/5 transition-colors">
+                <tr key={cat.id} className="border-b border-[#00f5ff]/10 hover:bg-[#00f5ff]/5 transition-colors">
                   {editing === cat.id ? (
                     <>
                       <td className="py-3 px-4"><input type="number" value={form.sort_order} onChange={(e) => setForm({...form, sort_order: Number(e.target.value)})} className={`${inputClass} w-16`} /></td>
@@ -103,8 +103,8 @@ export default function AdminCategories() {
                       <td className="py-3 px-4"><input value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} className={`${inputClass} w-full`} /></td>
                       <td className="py-3 px-4 text-right">
                         <div className="flex gap-1 justify-end">
-                          <button onClick={() => handleUpdate(cat.id)} className="p-2 text-neon-green hover:bg-gold/10 rounded-lg cursor-pointer"><Save size={14} /></button>
-                          <button onClick={resetForm} className="p-2 text-muted hover:bg-gold/10 rounded-lg cursor-pointer"><X size={14} /></button>
+                          <button onClick={() => handleUpdate(cat.id)} className="p-2 text-neon-green hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><Save size={14} /></button>
+                          <button onClick={resetForm} className="p-2 text-muted hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><X size={14} /></button>
                         </div>
                       </td>
                     </>
@@ -118,8 +118,8 @@ export default function AdminCategories() {
                       <td className="py-3 px-4 text-sm text-muted truncate max-w-[200px]">{cat.description}</td>
                       <td className="py-3 px-4 text-right">
                         <div className="flex gap-1 justify-end">
-                          <button onClick={() => startEdit(cat)} className="p-2 text-muted hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer"><Edit3 size={14} /></button>
-                          <button onClick={() => handleDelete(cat.id, cat.name)} className="p-2 text-muted hover:text-neon-rose hover:bg-gold/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
+                          <button onClick={() => startEdit(cat)} className="p-2 text-muted hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><Edit3 size={14} /></button>
+                          <button onClick={() => handleDelete(cat.id, cat.name)} className="p-2 text-muted hover:text-neon-rose hover:bg-[#00f5ff]/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
                         </div>
                       </td>
                     </>

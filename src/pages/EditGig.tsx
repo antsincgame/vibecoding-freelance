@@ -86,11 +86,11 @@ export default function EditGig() {
   if (loading) return <div className="max-w-3xl mx-auto px-4 py-8"><Skeleton className="h-8 w-1/3 mb-6" /><div className="card p-6"><Skeleton className="h-60" /></div></div>;
   if (!gig) return <div className="max-w-3xl mx-auto px-4 py-20 text-center text-muted">Гиг не найден</div>;
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-cyber/10 border border-cyber/30 rounded-xl px-4 py-3.5 text-base text-heading placeholder:text-muted focus:outline-none focus:border-cyber focus:ring-1 focus:ring-cyber/40 transition-all';
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 pb-24">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted hover:text-gold mb-6 cursor-pointer">
+      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted hover:text-[#00f5ff] mb-6 cursor-pointer">
         <ArrowLeft size={16} /> Назад
       </button>
       <h1 className="text-2xl font-bold text-heading mb-6">Редактировать гиг</h1>
@@ -101,15 +101,15 @@ export default function EditGig() {
           <h3 className="text-sm font-semibold text-heading mb-4">Изображения</h3>
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
             {form.images.map((url, i) => (
-              <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-gold/30">
+              <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-cyber/30">
                 <img src={url} alt="" className="w-full h-full object-cover" />
                 <button onClick={() => removeImage(i)} className="absolute top-1 right-1 w-5 h-5 rounded-full bg-void/80 flex items-center justify-center text-neon-rose cursor-pointer"><X size={10} /></button>
-                {i === 0 && <span className="absolute bottom-1 left-1 text-[8px] bg-gold/80 text-void px-1 py-0.5 rounded font-bold">COVER</span>}
+                {i === 0 && <span className="absolute bottom-1 left-1 text-[8px] bg-cyber/80 text-void px-1 py-0.5 rounded font-bold">COVER</span>}
               </div>
             ))}
             {form.images.length < 5 && (
-              <label className={`aspect-video rounded-lg border-2 border-dashed border-gold/20 hover:border-gold flex items-center justify-center cursor-pointer ${uploadingImage ? 'opacity-50' : ''}`}>
-                {uploadingImage ? <Loader2 size={18} className="animate-spin text-gold" /> : <Upload size={18} className="text-muted" />}
+              <label className={`aspect-video rounded-lg border-2 border-dashed border-cyber/20 hover:border-cyber flex items-center justify-center cursor-pointer ${uploadingImage ? 'opacity-50' : ''}`}>
+                {uploadingImage ? <Loader2 size={18} className="animate-spin text-[#00f5ff]" /> : <Upload size={18} className="text-muted" />}
                 <input type="file" className="hidden" accept="image/*" multiple onChange={handleImageUpload} disabled={uploadingImage} />
               </label>
             )}
@@ -150,7 +150,7 @@ export default function EditGig() {
                 </div>
                 <div><label className="block text-[10px] text-muted mb-0.5">Описание</label><input value={d.desc} onChange={(e) => setForm({ ...form, [pkg]: { ...d, desc: e.target.value } })} className={inputClass} /></div>
                 <div><label className="block text-[10px] text-muted mb-0.5">Включено (через запятую)</label><input value={d.features} onChange={(e) => setForm({ ...form, [pkg]: { ...d, features: e.target.value } })} className={inputClass} /></div>
-                {pkg !== 'premium' && <div className="border-b border-gold/15" />}
+                {pkg !== 'premium' && <div className="border-b border-cyber/15" />}
               </div>
             );
           })}

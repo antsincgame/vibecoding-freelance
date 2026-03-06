@@ -81,16 +81,16 @@ export default function Portfolio({ userId, editable = false }: Props) {
     loadPortfolio();
   };
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold';
+  const inputClass = 'w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff]';
 
-  if (loading) return <div className="grid grid-cols-2 md:grid-cols-3 gap-4">{Array.from({ length: 3 }).map((_, i) => <div key={i} className="aspect-video bg-gold/10 rounded-xl animate-pulse" />)}</div>;
+  if (loading) return <div className="grid grid-cols-2 md:grid-cols-3 gap-4">{Array.from({ length: 3 }).map((_, i) => <div key={i} className="aspect-video bg-[#00f5ff]/10 rounded-xl animate-pulse" />)}</div>;
 
   return (
     <div>
       {editable && (
         <div className="mb-4">
           {!adding ? (
-            <button onClick={() => setAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-xl text-sm text-gold hover:bg-gold/20 transition-all cursor-pointer">
+            <button onClick={() => setAdding(true)} className="flex items-center gap-2 px-4 py-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl text-sm text-[#00f5ff] hover:bg-[#00f5ff]/20 transition-all cursor-pointer">
               <Plus size={16} /> Добавить работу
             </button>
           ) : (
@@ -102,8 +102,8 @@ export default function Portfolio({ userId, editable = false }: Props) {
                     <button onClick={() => setForm(f => ({...f, image: ''}))} className="absolute top-1 right-1 w-5 h-5 bg-void/80 rounded-full flex items-center justify-center text-neon-rose cursor-pointer"><X size={10} /></button>
                   </div>
                 ) : (
-                  <label className={`w-32 h-20 rounded-lg border-2 border-dashed border-gold/20 flex items-center justify-center cursor-pointer hover:border-gold ${uploading ? 'opacity-50' : ''}`}>
-                    {uploading ? <Loader2 size={18} className="animate-spin text-gold" /> : <ImageIcon size={18} className="text-muted" />}
+                  <label className={`w-32 h-20 rounded-lg border-2 border-dashed border-[#00f5ff]/20 flex items-center justify-center cursor-pointer hover:border-[#00f5ff] ${uploading ? 'opacity-50' : ''}`}>
+                    {uploading ? <Loader2 size={18} className="animate-spin text-[#00f5ff]" /> : <ImageIcon size={18} className="text-muted" />}
                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
                   </label>
                 )}
@@ -115,7 +115,7 @@ export default function Portfolio({ userId, editable = false }: Props) {
               <input placeholder="Описание" value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} className={inputClass} />
               <input placeholder="Теги через запятую: React, AI, Bot" value={form.tags} onChange={(e) => setForm({...form, tags: e.target.value})} className={inputClass} />
               <div className="flex gap-2">
-                <button onClick={handleAdd} className="px-4 py-2 text-sm bg-gold/20 text-gold rounded-lg hover:bg-gold/30 cursor-pointer">Добавить</button>
+                <button onClick={handleAdd} className="px-4 py-2 text-sm bg-[#00f5ff]/20 text-[#00f5ff] rounded-lg hover:bg-[#00f5ff]/30 cursor-pointer">Добавить</button>
                 <button onClick={() => setAdding(false)} className="px-4 py-2 text-sm text-muted rounded-lg hover:text-body cursor-pointer">Отмена</button>
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function Portfolio({ userId, editable = false }: Props) {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {items.map((item) => (
-            <div key={item.id} className="group relative rounded-xl overflow-hidden border border-gold/20 hover:border-gold/40 transition-all">
+            <div key={item.id} className="group relative rounded-xl overflow-hidden border border-[#00f5ff]/20 hover:border-[#00f5ff]/40 transition-all">
               <div className="aspect-video bg-nebula">
                 {item.image ? (
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -141,8 +141,8 @@ export default function Portfolio({ userId, editable = false }: Props) {
                 <p className="text-sm font-medium text-heading truncate">{item.title}</p>
                 {item.description && <p className="text-xs text-muted truncate mt-0.5">{item.description}</p>}
                 <div className="flex items-center gap-2 mt-1">
-                  {item.tags.slice(0, 3).map(t => <span key={t} className="text-[9px] px-1.5 py-0.5 bg-gold/20 text-gold rounded">{t}</span>)}
-                  {item.link && <a href={item.link} target="_blank" className="ml-auto text-gold"><ExternalLink size={12} /></a>}
+                  {item.tags.slice(0, 3).map(t => <span key={t} className="text-[9px] px-1.5 py-0.5 bg-[#00f5ff]/20 text-[#00f5ff] rounded">{t}</span>)}
+                  {item.link && <a href={item.link} target="_blank" className="ml-auto text-[#00f5ff]"><ExternalLink size={12} /></a>}
                 </div>
               </div>
               {editable && (

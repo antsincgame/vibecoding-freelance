@@ -73,7 +73,7 @@ ${price ? `Цена: ${price} ₽` : ''}`
   };
 
   const scoreColor = score !== null
-    ? score >= 80 ? 'text-neon-green' : score >= 50 ? 'text-accent-amber' : 'text-neon-rose'
+    ? score >= 80 ? 'text-neon-green' : score >= 50 ? 'text-[#00f5ff]' : 'text-neon-rose'
     : 'text-muted';
 
   return (
@@ -103,7 +103,7 @@ ${price ? `Цена: ${price} ₽` : ''}`
       {tips && (
         <div className="space-y-3">
           {score !== null && (
-            <div className="flex items-center gap-3 p-3 bg-gold/5 rounded-xl">
+            <div className="flex items-center gap-3 p-3 bg-[#00f5ff]/5 rounded-xl">
               <div className="relative w-14 h-14">
                 <svg viewBox="0 0 36 36" className="w-14 h-14 -rotate-90">
                   <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="3" />
@@ -123,8 +123,8 @@ ${price ? `Цена: ${price} ₽` : ''}`
           <div className="space-y-2">
             {tips.map((tip, i) => {
               const Icon = tip.type === 'good' ? Check : tip.type === 'warning' ? AlertTriangle : TrendingUp;
-              const color = tip.type === 'good' ? 'text-neon-green' : tip.type === 'warning' ? 'text-neon-rose' : 'text-gold';
-              const bg = tip.type === 'good' ? 'bg-neon-green/5' : tip.type === 'warning' ? 'bg-neon-rose/5' : 'bg-gold/5';
+              const color = tip.type === 'good' ? 'text-neon-green' : tip.type === 'warning' ? 'text-neon-rose' : 'text-[#00f5ff]';
+              const bg = tip.type === 'good' ? 'bg-neon-green/5' : tip.type === 'warning' ? 'bg-neon-rose/5' : 'bg-[#00f5ff]/5';
               return (
                 <div key={i} className={`flex items-start gap-2.5 p-2.5 rounded-lg ${bg}`}>
                   <Icon size={14} className={`${color} mt-0.5 flex-shrink-0`} />
@@ -134,7 +134,7 @@ ${price ? `Цена: ${price} ₽` : ''}`
             })}
           </div>
 
-          <button onClick={analyze} className="text-xs text-muted hover:text-gold cursor-pointer flex items-center gap-1">
+          <button onClick={analyze} className="text-xs text-muted hover:text-[#00f5ff] cursor-pointer flex items-center gap-1">
             <Sparkles size={12} /> Проверить снова
           </button>
         </div>

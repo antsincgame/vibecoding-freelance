@@ -23,7 +23,7 @@ export default function ForSellers() {
   const levels = [
     { name: 'Новичок', color: 'text-muted', requirement: 'Регистрация', perks: ['Доступ к каталогу', 'До 5 услуг', 'Базовый профиль'] },
     { name: 'Верифицирован', color: 'text-neon-cyan', requirement: '5+ заказов, 4.5+ рейтинг', perks: ['Синяя галочка', 'До 15 услуг', 'Приоритет в выдаче'] },
-    { name: 'PRO', color: 'text-gold', requirement: '20+ заказов, 4.8+ рейтинг', perks: ['Золотой бейдж', 'Безлимит услуг', 'Топ выдачи', 'Участие в промо'] },
+    { name: 'PRO', color: 'text-[#00f5ff]', requirement: '20+ заказов, 4.8+ рейтинг', perks: ['Золотой бейдж', 'Безлимит услуг', 'Топ выдачи', 'Участие в промо'] },
   ];
 
   return (
@@ -58,14 +58,14 @@ export default function ForSellers() {
       {/* Benefits */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-14">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">Почему VibeCoder</h2>
+          <h2 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-4">Почему VibeCoder</h2>
           <p className="text-body font-heading font-light">Преимущества для фрилансеров</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {benefits.map((b, i) => (
-            <div key={i} className="card p-7 group hover:border-gold/30 transition-all">
-              <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-center mb-5 group-hover:shadow-[0_0_20px_rgba(0,255,249,0.2)] transition-all">
-                <b.icon size={26} className="text-gold" />
+            <div key={i} className="card p-7 group hover:border-cyber/30 transition-all">
+              <div className="w-14 h-14 rounded-2xl bg-cyber/10 border border-cyber/30 flex items-center justify-center mb-5 group-hover:shadow-[0_0_20px_rgba(0,255,249,0.2)] transition-all">
+                <b.icon size={26} className="text-[#00f5ff]" />
               </div>
               <h3 className="text-base font-heading font-semibold text-heading mb-2">{b.title}</h3>
               <p className="text-sm text-body leading-relaxed">{b.desc}</p>
@@ -79,14 +79,14 @@ export default function ForSellers() {
         <div className="absolute inset-0 bg-deep-space sacred-bg" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">Как начать</h2>
+            <h2 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-4">Как начать</h2>
             <p className="text-body font-heading font-light">4 простых шага до первого заказа</p>
           </div>
           <div className="space-y-8">
             {steps.map((step, i) => (
               <div key={i} className="flex items-start gap-6 card p-6">
-                <div className="w-16 h-16 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-display font-bold text-gold">{step.num}</span>
+                <div className="w-16 h-16 rounded-2xl bg-cyber/10 border border-cyber/30 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-display font-bold text-[#00f5ff]">{step.num}</span>
                 </div>
                 <div>
                   <h3 className="text-lg font-heading font-semibold text-heading mb-1">{step.title}</h3>
@@ -101,12 +101,12 @@ export default function ForSellers() {
       {/* Levels */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 py-24">
         <div className="text-center mb-14">
-          <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-4">Уровни продавца</h2>
+          <h2 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.1em] uppercase mb-4">Уровни продавца</h2>
           <p className="text-body font-heading font-light">Растите вместе с нами</p>
         </div>
         <div className="grid sm:grid-cols-3 gap-6">
           {levels.map((level, i) => (
-            <div key={i} className="card p-6 text-center hover:border-gold/30 transition-all">
+            <div key={i} className="card p-6 text-center hover:border-cyber/30 transition-all">
               <div className={`text-xl font-display font-bold ${level.color} mb-3`}>{level.name}</div>
               <p className="text-xs text-muted mb-4">{level.requirement}</p>
               <div className="space-y-2">
@@ -124,9 +124,9 @@ export default function ForSellers() {
       {/* CTA */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-24">
         <div className="card p-12 sm:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-neon-pink/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-cyber/5 via-transparent to-neon-pink/5" />
           <div className="relative z-10 space-y-6">
-            <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase">Готовы начать?</h2>
+            <h2 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.08em] uppercase">Готовы начать?</h2>
             <p className="text-body max-w-lg mx-auto">Создайте профиль за 5 минут и опубликуйте первую услугу. Заказчики уже ждут.</p>
             <Link to="/auth"><Button variant="primary" size="lg">Зарегистрироваться <ArrowRight size={18} /></Button></Link>
           </div>

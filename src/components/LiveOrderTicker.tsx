@@ -59,24 +59,24 @@ export default function LiveOrderTicker() {
   return (
     <div className="w-full overflow-hidden">
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-2 h-2 bg-[#ffd700] rounded-full animate-aura-pulse" />
+        <div className="w-2 h-2 bg-[#00f5ff] rounded-full animate-aura-pulse" />
         <span className="text-xs text-[rgba(255,255,255,0.4)] uppercase tracking-widest font-heading">Последние заказы</span>
       </div>
       <div className="space-y-2">
         {visible.map((order, i) => (
           <div
             key={`${order.buyer}-${offset}-${i}`}
-            className="flex items-center gap-3 px-4 py-2.5 rounded bg-[rgba(255,215,0,0.03)] border border-[rgba(255,215,0,0.08)] animate-fade-in"
+            className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 px-4 py-2.5 rounded bg-[rgba(0,245,255,0.03)] border border-[rgba(0,245,255,0.08)] animate-fade-in"
             style={{ animationDuration: '0.5s' }}
           >
-            <ShoppingBag size={14} className="text-[#ffd700] flex-shrink-0" />
-            <div className="flex-1 min-w-0 flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <ShoppingBag size={14} className="text-[#00f5ff] flex-shrink-0" />
               <span className="text-xs text-white font-medium truncate">{order.buyer}</span>
-              <span className="text-xs text-[rgba(255,255,255,0.35)]">заказал</span>
-              <span className="text-xs text-[#ffd700] truncate">&laquo;{order.gig}&raquo;</span>
             </div>
-            <span className="text-xs text-white font-mono font-bold flex-shrink-0">{order.price.toLocaleString('ru-RU')} ₽</span>
-            <span className="text-[10px] text-[rgba(255,255,255,0.3)] flex-shrink-0 hidden sm:block">{order.time}</span>
+            <div className="flex items-center justify-between gap-2 pl-6 sm:pl-0 sm:flex-1">
+              <span className="text-xs text-[#00f5ff] truncate flex-1">&laquo;{order.gig}&raquo;</span>
+              <span className="text-xs text-white font-mono font-bold flex-shrink-0">{order.price.toLocaleString('ru-RU')} ₽</span>
+            </div>
           </div>
         ))}
       </div>

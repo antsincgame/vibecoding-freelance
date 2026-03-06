@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading || role === 'loading') return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="text-gold animate-pulse text-lg">Загрузка...</div>
+      <div className="text-[#00f5ff] animate-pulse text-lg">Загрузка...</div>
     </div>
   );
 
@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <Shield size={48} className="text-neon-rose mx-auto" />
         <h1 className="text-xl font-bold text-heading">Доступ запрещён</h1>
         <p className="text-muted text-sm">У вас нет прав администратора или модератора</p>
-        <Link to="/" className="text-gold text-sm hover:underline">← На главную</Link>
+        <Link to="/" className="text-[#00f5ff] text-sm hover:underline">← На главную</Link>
       </div>
     </div>
   );
@@ -48,14 +48,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 bg-nebula border-r border-gold/20 flex-shrink-0 hidden lg:flex flex-col">
-        <div className="p-5 border-b border-gold/20">
-          <Link to="/" className="flex items-center gap-2 text-gold hover:opacity-80 transition-opacity">
+      <aside className="w-64 bg-nebula border-r border-[#00f5ff]/20 flex-shrink-0 hidden lg:flex flex-col">
+        <div className="p-5 border-b border-[#00f5ff]/20">
+          <Link to="/" className="flex items-center gap-2 text-[#00f5ff] hover:opacity-80 transition-opacity">
             <ArrowLeft size={16} />
             <span className="text-sm">На сайт</span>
           </Link>
           <div className="flex items-center gap-2 mt-3">
-            <h1 className="text-lg font-display font-bold text-gold-gradient tracking-wider">ADMIN</h1>
+            <h1 className="text-lg font-display font-bold text-neon-gradient tracking-wider">ADMIN</h1>
             {role === 'moderator' && <span className="text-[10px] bg-accent-violet/20 text-accent-violet px-2 py-0.5 rounded-full border border-accent-violet/30">MOD</span>}
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all ${active ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body hover:bg-gold/5'}`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all ${active ? 'bg-[#00f5ff]/10 text-[#00f5ff]' : 'text-muted hover:text-body hover:bg-[#00f5ff]/5'}`}
               >
                 <item.icon size={18} />
                 {item.label}
@@ -74,18 +74,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             );
           })}
         </nav>
-        <div className="p-4 border-t border-gold/20">
+        <div className="p-4 border-t border-[#00f5ff]/20">
           <div className="text-xs text-muted">{user.email}</div>
-          <div className="text-[10px] text-gold mt-0.5">{role === 'admin' ? 'Администратор' : 'Модератор'}</div>
+          <div className="text-[10px] text-[#00f5ff] mt-0.5">{role === 'admin' ? 'Администратор' : 'Модератор'}</div>
         </div>
       </aside>
 
       {/* Mobile nav */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-nebula border-t border-gold/20 flex">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-nebula border-t border-[#00f5ff]/20 flex">
         {navItems.slice(0, 6).map((item) => {
           const active = location.pathname === item.path;
           return (
-            <Link key={item.path} to={item.path} className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs transition-all ${active ? 'text-gold' : 'text-muted'}`}>
+            <Link key={item.path} to={item.path} className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs transition-all ${active ? 'text-[#00f5ff]' : 'text-muted'}`}>
               <item.icon size={18} />
               <span className="truncate text-[10px]">{item.label.slice(0, 8)}</span>
             </Link>

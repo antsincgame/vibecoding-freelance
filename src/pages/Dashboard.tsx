@@ -42,7 +42,7 @@ export default function Dashboard() {
   const stats = [
     { label: t('dashboard.active'), value: allOrders.filter((o) => o.status === 'in_progress').length, icon: Clock, color: 'text-accent-violet' },
     { label: t('dashboard.completed'), value: allOrders.filter((o) => o.status === 'completed').length, icon: CheckCircle2, color: 'text-accent-emerald' },
-    { label: t('dashboard.total_orders'), value: allOrders.length, icon: TrendingUp, color: 'text-gold' },
+    { label: t('dashboard.total_orders'), value: allOrders.length, icon: TrendingUp, color: 'text-[#00f5ff]' },
     { label: t('dashboard.pending'), value: allOrders.filter((o) => o.status === 'new' || o.status === 'delivered').length, icon: AlertCircle, color: 'text-accent-amber' },
   ];
 
@@ -53,11 +53,11 @@ export default function Dashboard() {
           <nav className="card p-3 space-y-1 sticky top-24">
             {sidebarItems.map((item) => (
               item.link ? (
-                <Link key={item.id} to={item.link} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all text-muted hover:text-body hover:bg-gold/10">
+                <Link key={item.id} to={item.link} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all text-muted hover:text-body hover:bg-cyber/10">
                   <item.icon size={18} />{item.label}
                 </Link>
               ) : (
-                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body hover:bg-gold/10'}`}>
+                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all cursor-pointer ${activeSection === item.id ? 'bg-cyber/10 text-[#00f5ff]' : 'text-muted hover:text-body hover:bg-cyber/10'}`}>
                   <item.icon size={18} />{item.label}
                 </button>
               )
@@ -68,11 +68,11 @@ export default function Dashboard() {
           <div className="lg:hidden flex gap-2 mb-6 overflow-x-auto pb-2">
             {sidebarItems.map((item) => (
               item.link ? (
-                <Link key={item.id} to={item.link} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap bg-gold/10 text-muted border border-gold/20">
+                <Link key={item.id} to={item.link} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap bg-cyber/10 text-muted border border-cyber/20">
                   <item.icon size={16} />{item.label}
                 </Link>
               ) : (
-                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold border border-gold' : 'bg-gold/10 text-muted border border-gold/20'}`}>
+                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all cursor-pointer ${activeSection === item.id ? 'bg-cyber/10 text-[#00f5ff] border border-cyber' : 'bg-cyber/10 text-muted border border-cyber/20'}`}>
                   <item.icon size={16} />{item.label}
                 </button>
               )
@@ -92,7 +92,7 @@ export default function Dashboard() {
                 {ordersLoading ? <Skeleton className="h-20" /> : (
                   <div className="space-y-3">
                     {allOrders.slice(0, 3).map((order) => (
-                      <Link key={order.id} to={`/orders/${order.id}`} className="card p-4 flex items-center gap-4 hover:border-gold/30 transition-all">
+                      <Link key={order.id} to={`/orders/${order.id}`} className="card p-4 flex items-center gap-4 hover:border-cyber/30 transition-all">
                         <Avatar src={order.freelancerAvatar} alt={order.freelancerName} size="sm" />
                         <div className="flex-1 min-w-0"><p className="text-sm text-heading truncate">{order.gigTitle}</p><p className="text-xs text-muted">{order.freelancerName}</p></div>
                         <Badge variant={statusConfig[order.status]?.variant || 'green'}>{statusConfig[order.status]?.label || order.status}</Badge>
@@ -111,12 +111,12 @@ export default function Dashboard() {
               <h1 className="text-2xl font-bold text-heading mb-6">{t('dashboard.my_orders')}</h1>
               <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
                 {[{ value: 'all', label: t('common.all') }, ...Object.entries(statusConfig).map(([k, v]) => ({ value: k, label: v.label }))].map((f) => (
-                  <button key={f.value} onClick={() => setStatusFilter(f.value)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${statusFilter === f.value ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>{f.label}</button>
+                  <button key={f.value} onClick={() => setStatusFilter(f.value)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${statusFilter === f.value ? 'border-cyber bg-cyber/10 text-[#00f5ff]' : 'border-cyber/20 text-muted hover:text-body'}`}>{f.label}</button>
                 ))}
               </div>
               <div className="space-y-3">
                 {filteredOrders.map((order) => (
-                  <Link key={order.id} to={`/orders/${order.id}`} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:border-gold/30 transition-all">
+                  <Link key={order.id} to={`/orders/${order.id}`} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:border-cyber/30 transition-all">
                     <Avatar src={order.freelancerAvatar} alt={order.freelancerName} size="md" />
                     <div className="flex-1 min-w-0"><p className="text-sm font-medium text-heading">{order.gigTitle}</p><p className="text-xs text-muted mt-0.5">{order.freelancerName} / {order.packageType}</p></div>
                     <div className="flex items-center gap-4 w-full sm:w-auto">
@@ -162,9 +162,9 @@ export default function Dashboard() {
                 <Link to="/profile/edit">
                   <Button variant="primary" size="md">Редактировать профиль</Button>
                 </Link>
-                <div className="border-t border-gold/20 pt-4 space-y-3">
-                  <Link to="/dashboard/freelancer" className="flex items-center gap-2 text-sm text-gold hover:underline">Панель фрилансера →</Link>
-                  <Link to="/support" className="flex items-center gap-2 text-sm text-body hover:text-gold">Техподдержка →</Link>
+                <div className="border-t border-cyber/20 pt-4 space-y-3">
+                  <Link to="/dashboard/freelancer" className="flex items-center gap-2 text-sm text-[#00f5ff] hover:underline">Панель фрилансера →</Link>
+                  <Link to="/support" className="flex items-center gap-2 text-sm text-body hover:text-[#00f5ff]">Техподдержка →</Link>
                 </div>
               </div>
             </div>

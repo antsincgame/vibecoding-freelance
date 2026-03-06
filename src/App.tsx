@@ -10,6 +10,7 @@ import WishlistBadge from './components/WishlistBadge';
 import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
 import CommandPalette from './components/CommandPalette';
+import CursorTrail from './components/CursorTrail';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import GigDetail from './pages/GigDetail';
@@ -121,8 +122,7 @@ function AppContent() {
 
   return (
     <>
-      {/* Neon: no background overlay needed — sacred-bg on sections */}
-
+      <CursorTrail />
       <ScrollToTop />
       <Header
         logoText="VIBECODER" logoImage="/logo.png"
@@ -134,7 +134,7 @@ function AppContent() {
         ]}
         megaMenu={megaMenuCategories}
         extraLinks={[
-          { to: '/admin', label: 'Админка', style: { color: '#ffd700' } },
+          { to: '/admin', label: 'Админка', style: { color: '#00f5ff' } },
         ]}
       />
       <div className="fixed top-3 right-[200px] z-[51] hidden md:flex items-center gap-2">
@@ -201,9 +201,9 @@ function AppContent() {
           style: {
             background: '#12121f',
             color: '#fff',
-            border: '1px solid rgba(255, 215, 0, 0.15)',
+            border: '1px solid rgba(0, 245, 255, 0.15)',
             fontFamily: "'Inter', system-ui, sans-serif",
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.04)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 245, 255, 0.08)',
           },
         }}
       />

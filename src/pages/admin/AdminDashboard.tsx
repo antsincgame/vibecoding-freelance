@@ -10,10 +10,10 @@ export default function AdminDashboard() {
   useEffect(() => { getAdminStats().then(setStats); }, []);
 
   const cards = stats ? [
-    { label: 'Гиги', value: stats.gigsCount, icon: Package, color: 'text-gold', link: '/admin/gigs' },
+    { label: 'Гиги', value: stats.gigsCount, icon: Package, color: 'text-[#00f5ff]', link: '/admin/gigs' },
     { label: 'Пользователи', value: stats.profilesCount, icon: Users, color: 'text-neon-cyan', link: '/admin/users' },
     { label: 'Заказы', value: stats.ordersCount, icon: ShoppingBag, color: 'text-accent-violet', link: '/admin/orders' },
-    { label: 'Отзывы', value: stats.reviewsCount, icon: Star, color: 'text-accent-amber', link: '/admin/reviews' },
+    { label: 'Отзывы', value: stats.reviewsCount, icon: Star, color: 'text-[#00f5ff]', link: '/admin/reviews' },
     { label: 'Категории', value: stats.categoriesCount, icon: FolderTree, color: 'text-neon-green', link: '/admin/categories' },
   ] : [];
 
@@ -23,12 +23,12 @@ export default function AdminDashboard() {
 
       {!stats ? (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          {Array.from({ length: 5 }).map((_, i) => <div key={i} className="card p-6 animate-pulse"><div className="h-8 bg-gold/10 rounded mb-2" /><div className="h-4 bg-gold/10 rounded w-1/2" /></div>)}
+          {Array.from({ length: 5 }).map((_, i) => <div key={i} className="card p-6 animate-pulse"><div className="h-8 bg-[#00f5ff]/10 rounded mb-2" /><div className="h-4 bg-[#00f5ff]/10 rounded w-1/2" /></div>)}
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {cards.map((card) => (
-            <Link key={card.label} to={card.link} className="card p-6 hover:border-gold/30 transition-all group">
+            <Link key={card.label} to={card.link} className="card p-6 hover:border-[#00f5ff]/30 transition-all group">
               <div className="flex items-center gap-3 mb-3">
                 <card.icon size={22} className={card.color} />
                 <span className="text-sm text-muted group-hover:text-body transition-colors">{card.label}</span>
@@ -43,14 +43,14 @@ export default function AdminDashboard() {
         <div className="card p-6">
           <h2 className="text-lg font-semibold text-heading mb-4">Быстрые действия</h2>
           <div className="space-y-2">
-            <Link to="/admin/categories" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gold/5 transition-colors text-sm text-body">
-              <FolderTree size={16} className="text-gold" /> Управление категориями
+            <Link to="/admin/categories" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#00f5ff]/5 transition-colors text-sm text-body">
+              <FolderTree size={16} className="text-[#00f5ff]" /> Управление категориями
             </Link>
-            <Link to="/admin/gigs" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gold/5 transition-colors text-sm text-body">
-              <Package size={16} className="text-gold" /> Модерация гигов
+            <Link to="/admin/gigs" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#00f5ff]/5 transition-colors text-sm text-body">
+              <Package size={16} className="text-[#00f5ff]" /> Модерация гигов
             </Link>
-            <Link to="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gold/5 transition-colors text-sm text-body">
-              <Users size={16} className="text-gold" /> Управление пользователями
+            <Link to="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#00f5ff]/5 transition-colors text-sm text-body">
+              <Users size={16} className="text-[#00f5ff]" /> Управление пользователями
             </Link>
           </div>
         </div>

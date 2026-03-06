@@ -117,15 +117,15 @@ export default function AdminChat() {
       
       <div className="card overflow-hidden flex" style={{ height: 'calc(100vh - 180px)', minHeight: '500px' }}>
         {/* Left: user list */}
-        <div className={`w-80 border-r border-gold/20 flex-shrink-0 flex flex-col ${selectedUser ? 'hidden lg:flex' : 'flex'}`}>
-          <div className="p-3 border-b border-gold/20">
+        <div className={`w-80 border-r border-[#00f5ff]/20 flex-shrink-0 flex flex-col ${selectedUser ? 'hidden lg:flex' : 'flex'}`}>
+          <div className="p-3 border-b border-[#00f5ff]/20">
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
               <input
                 placeholder="Найти пользователя..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-gold/10 border border-gold/30 rounded-lg pl-9 pr-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold"
+                className="w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-lg pl-9 pr-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff]"
               />
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function AdminChat() {
                   if (!profile) return null;
                   return (
                     <button key={conv.id} onClick={() => openChat(profile)}
-                      className={`w-full p-3 flex items-center gap-3 hover:bg-gold/5 cursor-pointer border-b border-gold/5 text-left ${selectedUser?.user_id === profile.user_id ? 'bg-gold/10' : ''}`}>
+                      className={`w-full p-3 flex items-center gap-3 hover:bg-[#00f5ff]/5 cursor-pointer border-b border-[#00f5ff]/5 text-left ${selectedUser?.user_id === profile.user_id ? 'bg-[#00f5ff]/10' : ''}`}>
                       <Avatar src={profile.avatar} alt={profile.name} size="sm" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium text-heading truncate">{profile.name}</p>
@@ -151,7 +151,7 @@ export default function AdminChat() {
                     </button>
                   );
                 })}
-                <div className="border-b border-gold/20 my-1" />
+                <div className="border-b border-[#00f5ff]/20 my-1" />
               </>
             )}
             
@@ -161,7 +161,7 @@ export default function AdminChat() {
             </div>
             {filteredProfiles.map(profile => (
               <button key={profile.id} onClick={() => openChat(profile)}
-                className={`w-full p-3 flex items-center gap-3 hover:bg-gold/5 cursor-pointer border-b border-gold/5 text-left ${selectedUser?.user_id === profile.user_id ? 'bg-gold/10' : ''}`}>
+                className={`w-full p-3 flex items-center gap-3 hover:bg-[#00f5ff]/5 cursor-pointer border-b border-[#00f5ff]/5 text-left ${selectedUser?.user_id === profile.user_id ? 'bg-[#00f5ff]/10' : ''}`}>
                 <Avatar src={profile.avatar} alt={profile.name} size="sm" />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium text-heading truncate">{profile.name}</p>
@@ -176,14 +176,14 @@ export default function AdminChat() {
         <div className={`flex-1 flex flex-col ${selectedUser ? 'flex' : 'hidden lg:flex'}`}>
           {selectedUser ? (
             <>
-              <div className="p-4 border-b border-gold/20 flex items-center gap-3">
-                <button onClick={() => setSelectedUser(null)} className="lg:hidden text-muted hover:text-gold cursor-pointer"><ArrowLeft size={18} /></button>
+              <div className="p-4 border-b border-[#00f5ff]/20 flex items-center gap-3">
+                <button onClick={() => setSelectedUser(null)} className="lg:hidden text-muted hover:text-[#00f5ff] cursor-pointer"><ArrowLeft size={18} /></button>
                 <Avatar src={selectedUser.avatar} alt={selectedUser.name} size="sm" />
                 <div>
                   <p className="text-sm font-medium text-heading">{selectedUser.name}</p>
                   <p className="text-[10px] text-muted">@{selectedUser.username} · {selectedUser.role} · {selectedUser.location}</p>
                 </div>
-                <div className="ml-auto flex items-center gap-1 text-[10px] text-gold">
+                <div className="ml-auto flex items-center gap-1 text-[10px] text-[#00f5ff]">
                   <Shield size={12} /> Поддержка
                 </div>
               </div>
@@ -199,11 +199,11 @@ export default function AdminChat() {
                   const isMe = msg.sender_id === userId;
                   return (
                     <div key={msg.id} className={`flex gap-2 ${isMe ? 'flex-row-reverse' : ''}`}>
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] ${isMe ? 'bg-gold/20 text-gold' : 'bg-accent-violet/20 text-accent-violet'}`}>
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] ${isMe ? 'bg-[#00f5ff]/20 text-[#00f5ff]' : 'bg-accent-violet/20 text-accent-violet'}`}>
                         {isMe ? '🛡' : <User size={12} />}
                       </div>
                       <div className="max-w-[70%]">
-                        <div className={`inline-block px-3 py-2 rounded-2xl text-sm ${isMe ? 'bg-gold/15 text-heading' : 'bg-nebula border border-gold/20 text-body'}`}>
+                        <div className={`inline-block px-3 py-2 rounded-2xl text-sm ${isMe ? 'bg-[#00f5ff]/15 text-heading' : 'bg-nebula border border-[#00f5ff]/20 text-body'}`}>
                           {msg.content}
                         </div>
                         <div className={`text-[9px] text-muted mt-0.5 ${isMe ? 'text-right' : ''}`}>
@@ -216,16 +216,16 @@ export default function AdminChat() {
                 <div ref={messagesEndRef} />
               </div>
 
-              <div className="p-3 border-t border-gold/20">
+              <div className="p-3 border-t border-[#00f5ff]/20">
                 <div className="flex gap-2">
                   <input
                     placeholder="Сообщение от поддержки..."
                     value={newMsg}
                     onChange={(e) => setNewMsg(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                    className="flex-1 bg-gold/10 border border-gold/30 rounded-xl px-4 py-2.5 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold"
+                    className="flex-1 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-2.5 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff]"
                   />
-                  <button onClick={handleSend} disabled={sending || !newMsg.trim()} className="px-4 bg-gold/20 text-gold rounded-xl hover:bg-gold/30 cursor-pointer disabled:opacity-50">
+                  <button onClick={handleSend} disabled={sending || !newMsg.trim()} className="px-4 bg-[#00f5ff]/20 text-[#00f5ff] rounded-xl hover:bg-[#00f5ff]/30 cursor-pointer disabled:opacity-50">
                     <Send size={16} />
                   </button>
                 </div>

@@ -18,10 +18,10 @@ const LEVEL_CONFIG: Record<string, { icon: typeof ShieldCheck; label: string; co
   pro: {
     icon: Crown,
     label: 'PRO',
-    color: 'text-[#ffd700]',
-    bg: 'bg-[rgba(255,215,0,0.08)]',
-    border: 'border-[rgba(255,215,0,0.2)]',
-    glow: 'shadow-[0_0_10px_rgba(255,215,0,0.15)]',
+    color: 'text-[#00f5ff]',
+    bg: 'bg-[rgba(0,245,255,0.08)]',
+    border: 'border-[rgba(0,245,255,0.2)]',
+    glow: 'shadow-[0_0_10px_rgba(0,245,255,0.15)]',
   },
   moderator: {
     icon: ShieldCheck,

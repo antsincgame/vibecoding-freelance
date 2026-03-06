@@ -62,14 +62,14 @@ export default function Projects() {
     } catch (e: any) { toast.error('Ошибка: ' + (e.message || 'Unknown')); }
   };
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3.5 text-base text-heading placeholder:text-muted focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff]/40 transition-all';
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
       <SEO title="Биржа проектов" description="Разместите задачу — фрилансеры предложат решения. Биржа проектов VibeCoder." />
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase">Биржа проектов</h1>
+          <h1 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.08em] uppercase">Биржа проектов</h1>
           <p className="text-body text-sm mt-1">Разместите задачу — фрилансеры предложат решения</p>
         </div>
         {user && (
@@ -132,7 +132,7 @@ export default function Projects() {
           { value: 'in_progress', label: 'В работе' },
           { value: 'completed', label: 'Завершённые' },
         ].map(f => (
-          <button key={f.value} onClick={() => setFilter(f.value)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === f.value ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 text-muted hover:text-body'}`}>
+          <button key={f.value} onClick={() => setFilter(f.value)} className={`px-4 py-2 text-sm rounded-xl border whitespace-nowrap transition-all cursor-pointer ${filter === f.value ? 'border-[#00f5ff] bg-[#00f5ff]/10 text-[#00f5ff]' : 'border-[#00f5ff]/20 text-muted hover:text-body'}`}>
             {f.label}
           </button>
         ))}
@@ -141,7 +141,7 @@ export default function Projects() {
       {/* Projects list */}
       <div className="space-y-4">
         {loading ? Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="card p-6 animate-pulse"><div className="h-5 bg-gold/10 rounded w-2/3 mb-3" /><div className="h-3 bg-gold/10 rounded w-full mb-2" /><div className="h-3 bg-gold/10 rounded w-1/2" /></div>
+          <div key={i} className="card p-6 animate-pulse"><div className="h-5 bg-[#00f5ff]/10 rounded w-2/3 mb-3" /><div className="h-3 bg-[#00f5ff]/10 rounded w-full mb-2" /><div className="h-3 bg-[#00f5ff]/10 rounded w-1/2" /></div>
         )) : projects.length === 0 ? (
           <div className="card p-12 text-center">
             <MessageCircle size={48} className="text-muted/30 mx-auto mb-4" />
@@ -150,7 +150,7 @@ export default function Projects() {
             {user && <Button variant="primary" size="md" onClick={() => setCreating(true)}><Plus size={16} /> Создать проект</Button>}
           </div>
         ) : projects.map((project) => (
-          <div key={project.id} className="card p-6 hover:border-gold/30 transition-all">
+          <div key={project.id} className="card p-6 hover:border-[#00f5ff]/30 transition-all">
             <div className="flex items-start gap-4">
               <Avatar src={project.user_avatar} alt={project.user_name} size="md" />
               <div className="flex-1 min-w-0">
@@ -164,7 +164,7 @@ export default function Projects() {
                 <div className="flex flex-wrap items-center gap-4 text-xs text-muted">
                   <span className="flex items-center gap-1"><User size={12} /> {project.user_name}</span>
                   {(project.budget_from || project.budget_to) && (
-                    <span className="flex items-center gap-1 text-gold font-mono">
+                    <span className="flex items-center gap-1 text-[#00f5ff] font-mono">
                       <DollarSign size={12} />
                       {project.budget_from ? `${Number(project.budget_from).toLocaleString('ru-RU')}` : '?'} — {project.budget_to ? `${Number(project.budget_to).toLocaleString('ru-RU')} ₽` : '?'}
                     </span>

@@ -76,12 +76,12 @@ export default function Auth() {
   };
 
   const inputClass = (field: string) =>
-    `w-full bg-[#0d0d1a] border ${errors[field] ? 'border-rose-700' : 'border-[rgba(255,215,0,0.1)] focus:border-[#ffd700]'} rounded px-4 py-3 pl-10 text-sm text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none focus:ring-1 focus:ring-[rgba(255,215,0,0.2)] focus:shadow-[0_0_15px_rgba(255,215,0,0.06)] transition-all duration-300`;
+    `w-full bg-[#0d0d1a] border ${errors[field] ? 'border-rose-700' : 'border-[rgba(0,245,255,0.1)] focus:border-[#00f5ff]'} rounded px-4 py-3.5 pl-10 text-base text-white placeholder:text-[rgba(255,255,255,0.3)] focus:outline-none focus:ring-1 focus:ring-[rgba(0,245,255,0.2)] focus:shadow-[0_0_15px_rgba(0,245,255,0.06)] transition-all duration-300`;
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sacred-bg relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.06)_0%,transparent_60%)] animate-glow-breathe pointer-events-none" />
-      <div className="w-full max-w-md space-y-8 relative z-10">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(0,245,255,0.06)_0%,transparent_60%)] animate-glow-breathe pointer-events-none" />
+      <div className="w-full max-w-[95vw] sm:max-w-md space-y-8 relative z-10">
         <div className="text-center">
           <h1 className="text-2xl font-display font-bold tracking-[0.1em] uppercase quantum-shimmer">
             {mode === 'login' ? t('auth.welcome') : t('auth.create_account')}
@@ -91,20 +91,20 @@ export default function Auth() {
           </p>
         </div>
 
-        <div className="card p-8 space-y-6">
-          <div className="flex rounded overflow-hidden border border-[rgba(255,215,0,0.1)]">
+        <div className="card p-4 sm:p-8 space-y-6">
+          <div className="flex rounded overflow-hidden border border-[rgba(0,245,255,0.1)]">
             <button
               onClick={() => { setMode('login'); setErrors({}); }}
-              className={`flex-1 py-3 text-sm font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
-                mode === 'login' ? 'bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
+              className={`flex-1 py-3.5 text-base font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
+                mode === 'login' ? 'bg-[rgba(0,245,255,0.08)] text-[#00f5ff]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
               }`}
             >
               {t('auth.tab_login')}
             </button>
             <button
               onClick={() => { setMode('register'); setErrors({}); }}
-              className={`flex-1 py-3 text-sm font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
-                mode === 'register' ? 'bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
+              className={`flex-1 py-3.5 text-base font-medium text-center tracking-wider uppercase transition-all cursor-pointer font-heading ${
+                mode === 'register' ? 'bg-[rgba(0,245,255,0.08)] text-[#00f5ff]' : 'text-[rgba(255,255,255,0.4)] hover:text-white'
               }`}
             >
               {t('auth.tab_register')}
@@ -144,11 +144,11 @@ export default function Auth() {
                 <p className="text-sm text-[rgba(255,255,255,0.4)] mb-2 tracking-wide">{t('auth.role')}</p>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setRole('client')}
-                    className={`flex-1 py-3 text-sm rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'client' ? 'border-[#ffd700] bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'border-[rgba(255,215,0,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
+                    className={`flex-1 py-3.5 text-base rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'client' ? 'border-[#00f5ff] bg-[rgba(0,245,255,0.08)] text-[#00f5ff]' : 'border-[rgba(0,245,255,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
                     {t('auth.customer')}
                   </button>
                   <button type="button" onClick={() => setRole('freelancer')}
-                    className={`flex-1 py-3 text-sm rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'freelancer' ? 'border-[#ffd700] bg-[rgba(255,215,0,0.08)] text-[#ffd700]' : 'border-[rgba(255,215,0,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
+                    className={`flex-1 py-3.5 text-base rounded border transition-all cursor-pointer tracking-wider uppercase font-heading ${role === 'freelancer' ? 'border-[#00f5ff] bg-[rgba(0,245,255,0.08)] text-[#00f5ff]' : 'border-[rgba(0,245,255,0.1)] text-[rgba(255,255,255,0.4)] hover:text-white'}`}>
                     {t('auth.freelancer')}
                   </button>
                 </div>
@@ -161,7 +161,7 @@ export default function Auth() {
           </form>
 
           <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[rgba(255,215,0,0.08)]" /></div>
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[rgba(0,245,255,0.08)]" /></div>
             <div className="relative flex justify-center text-xs">
               <span className="bg-[#12121f] px-3 text-[rgba(255,255,255,0.35)]">{t('auth.orContinueWith')}</span>
             </div>
@@ -169,7 +169,7 @@ export default function Auth() {
 
           <div className="grid grid-cols-1 gap-3">
             <button onClick={handleGoogle}
-              className="flex items-center justify-center gap-2 py-3 rounded border border-[rgba(255,215,0,0.1)] text-sm text-[rgba(255,255,255,0.5)] hover:text-[#ffd700] hover:border-[rgba(255,215,0,0.25)] hover:shadow-[0_0_15px_rgba(255,215,0,0.06)] transition-all duration-300 cursor-pointer tracking-wider uppercase font-heading">
+              className="flex items-center justify-center gap-2 py-3.5 rounded border border-[rgba(0,245,255,0.1)] text-base text-[rgba(255,255,255,0.5)] hover:text-[#00f5ff] hover:border-[rgba(0,245,255,0.25)] hover:shadow-[0_0_15px_rgba(0,245,255,0.06)] transition-all duration-300 cursor-pointer tracking-wider uppercase font-heading">
               <Globe size={16} />
               <span>Google</span>
             </button>

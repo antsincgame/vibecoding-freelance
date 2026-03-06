@@ -92,8 +92,8 @@ export default function OrderDetail() {
   if (loading) return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="animate-pulse space-y-4">
-        <div className="h-6 bg-gold/10 rounded w-1/3" />
-        <div className="card p-6"><div className="h-40 bg-gold/10 rounded" /></div>
+        <div className="h-6 bg-cyber/10 rounded w-1/3" />
+        <div className="card p-6"><div className="h-40 bg-cyber/10 rounded" /></div>
       </div>
     </div>
   );
@@ -102,13 +102,13 @@ export default function OrderDetail() {
     <div className="max-w-3xl mx-auto px-4 py-20 text-center">
       <AlertCircle size={48} className="text-muted mx-auto mb-4" />
       <p className="text-muted">Заказ не найден</p>
-      <Link to="/dashboard" className="text-gold text-sm mt-4 inline-block">← В дашборд</Link>
+      <Link to="/dashboard" className="text-[#00f5ff] text-sm mt-4 inline-block">← В дашборд</Link>
     </div>
   );
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 pb-24">
-      <Link to="/dashboard" className="flex items-center gap-2 text-sm text-muted hover:text-gold mb-6">
+      <Link to="/dashboard" className="flex items-center gap-2 text-sm text-muted hover:text-[#00f5ff] mb-6">
         <ArrowLeft size={16} /> Мои заказы
       </Link>
 
@@ -132,14 +132,14 @@ export default function OrderDetail() {
           </div>
           <div className="space-y-1 text-sm">
             <div className="flex justify-between"><span className="text-muted">Пакет:</span><span className="text-heading">{order.package_type}</span></div>
-            <div className="flex justify-between"><span className="text-muted">Цена:</span><span className="text-gold font-mono font-bold">{(order.price || 0).toLocaleString('ru-RU')} ₽</span></div>
+            <div className="flex justify-between"><span className="text-muted">Цена:</span><span className="text-[#00f5ff] font-mono font-bold">{(order.price || 0).toLocaleString('ru-RU')} ₽</span></div>
             {order.delivery_days && <div className="flex justify-between"><span className="text-muted">Срок:</span><span className="text-heading">{order.delivery_days} дн.</span></div>}
             <div className="flex justify-between"><span className="text-muted">Создан:</span><span className="text-heading">{order.$createdAt ? new Date(order.$createdAt).toLocaleDateString('ru-RU') : '-'}</span></div>
           </div>
         </div>
 
         {order.requirements && (
-          <div className="mt-4 p-4 bg-gold/5 rounded-xl border border-gold/10">
+          <div className="mt-4 p-4 bg-cyber/5 rounded-xl border border-cyber/10">
             <p className="text-xs text-muted mb-1">Требования заказчика:</p>
             <p className="text-sm text-body">{order.requirements}</p>
           </div>
@@ -156,11 +156,11 @@ export default function OrderDetail() {
             const current = order.status === s;
             return (
               <div key={s} className="flex items-center gap-2 flex-shrink-0">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${current ? 'bg-gold/20 text-gold border-2 border-gold' : reached ? 'bg-neon-green/20 text-neon-green' : 'bg-gold/10 text-muted'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${current ? 'bg-cyber/20 text-[#00f5ff] border-2 border-cyber' : reached ? 'bg-neon-green/20 text-neon-green' : 'bg-cyber/10 text-muted'}`}>
                   {reached && !current ? <Check size={14} /> : i + 1}
                 </div>
-                <span className={`text-xs whitespace-nowrap ${current ? 'text-gold' : reached ? 'text-body' : 'text-muted'}`}>{info.label}</span>
-                {i < 3 && <div className={`w-8 h-px ${reached ? 'bg-neon-green' : 'bg-gold/20'}`} />}
+                <span className={`text-xs whitespace-nowrap ${current ? 'text-[#00f5ff]' : reached ? 'text-body' : 'text-muted'}`}>{info.label}</span>
+                {i < 3 && <div className={`w-8 h-px ${reached ? 'bg-neon-green' : 'bg-cyber/20'}`} />}
               </div>
             );
           })}
@@ -193,7 +193,7 @@ export default function OrderDetail() {
                 placeholder="Сообщение при сдаче (опционально)..."
                 value={deliveryMsg}
                 onChange={(e) => setDeliveryMsg(e.target.value)}
-                className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold resize-none"
+                className="w-full bg-cyber/10 border border-cyber/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-cyber resize-none"
               />
               <Button variant="primary" size="md" onClick={() => handleStatusChange('delivered')} disabled={updating}>
                 <Send size={16} /> Сдать работу
@@ -235,7 +235,7 @@ export default function OrderDetail() {
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((s) => (
                   <button key={s} onClick={() => setReviewRating(s)} className="cursor-pointer">
-                    <Star size={28} className={s <= reviewRating ? 'fill-gold text-gold' : 'text-muted/30'} />
+                    <Star size={28} className={s <= reviewRating ? 'fill-[#00f5ff] text-[#00f5ff]' : 'text-muted/30'} />
                   </button>
                 ))}
               </div>
@@ -244,7 +244,7 @@ export default function OrderDetail() {
                 placeholder="Расскажите о работе с фрилансером..."
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
-                className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold resize-none"
+                className="w-full bg-cyber/10 border border-cyber/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-cyber resize-none"
               />
               <div className="flex gap-3">
                 <Button variant="primary" size="md" onClick={handleReview}>Отправить</Button>

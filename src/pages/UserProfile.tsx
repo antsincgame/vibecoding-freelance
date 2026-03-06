@@ -57,7 +57,7 @@ export default function UserProfile() {
       <Breadcrumbs items={[{ label: t('profile.home'), href: '/' }, { label: t('profile.freelancers') }, { label: user.name }]} />
       <SEO title={`${user.name} — ${user.title}`} description={user.bio?.slice(0, 160) || `Профиль фрилансера ${user.name}`} />
       <div className="mt-8 card p-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-neon-pink/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00f5ff]/5 via-transparent to-neon-pink/5" />
         <div className="absolute inset-0 sacred-bg opacity-20" />
         <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
           <Avatar src={user.avatar} alt={user.name} size="xl" isOnline={user.isOnline} />
@@ -76,15 +76,15 @@ export default function UserProfile() {
           </div>
         </div>
         <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
-          <div className="bg-gold/10 rounded-xl p-4 text-center border border-gold/30"><p className="text-2xl font-bold text-heading font-mono">{user.ordersCompleted}</p><p className="text-xs text-muted mt-1">{t('profile.ordersCompleted')}</p></div>
-          <div className="bg-gold/10 rounded-xl p-4 text-center border border-gold/30"><p className="text-2xl font-bold text-neon-emerald font-mono">{user.successRate}%</p><p className="text-xs text-muted mt-1">{t('profile.successfulOrders')}</p></div>
-          <div className="bg-gold/10 rounded-xl p-4 text-center border border-gold/30"><div className="flex items-center justify-center gap-1"><Clock size={16} className="text-gold" /><p className="text-lg font-bold text-heading">{user.responseTime}</p></div><p className="text-xs text-muted mt-1">{t('profile.responseTime')}</p></div>
-          <div className="bg-gold/10 rounded-xl p-4 text-center border border-gold/30"><div className="flex items-center justify-center gap-1"><TrendingUp size={16} className="text-gold" /><p className="text-lg font-bold text-heading">{user.rating}</p></div><p className="text-xs text-muted mt-1">{t('profile.rating')}</p></div>
+          <div className="bg-[#00f5ff]/10 rounded-xl p-4 text-center border border-[#00f5ff]/30"><p className="text-2xl font-bold text-heading font-mono">{user.ordersCompleted}</p><p className="text-xs text-muted mt-1">{t('profile.ordersCompleted')}</p></div>
+          <div className="bg-[#00f5ff]/10 rounded-xl p-4 text-center border border-[#00f5ff]/30"><p className="text-2xl font-bold text-neon-emerald font-mono">{user.successRate}%</p><p className="text-xs text-muted mt-1">{t('profile.successfulOrders')}</p></div>
+          <div className="bg-[#00f5ff]/10 rounded-xl p-4 text-center border border-[#00f5ff]/30"><div className="flex items-center justify-center gap-1"><Clock size={16} className="text-[#00f5ff]" /><p className="text-lg font-bold text-heading">{user.responseTime}</p></div><p className="text-xs text-muted mt-1">{t('profile.responseTime')}</p></div>
+          <div className="bg-[#00f5ff]/10 rounded-xl p-4 text-center border border-[#00f5ff]/30"><div className="flex items-center justify-center gap-1"><TrendingUp size={16} className="text-[#00f5ff]" /><p className="text-lg font-bold text-heading">{user.rating}</p></div><p className="text-xs text-muted mt-1">{t('profile.rating')}</p></div>
         </div>
       </div>
       <div className="mt-8 space-y-8">
         <div><h2 className="text-lg font-heading font-semibold text-heading mb-3">{t('profile.about')}</h2><p className="text-sm text-body leading-relaxed">{user.bio}</p></div>
-        <div><h2 className="text-lg font-heading font-semibold text-heading mb-3">{t('profile.skills')}</h2><div className="flex flex-wrap gap-2">{user.skills.map((skill) => <span key={skill} className="px-3 py-1.5 text-sm bg-gold/10 text-body rounded-lg border border-gold/20">{skill}</span>)}</div></div>
+        <div><h2 className="text-lg font-heading font-semibold text-heading mb-3">{t('profile.skills')}</h2><div className="flex flex-wrap gap-2">{user.skills.map((skill) => <span key={skill} className="px-3 py-1.5 text-sm bg-[#00f5ff]/10 text-body rounded-lg border border-[#00f5ff]/20">{skill}</span>)}</div></div>
         <Achievements stats={{ ordersCompleted: user.ordersCompleted, reviewCount: user.reviewCount, rating: user.rating, gigsCount: (userGigs || []).length, memberDays: 30, aiGigsCount: (userGigs || []).filter(g => g.tags.some(t => ['AI','OpenAI','GPT','Claude','LangChain'].some(ai => t.toLowerCase().includes(ai.toLowerCase())))).length, fastDeliveries: 0, level: user.level }} showLocked />
         <Tabs tabs={tabsData} />
       </div>
@@ -104,13 +104,13 @@ function ReviewsList({ userId, gigs }: { userId: string; gigs: any[] }) {
             <Avatar src={review.avatar} alt={review.author} size="sm" />
             <div><p className="text-sm font-medium text-heading">{review.author}</p>
               <div className="flex items-center gap-2">
-                <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={12} className={i < review.rating ? 'fill-gold text-gold' : 'text-muted/30'} />)}</div>
+                <div className="flex gap-0.5">{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={12} className={i < review.rating ? 'fill-[#00f5ff] text-[#00f5ff]' : 'text-muted/30'} />)}</div>
                 <span className="text-xs text-muted">{review.date}</span>
               </div>
             </div>
           </div>
           <p className="text-sm text-body leading-relaxed">{review.text}</p>
-          {review.reply && (<div className="pl-4 border-l-2 border-gold/30"><p className="text-xs text-gold mb-1">Ответ фрилансера</p><p className="text-sm text-muted">{review.reply}</p></div>)}
+          {review.reply && (<div className="pl-4 border-l-2 border-[#00f5ff]/30"><p className="text-xs text-[#00f5ff] mb-1">Ответ фрилансера</p><p className="text-sm text-muted">{review.reply}</p></div>)}
         </div>
       ))}
       {(!reviews || reviews.length === 0) && <p className="text-sm text-muted">Пока нет отзывов</p>}

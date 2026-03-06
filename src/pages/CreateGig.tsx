@@ -82,7 +82,7 @@ export default function CreateGig() {
     else toast.error('Ошибка публикации');
   };
 
-  const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
+  const inputClass = 'w-full bg-cyber/10 border border-cyber/30 rounded-xl px-4 py-3.5 text-base text-heading placeholder:text-muted focus:outline-none focus:border-cyber focus:ring-1 focus:ring-cyber/40 transition-all';
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
@@ -90,9 +90,9 @@ export default function CreateGig() {
       <div className="flex items-center gap-2 mb-10">
         {stepLabels.map((label, i) => (
           <div key={label} className="flex items-center gap-2 flex-1">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all ${i < step ? 'bg-neon-emerald text-void' : i === step ? 'border-2 border-gold bg-gold/10 text-gold' : 'bg-gold/10 border border-gold/20 text-muted'}`}>{i < step ? <Check size={14} /> : i + 1}</div>
-            <span className={`text-xs hidden sm:block ${i === step ? 'text-gold' : 'text-muted'}`}>{label}</span>
-            {i < stepLabels.length - 1 && <div className={`flex-1 h-px ${i < step ? 'bg-neon-emerald' : 'bg-gold/10'}`} />}
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all ${i < step ? 'bg-neon-emerald text-void' : i === step ? 'border-2 border-cyber bg-cyber/10 text-[#00f5ff]' : 'bg-cyber/10 border border-cyber/20 text-muted'}`}>{i < step ? <Check size={14} /> : i + 1}</div>
+            <span className={`text-xs hidden sm:block ${i === step ? 'text-[#00f5ff]' : 'text-muted'}`}>{label}</span>
+            {i < stepLabels.length - 1 && <div className={`flex-1 h-px ${i < step ? 'bg-neon-emerald' : 'bg-cyber/10'}`} />}
           </div>
         ))}
       </div>
@@ -130,7 +130,7 @@ export default function CreateGig() {
                   </div>
                   <div><label className="block text-xs text-muted mb-1">{t('create_gig.package_desc')}</label><input type="text" placeholder={t('create_gig.package_desc_placeholder')} value={pkgData.desc} onChange={(e) => setForm({ ...form, [pkg]: { ...pkgData, desc: e.target.value } })} className={inputClass} /></div>
                   <div><label className="block text-xs text-muted mb-1">{t('create_gig.includes')}</label><input type="text" placeholder={t('create_gig.includes_placeholder')} value={pkgData.features} onChange={(e) => setForm({ ...form, [pkg]: { ...pkgData, features: e.target.value } })} className={inputClass} /></div>
-                  {pkg !== 'premium' && <div className="border-b border-gold/20" />}
+                  {pkg !== 'premium' && <div className="border-b border-cyber/20" />}
                 </div>
               );
             })}
@@ -141,15 +141,15 @@ export default function CreateGig() {
             <h3 className="text-base font-semibold text-heading">{t('create_gig.upload_images')}</h3>
             <div className="grid sm:grid-cols-3 gap-4">
               {form.images.map((url, i) => (
-                <div key={i} className="relative aspect-video rounded-xl overflow-hidden border-2 border-gold/30">
+                <div key={i} className="relative aspect-video rounded-xl overflow-hidden border-2 border-cyber/30">
                   <img src={url} alt="" className="w-full h-full object-cover" />
                   <button onClick={() => removeImage(i)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-void/80 flex items-center justify-center text-neon-rose cursor-pointer hover:bg-void"><X size={12} /></button>
-                  {i === 0 && <span className="absolute bottom-2 left-2 text-[10px] bg-gold/80 text-void px-2 py-0.5 rounded font-bold">ГЛАВНАЯ</span>}
+                  {i === 0 && <span className="absolute bottom-2 left-2 text-[10px] bg-cyber/80 text-void px-2 py-0.5 rounded font-bold">ГЛАВНАЯ</span>}
                 </div>
               ))}
               {form.images.length < 5 && (
-                <label className={`aspect-video rounded-xl border-2 border-dashed border-gold/20 hover:border-gold flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-gold/10 ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
-                  {uploadingImage ? <Loader2 size={24} className="text-gold animate-spin" /> : <Upload size={24} className="text-muted" />}
+                <label className={`aspect-video rounded-xl border-2 border-dashed border-cyber/20 hover:border-cyber flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-cyber/10 ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
+                  {uploadingImage ? <Loader2 size={24} className="text-[#00f5ff] animate-spin" /> : <Upload size={24} className="text-muted" />}
                   <span className="text-xs text-muted">{uploadingImage ? 'Загрузка...' : `Фото ${form.images.length + 1}`}</span>
                   <input type="file" className="hidden" accept="image/*" multiple onChange={handleImageUpload} disabled={uploadingImage} />
                 </label>
@@ -160,7 +160,7 @@ export default function CreateGig() {
         )}
         {step === 3 && (
           <div className="space-y-6">
-            <div className="flex items-center gap-2 mb-4"><Eye size={20} className="text-gold" /><h3 className="text-base font-semibold text-heading">{t('create_gig.preview')}</h3></div>
+            <div className="flex items-center gap-2 mb-4"><Eye size={20} className="text-[#00f5ff]" /><h3 className="text-base font-semibold text-heading">{t('create_gig.preview')}</h3></div>
             {form.images.length > 0 && <img src={form.images[0]} alt="" className="w-full aspect-video object-cover rounded-xl mb-4" />}
             <AIGigAnalyzer title={form.title} description={form.description} tags={form.tags} price={Number(form.economy.price) || 0} />
             <div className="space-y-4">
@@ -168,20 +168,20 @@ export default function CreateGig() {
               <div><p className="text-xs text-muted mb-1">{t('create_gig.category')}</p><p className="text-sm text-body">{(categories || []).find((c) => c.slug === form.category)?.name || t('gig.not_selected')}</p></div>
               <div><p className="text-xs text-muted mb-1">{t('create_gig.description')}</p><p className="text-sm text-body leading-relaxed whitespace-pre-line">{form.description || t('gig.not_specified')}</p></div>
               {form.tags.length > 0 && <div><p className="text-xs text-muted mb-1">{t('create_gig.technologies')}</p><div className="flex flex-wrap gap-2">{form.tags.map((tag) => <Badge key={tag} variant="default">{tag}</Badge>)}</div></div>}
-              <div className="border-t border-gold/20 pt-4">
+              <div className="border-t border-cyber/20 pt-4">
                 <p className="text-xs text-muted mb-3">{t('create_gig.step_prices')}</p>
                 <div className="grid sm:grid-cols-3 gap-4">
                   {(['economy', 'standard', 'premium'] as const).map((pkg) => {
                     const labels = { economy: t('gig.economy'), standard: t('gig.standard'), premium: t('gig.premium') };
                     const d = form[pkg];
-                    return (<div key={pkg} className="bg-gold/10 rounded-xl p-4 border border-gold/20"><p className="text-sm font-semibold text-heading mb-2">{labels[pkg]}</p><p className="text-xl font-bold text-heading font-mono">{d.price ? `${Number(d.price).toLocaleString('ru-RU')} ₽` : '---'}</p><p className="text-xs text-muted mt-1">{d.days ? `${d.days} ${t('common.days')}` : '---'}</p></div>);
+                    return (<div key={pkg} className="bg-cyber/10 rounded-xl p-4 border border-cyber/20"><p className="text-sm font-semibold text-heading mb-2">{labels[pkg]}</p><p className="text-xl font-bold text-heading font-mono">{d.price ? `${Number(d.price).toLocaleString('ru-RU')} ₽` : '---'}</p><p className="text-xs text-muted mt-1">{d.days ? `${d.days} ${t('common.days')}` : '---'}</p></div>);
                   })}
                 </div>
               </div>
             </div>
           </div>
         )}
-        <div className="flex items-center justify-between mt-8 pt-6 border-t border-gold/20">
+        <div className="flex items-center justify-between mt-8 pt-6 border-t border-cyber/20">
           <Button variant="ghost" size="md" onClick={prev} disabled={step === 0}><ArrowLeft size={16} />{t('common.back')}</Button>
           {step < 3
             ? <Button variant="primary" size="md" onClick={next}>{t('common.next')}<ArrowRight size={16} /></Button>

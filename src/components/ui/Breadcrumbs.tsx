@@ -17,7 +17,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && <ChevronRight size={14} />}
           {item.href ? (
-            <Link to={item.href} className="hover:text-[#ffd700] transition-colors">
+            <Link to={item.href} className="hover:text-[#00f5ff] transition-colors">
               {item.label}
             </Link>
           ) : (

@@ -83,7 +83,7 @@ export default function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative p-2 text-muted hover:text-gold transition-colors cursor-pointer"
+        className="relative p-2 text-muted hover:text-[#00f5ff] transition-colors cursor-pointer"
       >
         <Bell size={20} />
         {unreadCount > 0 && (
@@ -94,8 +94,8 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-nebula-light border border-gold/30 rounded-2xl shadow-2xl overflow-hidden z-[60]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gold/20">
+        <div className="absolute right-0 top-full mt-2 w-80 bg-nebula-light border border-[#00f5ff]/30 rounded-2xl shadow-2xl overflow-hidden z-[60]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#00f5ff]/20">
             <h3 className="text-sm font-heading font-semibold text-heading">Уведомления</h3>
             <button onClick={() => setOpen(false)} className="text-muted hover:text-heading cursor-pointer"><X size={14} /></button>
           </div>
@@ -113,9 +113,9 @@ export default function NotificationBell() {
                     key={n.id}
                     to={n.link}
                     onClick={() => setOpen(false)}
-                    className={`flex items-start gap-3 px-4 py-3 hover:bg-gold/5 transition-colors border-b border-gold/10 ${!n.read ? 'bg-gold/5' : ''}`}
+                    className={`flex items-start gap-3 px-4 py-3 hover:bg-[#00f5ff]/5 transition-colors border-b border-[#00f5ff]/10 ${!n.read ? 'bg-[#00f5ff]/5' : ''}`}
                   >
-                    <Icon size={16} className="text-gold mt-0.5 flex-shrink-0" />
+                    <Icon size={16} className="text-[#00f5ff] mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-heading">{n.title}</p>
                       <p className="text-[11px] text-muted truncate">{n.text}</p>
@@ -126,7 +126,7 @@ export default function NotificationBell() {
               })
             )}
           </div>
-          <Link to="/dashboard" onClick={() => setOpen(false)} className="block text-center py-2.5 text-xs text-gold hover:bg-gold/5 border-t border-gold/20 transition-colors">
+          <Link to="/dashboard" onClick={() => setOpen(false)} className="block text-center py-2.5 text-xs text-[#00f5ff] hover:bg-[#00f5ff]/5 border-t border-[#00f5ff]/20 transition-colors">
             Все уведомления
           </Link>
         </div>

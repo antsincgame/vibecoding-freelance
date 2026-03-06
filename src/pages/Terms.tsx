@@ -4,7 +4,7 @@ export default function Terms() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 pb-24">
       <SEO title="Правила сервиса" />
-      <h1 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.08em] uppercase mb-8">Правила сервиса</h1>
+      <h1 className="font-display text-3xl font-bold text-neon-gradient tracking-[0.08em] uppercase mb-8">Правила сервиса</h1>
 
       <div className="space-y-8 text-sm text-body leading-relaxed">
         <section>
@@ -58,7 +58,7 @@ export default function Terms() {
           <p>Платформа не несёт ответственности за качество услуг, предоставляемых продавцами. Платформа выступает посредником и обеспечивает безопасность сделок. Максимальная ответственность Платформы ограничена суммой заказа.</p>
         </section>
 
-        <div className="border-t border-gold/20 pt-6 text-xs text-muted">
+        <div className="border-t border-[#00f5ff]/20 pt-6 text-xs text-muted">
           <p>Последнее обновление: {new Date().toLocaleDateString('ru-RU')}</p>
           <p>Вопросы: support@vibecoding.by</p>
         </div>

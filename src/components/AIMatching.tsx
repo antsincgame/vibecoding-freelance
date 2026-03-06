@@ -137,7 +137,7 @@ ${freelancerInfo.map(f => `- ${f.name} (@${f.username}): ${f.title}. Навык�
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleMatch()}
-            className="flex-1 bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-accent-violet focus:ring-1 focus:ring-accent-violet/40 transition-all"
+            className="flex-1 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-accent-violet focus:ring-1 focus:ring-accent-violet/40 transition-all"
           />
           <Button variant="primary" size="md" onClick={handleMatch} disabled={matching || !query.trim()}>
             {matching ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
@@ -161,7 +161,7 @@ ${freelancerInfo.map(f => `- ${f.name} (@${f.username}): ${f.title}. Навык�
                 <Link
                   key={match.id}
                   to={`/users/${match.username}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-gold/5 border border-gold/10 hover:border-gold/30 transition-all group"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[#00f5ff]/5 border border-[#00f5ff]/10 hover:border-[#00f5ff]/30 transition-all group"
                 >
                   <div className="relative">
                     <Avatar src={match.avatar} alt={match.name} size="md" />
@@ -171,13 +171,13 @@ ${freelancerInfo.map(f => `- ${f.name} (@${f.username}): ${f.title}. Навык�
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-heading group-hover:text-gold transition-colors">{match.name}</span>
+                      <span className="text-sm font-medium text-heading group-hover:text-[#00f5ff] transition-colors">{match.name}</span>
                       <span className="text-xs text-muted">@{match.username}</span>
-                      <span className="flex items-center gap-0.5 text-xs text-gold"><Star size={10} fill="currentColor" /> {match.rating}</span>
+                      <span className="flex items-center gap-0.5 text-xs text-[#00f5ff]"><Star size={10} fill="currentColor" /> {match.rating}</span>
                     </div>
                     <p className="text-xs text-accent-violet mt-0.5">{match.reason}</p>
                     <div className="flex gap-1 mt-1.5">
-                      {match.skills.slice(0, 4).map(s => <span key={s} className="text-[9px] px-1.5 py-0.5 bg-gold/10 text-muted rounded">{s}</span>)}
+                      {match.skills.slice(0, 4).map(s => <span key={s} className="text-[9px] px-1.5 py-0.5 bg-[#00f5ff]/10 text-muted rounded">{s}</span>)}
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0">
