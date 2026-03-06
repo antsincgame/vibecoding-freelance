@@ -7,6 +7,7 @@ import Avatar from '../components/ui/Avatar';
 import { useAuth } from '@vibecoding/shared';
 import { getCurrentFreelancerProfile, updateFreelancerProfile } from '../lib/freelance-db';
 import { uploadImage } from '../lib/upload';
+import Portfolio from '../components/Portfolio';
 import toast from 'react-hot-toast';
 
 export default function EditProfile() {
@@ -15,6 +16,7 @@ export default function EditProfile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [userId, setUserId] = useState('');
   const [form, setForm] = useState({
     name: '', username: '', title: '', bio: '', location: '', avatar: '',
     skills: [] as string[], skillInput: '',
@@ -24,6 +26,7 @@ export default function EditProfile() {
     (async () => {
       const profile = await getCurrentFreelancerProfile();
       if (profile) {
+        setUserId(profile.id);
         setForm({
           name: profile.name || '',
           username: profile.username || '',
@@ -144,6 +147,14 @@ export default function EditProfile() {
           <Save size={16} /> {saving ? 'Сохранение...' : 'Сохранить'}
         </Button>
       </div>
+
+      {/* Portfolio */}
+      {userId && (
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-heading mb-4">Портфолио</h2>
+          <Portfolio userId={userId} editable={true} />
+        </div>
+      )}
     </div>
   );
 }

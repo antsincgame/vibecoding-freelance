@@ -9,6 +9,7 @@ import StarRating from '../components/ui/StarRating';
 import Tabs from '../components/ui/Tabs';
 import GigCard from '../components/GigCard';
 import Skeleton from '../components/ui/Skeleton';
+import Portfolio from '../components/Portfolio';
 import { useFreelancerByUsername, useFreelancerGigs, useGigReviews } from '../hooks/useData';
 
 export default function UserProfile() {
@@ -39,15 +40,7 @@ export default function UserProfile() {
     {
       id: 'portfolio',
       label: t('profile.portfolio'),
-      content: (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {(userGigs || []).map((gig) => (
-            <div key={gig.id} className="aspect-video rounded-xl overflow-hidden group cursor-pointer border border-gold/20">
-              <img src={gig.image} alt={gig.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-            </div>
-          ))}
-        </div>
-      ),
+      content: <Portfolio userId={user.id} />,
     },
     {
       id: 'reviews',

@@ -9,6 +9,7 @@ import Button from '../components/ui/Button';
 import StarRating from '../components/ui/StarRating';
 import SEO from "../components/SEO";
 import Skeleton from '../components/ui/Skeleton';
+import GigExtras from '../components/GigExtras';
 import { useGig, useGigReviews, useFavoriteStatus } from '../hooks/useData';
 import { createOrder, startConversation } from '../lib/freelance-db';
 import { useAuth } from '@vibecoding/shared';
@@ -31,6 +32,7 @@ export default function GigDetail() {
   const [ordering, setOrdering] = useState(false);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [requirements, setRequirements] = useState('');
+  const [extrasTotal, setExtrasTotal] = useState(0);
 
   if (loading) return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -172,6 +174,7 @@ export default function GigDetail() {
                 <div className="flex items-center gap-2 text-sm text-muted"><Clock size={14} /><span>{t('gig.deliveryTime')}: <span className="text-body font-mono">{pkg.deliveryDays} {t('common.days')}</span></span></div>
                 <div className="space-y-2 pt-2">{pkg.features.map((f) => <div key={f} className="flex items-center gap-2"><Check size={14} className="text-neon-emerald flex-shrink-0" /><span className="text-sm text-body">{f}</span></div>)}</div>
               </div>
+              <GigExtras gigId={gig.id} onExtrasChange={(_, total) => setExtrasTotal(total)} />
               {showOrderForm && (
                 <div className="space-y-3 pt-2">
                   <div className="border-t border-gold/20 pt-3">
@@ -186,7 +189,13 @@ export default function GigDetail() {
                   </div>
                 </div>
               )}
-              <Button variant="primary" size="lg" className="w-full" onClick={handleOrder} disabled={ordering}>{ordering ? '...' : showOrderForm ? `Подтвердить заказ ${pkg.price.toLocaleString('ru-RU')} ₽` : `${t('gig.orderNow')} ${pkg.price.toLocaleString('ru-RU')} ₽`}</Button>
+              {extrasTotal > 0 && (
+                <div className="flex justify-between text-sm pt-2 border-t border-gold/20">
+                  <span className="text-muted">Итого с опциями:</span>
+                  <span className="text-gold font-mono font-bold">{(pkg.price + extrasTotal).toLocaleString('ru-RU')} ₽</span>
+                </div>
+              )}
+              <Button variant="primary" size="lg" className="w-full" onClick={handleOrder} disabled={ordering}>{ordering ? '...' : showOrderForm ? `Подтвердить ${(pkg.price + extrasTotal).toLocaleString('ru-RU')} ₽` : `${t('gig.orderNow')} ${(pkg.price + extrasTotal).toLocaleString('ru-RU')} ₽`}</Button>
               <div className="flex items-center justify-center gap-2 text-xs text-muted"><ShieldCheck size={14} className="text-neon-cyan" /><span>{t('gig.safe_deal')}</span></div>
             </div>
             <div className="card p-6 space-y-4">

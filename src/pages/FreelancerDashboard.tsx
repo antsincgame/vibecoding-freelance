@@ -151,8 +151,58 @@ export default function FreelancerDashboard() {
           {activeSection === 'analytics' && (
             <div>
               <h1 className="text-2xl font-bold text-heading mb-6">{t('freelancer_dashboard.analytics')}</h1>
-              <div className="card p-6 text-center py-12">
-                <p className="text-muted">Аналитика будет доступна после первых заказов</p>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="card p-6">
+                  <h3 className="text-sm text-muted mb-4">Ваши гиги</h3>
+                  <div className="space-y-4">
+                    {allGigs.map((gig) => (
+                      <div key={gig.id}>
+                        <div className="flex items-center justify-between text-sm mb-1">
+                          <span className="text-body truncate pr-4">{gig.title.slice(0, 35)}...</span>
+                          <span className="text-gold font-mono">★ {gig.rating}</span>
+                        </div>
+                        <div className="h-1.5 bg-gold/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-gold/40 rounded-full" style={{ width: `${Math.min(gig.rating / 5 * 100, 100)}%` }} />
+                        </div>
+                        <div className="flex justify-between text-[10px] text-muted mt-1">
+                          <span>{gig.ordersCount} заказов</span>
+                          <span>{gig.reviewCount} отзывов</span>
+                        </div>
+                      </div>
+                    ))}
+                    {allGigs.length === 0 && <p className="text-sm text-muted">Создайте первый гиг</p>}
+                  </div>
+                </div>
+                <div className="card p-6">
+                  <h3 className="text-sm text-muted mb-4">Показатели</h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-body">Всего гигов</span>
+                      <span className="text-lg font-bold font-mono text-heading">{allGigs.length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-body">Всего заказов</span>
+                      <span className="text-lg font-bold font-mono text-heading">{allOrders.length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-body">Завершённых</span>
+                      <span className="text-lg font-bold font-mono text-neon-green">{allOrders.filter(o => o.status === 'completed').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-body">Рейтинг</span>
+                      <span className="text-lg font-bold font-mono text-gold">★ {freelancer?.rating?.toFixed(1) || '—'}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-body">Уровень</span>
+                      <span className={`text-sm font-bold ${freelancer?.level === 'pro' ? 'text-gold' : freelancer?.level === 'verified' ? 'text-neon-cyan' : 'text-muted'}`}>
+                        {freelancer?.level === 'pro' ? 'PRO' : freelancer?.level === 'verified' ? 'Верифицирован' : 'Новичок'}
+                      </span>
+                    </div>
+                    <div className="border-t border-gold/20 pt-3 mt-3">
+                      <p className="text-xs text-muted">💡 Чтобы повысить рейтинг: выполняйте заказы качественно и в срок, собирайте отзывы, заполните портфолио.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}

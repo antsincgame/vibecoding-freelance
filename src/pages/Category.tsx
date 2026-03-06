@@ -28,6 +28,9 @@ export default function Category() {
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
+
   const sortOptions = [
     { value: 'popular', label: t('category.popular') },
     { value: 'new', label: t('category.new') },
@@ -113,13 +116,27 @@ export default function Category() {
             </div>
           ) : (
             <>
+              <div className="text-sm text-muted mb-4">{categoryGigs.length} услуг найдено</div>
               <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {categoryGigs.map((gig, i) => <GigCard key={gig.id} gig={gig} index={i} />)}
+                {categoryGigs.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE).map((gig, i) => <GigCard key={gig.id} gig={gig} index={i} />)}
               </div>
               {categoryGigs.length === 0 && (
                 <div className="text-center py-20">
                   <p className="text-muted text-lg">{t('common.nothing_found')}</p>
                   <p className="text-muted text-sm mt-2">{t('common.try_change_filters')}</p>
+                </div>
+              )}
+              {categoryGigs.length > ITEMS_PER_PAGE && (
+                <div className="flex justify-center gap-2 mt-12">
+                  {Array.from({ length: Math.ceil(categoryGigs.length / ITEMS_PER_PAGE) }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className={`w-10 h-10 rounded-xl text-sm font-mono transition-all cursor-pointer ${page === i + 1 ? 'border border-gold bg-gold/10 text-gold' : 'border border-gold/20 text-muted hover:text-body'}`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
                 </div>
               )}
             </>

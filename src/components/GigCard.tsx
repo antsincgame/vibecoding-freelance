@@ -35,6 +35,9 @@ export default function GigCard({ gig, index = 0 }: GigCardProps) {
           {gig.freelancer.level === 'pro' && (
             <span className="ml-auto text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">PRO</span>
           )}
+          {gig.tags.some(t => ['AI', 'OpenAI', 'ChatGPT', 'GPT', 'LangChain', 'Claude', 'Cursor', 'Copilot'].some(ai => t.toLowerCase().includes(ai.toLowerCase()))) && (
+            <span className="text-[10px] font-bold bg-neon-cyan/15 text-neon-cyan px-2 py-0.5 rounded-full border border-neon-cyan/30">⚡AI</span>
+          )}
         </div>
 
         <h3 className="text-sm font-medium text-heading leading-snug line-clamp-2 group-hover:text-gold transition-colors duration-300">

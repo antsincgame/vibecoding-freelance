@@ -11,6 +11,48 @@ export interface MegaMenuCategory {
 
 export const megaMenuCategories: MegaMenuCategory[] = [
   {
+    label: 'AI и Вайб-кодинг',
+    slug: 'ai-vibecoding',
+    sections: [
+      {
+        title: 'Вайб-кодинг',
+        items: [
+          { label: 'MVP за 3 дня', slug: 'mvp', isHot: true },
+          { label: 'Сайты на Cursor/Bolt', slug: 'cursor-bolt', isNew: true },
+          { label: 'Доработка AI-кода', slug: 'ai-code-fix', isNew: true },
+          { label: 'Деплой и DevOps', slug: 'deployments' },
+        ],
+      },
+      {
+        title: 'AI Разработка',
+        items: [
+          { label: 'AI Чат-боты', slug: 'ai-chatbots', isHot: true },
+          { label: 'RAG системы', slug: 'rag-systems', isNew: true },
+          { label: 'AI Агенты', slug: 'ai-agents', isNew: true },
+          { label: 'Fine-tuning моделей', slug: 'ai-fine-tuning' },
+        ],
+      },
+      {
+        title: 'AI Интеграции',
+        items: [
+          { label: 'OpenAI / Claude API', slug: 'ai-integrations', isHot: true },
+          { label: 'AI для бизнеса', slug: 'ai-business' },
+          { label: 'Автоматизация с AI', slug: 'ai-automation', isNew: true },
+          { label: 'AI Консалтинг', slug: 'ai-consulting' },
+        ],
+      },
+      {
+        title: 'AI Контент',
+        items: [
+          { label: 'AI Генерация изображений', slug: 'ai-images', isNew: true },
+          { label: 'AI Видео', slug: 'ai-video', isNew: true },
+          { label: 'AI Тексты и копирайтинг', slug: 'ai-copywriting' },
+          { label: 'AI Голос и озвучка', slug: 'ai-voice', isNew: true },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Разработка и IT',
     slug: 'development',
     sections: [

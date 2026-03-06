@@ -571,6 +571,6 @@ export async function searchGigs(query: string): Promise<Gig[]> {
 // ============================================
 
 export const popularSearches = [
-  'Создание лендинга', 'Telegram бот', 'React приложение', 'AI интеграция',
-  'Мобильное приложение', 'MVP за 3 дня', 'Вёрстка макета', 'Backend API',
+  'AI чат-бот', 'MVP за 3 дня', 'Telegram бот с GPT', 'React приложение',
+  'Вайб-кодинг', 'RAG система', 'Cursor разработка', 'Автоматизация с AI',
 ];
