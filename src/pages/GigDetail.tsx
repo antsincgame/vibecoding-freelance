@@ -9,10 +9,11 @@ import Button from '../components/ui/Button';
 import StarRating from '../components/ui/StarRating';
 import Skeleton from '../components/ui/Skeleton';
 import { useGig, useGigReviews, useFavoriteStatus } from '../hooks/useData';
-import { createOrder } from '../lib/freelance-db';
+import { createOrder, startConversation } from '../lib/freelance-db';
 import { useAuth } from '@vibecoding/shared';
 import type { GigPackage } from '../types';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 type PackageKey = 'economy' | 'standard' | 'premium';
 
@@ -20,6 +21,7 @@ export default function GigDetail() {
   const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { data: gig, loading } = useGig(id);
   const { data: reviews } = useGigReviews(id);
   const { isFavorite, toggleFavorite } = useFavoriteStatus(id);
@@ -51,7 +53,14 @@ export default function GigDetail() {
     setOrdering(true);
     const order = await createOrder({ gig_id: gig.id, package_type: activePackage });
     setOrdering(false);
-    if (order) { toast.success('Заказ создан!'); } else { toast.error('Ошибка создания заказа'); }
+    if (order) { toast.success('Заказ создан!'); navigate(`/orders/${order.id}`); } else { toast.error('Ошибка создания заказа'); }
+  };
+
+  const handleMessage = async () => {
+    if (!user) { toast.error('Войдите чтобы написать'); return; }
+    const convId = await startConversation(gig.freelancer.id, gig.freelancer.name, gig.freelancer.avatar);
+    if (convId) navigate(`/chat/${convId}`);
+    else toast.error('Ошибка');
   };
 
   return (
@@ -170,7 +179,7 @@ export default function GigDetail() {
                 <div className="bg-gold/10 rounded-xl p-3 border border-gold/30"><p className="text-lg font-bold text-heading font-mono">{gig.freelancer.ordersCompleted}</p><p className="text-xs text-muted">{t('gig.completed_orders')}</p></div>
                 <div className="bg-gold/10 rounded-xl p-3 border border-gold/30"><p className="text-lg font-bold text-neon-emerald font-mono">{gig.freelancer.successRate}%</p><p className="text-xs text-muted">{t('gig.success_rate')}</p></div>
               </div>
-              <Button variant="secondary" size="md" className="w-full"><MessageCircle size={16} />{t('gig.write_message')}</Button>
+              <Button variant="secondary" size="md" className="w-full" onClick={handleMessage}><MessageCircle size={16} />{t('gig.write_message')}</Button>
             </div>
           </div>
         </div>

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, ShoppingBag, MessageCircle, Heart, Settings, TrendingUp, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, MessageCircle, Heart, Settings, TrendingUp, Clock, CheckCircle2, AlertCircle, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import GigCard from '../components/GigCard';
 import Skeleton from '../components/ui/Skeleton';
-import { useMyOrders, useFavoriteGigs, useConversations } from '../hooks/useData';
+import { useMyOrders, useFavoriteGigs } from '../hooks/useData';
 import { useAuth } from '@vibecoding/shared';
 import { updateFreelancerProfile } from '../lib/freelance-db';
 import type { Order } from '../types';
@@ -19,7 +20,6 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const { data: orders, loading: ordersLoading } = useMyOrders('buyer');
-  const { data: conversations } = useConversations();
   const { data: favoriteGigs, loading: favsLoading } = useFavoriteGigs();
 
   const [settingsForm, setSettingsForm] = useState({ name: profile?.full_name || '', city: '' });
@@ -34,8 +34,9 @@ export default function Dashboard() {
   const sidebarItems = [
     { id: 'overview', icon: LayoutDashboard, label: t('dashboard.overview') },
     { id: 'orders', icon: ShoppingBag, label: t('dashboard.my_orders') },
-    { id: 'messages', icon: MessageCircle, label: t('dashboard.messages') },
+    { id: 'messages', icon: MessageCircle, label: t('dashboard.messages'), link: '/chat' },
     { id: 'favorites', icon: Heart, label: t('dashboard.favorites') },
+    { id: 'support', icon: HelpCircle, label: 'Поддержка', link: '/support' },
     { id: 'settings', icon: Settings, label: t('dashboard.settings') },
   ];
 
@@ -60,18 +61,30 @@ export default function Dashboard() {
         <aside className="hidden lg:block w-56 flex-shrink-0">
           <nav className="card p-3 space-y-1 sticky top-24">
             {sidebarItems.map((item) => (
-              <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body hover:bg-gold/10'}`}>
-                <item.icon size={18} />{item.label}
-              </button>
+              item.link ? (
+                <Link key={item.id} to={item.link} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all text-muted hover:text-body hover:bg-gold/10">
+                  <item.icon size={18} />{item.label}
+                </Link>
+              ) : (
+                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold' : 'text-muted hover:text-body hover:bg-gold/10'}`}>
+                  <item.icon size={18} />{item.label}
+                </button>
+              )
             ))}
           </nav>
         </aside>
         <div className="flex-1 min-w-0">
           <div className="lg:hidden flex gap-2 mb-6 overflow-x-auto pb-2">
             {sidebarItems.map((item) => (
-              <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold border border-gold' : 'bg-gold/10 text-muted border border-gold/20'}`}>
-                <item.icon size={16} />{item.label}
-              </button>
+              item.link ? (
+                <Link key={item.id} to={item.link} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap bg-gold/10 text-muted border border-gold/20">
+                  <item.icon size={16} />{item.label}
+                </Link>
+              ) : (
+                <button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all cursor-pointer ${activeSection === item.id ? 'bg-gold/10 text-gold border border-gold' : 'bg-gold/10 text-muted border border-gold/20'}`}>
+                  <item.icon size={16} />{item.label}
+                </button>
+              )
             ))}
           </div>
 
@@ -88,12 +101,12 @@ export default function Dashboard() {
                 {ordersLoading ? <Skeleton className="h-20" /> : (
                   <div className="space-y-3">
                     {allOrders.slice(0, 3).map((order) => (
-                      <div key={order.id} className="card p-4 flex items-center gap-4">
+                      <Link key={order.id} to={`/orders/${order.id}`} className="card p-4 flex items-center gap-4 hover:border-gold/30 transition-all">
                         <Avatar src={order.freelancerAvatar} alt={order.freelancerName} size="sm" />
                         <div className="flex-1 min-w-0"><p className="text-sm text-heading truncate">{order.gigTitle}</p><p className="text-xs text-muted">{order.freelancerName}</p></div>
                         <Badge variant={statusConfig[order.status]?.variant || 'green'}>{statusConfig[order.status]?.label || order.status}</Badge>
                         <span className="text-sm font-mono text-heading font-semibold hidden sm:block">{order.price.toLocaleString('ru-RU')} ₽</span>
-                      </div>
+                      </Link>
                     ))}
                     {allOrders.length === 0 && <p className="text-sm text-muted">Нет заказов</p>}
                   </div>
@@ -112,7 +125,7 @@ export default function Dashboard() {
               </div>
               <div className="space-y-3">
                 {filteredOrders.map((order) => (
-                  <div key={order.id} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                  <Link key={order.id} to={`/orders/${order.id}`} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:border-gold/30 transition-all">
                     <Avatar src={order.freelancerAvatar} alt={order.freelancerName} size="md" />
                     <div className="flex-1 min-w-0"><p className="text-sm font-medium text-heading">{order.gigTitle}</p><p className="text-xs text-muted mt-0.5">{order.freelancerName} / {order.packageType}</p></div>
                     <div className="flex items-center gap-4 w-full sm:w-auto">
@@ -120,7 +133,7 @@ export default function Dashboard() {
                       <Badge variant={statusConfig[order.status]?.variant || 'green'}>{statusConfig[order.status]?.label || order.status}</Badge>
                       <span className="text-sm font-bold font-mono text-heading ml-auto sm:ml-0">{order.price.toLocaleString('ru-RU')} ₽</span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
                 {filteredOrders.length === 0 && <p className="text-sm text-muted py-8 text-center">Нет заказов</p>}
               </div>
@@ -128,19 +141,10 @@ export default function Dashboard() {
           )}
 
           {activeSection === 'messages' && (
-            <div>
-              <h1 className="text-2xl font-bold text-heading mb-6">{t('dashboard.messages')}</h1>
-              <div className="space-y-2">
-                {(conversations || []).map((conv: any) => (
-                  <div key={conv.id} className="card p-4 flex items-center gap-4 cursor-pointer hover:border-gold/30 transition-all">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-muted truncate">{conv.last_message || 'Новый диалог'}</p>
-                    </div>
-                    <span className="text-xs text-muted">{conv.last_message_at ? new Date(conv.last_message_at).toLocaleDateString('ru-RU') : ''}</span>
-                  </div>
-                ))}
-                {(!conversations || conversations.length === 0) && <p className="text-sm text-muted py-8 text-center">Нет сообщений</p>}
-              </div>
+            <div className="text-center py-12">
+              <MessageCircle size={48} className="text-muted/30 mx-auto mb-4" />
+              <p className="text-muted mb-4">Сообщения перенесены в отдельный раздел</p>
+              <Link to="/chat"><Button variant="primary" size="md"><MessageCircle size={16} /> Перейти в чат</Button></Link>
             </div>
           )}
 

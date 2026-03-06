@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Check, ArrowLeft, ArrowRight, Upload, Eye } from 'lucide-react';
+import { Check, ArrowLeft, ArrowRight, Upload, Eye, X, Loader2 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import { useCategories } from '../hooks/useData';
 import { createGig } from '../lib/freelance-db';
+import { uploadImage } from '../lib/upload';
 import toast from 'react-hot-toast';
 
 export default function CreateGig() {
@@ -14,8 +15,10 @@ export default function CreateGig() {
   const { data: categories } = useCategories();
   const [step, setStep] = useState(0);
   const [publishing, setPublishing] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [form, setForm] = useState({
     title: '', category: '', description: '', tags: [] as string[], tagInput: '',
+    images: [] as string[],
     economy: { price: '', days: '', desc: '', features: '' },
     standard: { price: '', days: '', desc: '', features: '' },
     premium: { price: '', days: '', desc: '', features: '' },
@@ -28,10 +31,34 @@ export default function CreateGig() {
     if (form.tagInput.trim() && !form.tags.includes(form.tagInput.trim())) setForm({ ...form, tags: [...form.tags, form.tagInput.trim()], tagInput: '' });
   };
 
-  const handlePublish = async () => {
-    if (!form.title || !form.category) { toast.error('Заполните название и категорию'); return; }
-    setPublishing(true);
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    if (form.images.length >= 5) { toast.error('Максимум 5 изображений'); return; }
     
+    setUploadingImage(true);
+    for (let i = 0; i < Math.min(files.length, 5 - form.images.length); i++) {
+      const url = await uploadImage(files[i]);
+      if (url) {
+        setForm(prev => ({ ...prev, images: [...prev.images, url] }));
+      } else {
+        toast.error(`Ошибка загрузки ${files[i].name}`);
+      }
+    }
+    setUploadingImage(false);
+    e.target.value = '';
+  };
+
+  const removeImage = (idx: number) => {
+    setForm(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== idx) }));
+  };
+
+  const handlePublish = async () => {
+    if (!form.title) { toast.error('Укажите название'); return; }
+    if (!form.category) { toast.error('Выберите категорию'); return; }
+    if (!form.economy.price) { toast.error('Укажите цену эконом-пакета'); return; }
+    
+    setPublishing(true);
     const cat = (categories || []).find(c => c.slug === form.category);
     const makePkg = (d: typeof form.economy) => ({
       name: '', price: Number(d.price) || 0, deliveryDays: Number(d.days) || 1, description: d.desc, features: d.features.split(',').map(f => f.trim()).filter(Boolean)
@@ -44,13 +71,14 @@ export default function CreateGig() {
       category: cat?.name || form.category,
       categorySlug: form.category,
       tags: form.tags,
-      image: '',
-      images: [],
+      image: form.images[0] || '',
+      images: form.images,
       packages: { economy: makePkg(form.economy), standard: makePkg(form.standard), premium: makePkg(form.premium) },
     });
 
     setPublishing(false);
-    if (gig) { toast.success('Услуга опубликована!'); navigate('/dashboard/freelancer'); } else { toast.error('Ошибка публикации'); }
+    if (gig) { toast.success('Услуга опубликована!'); navigate('/dashboard/freelancer'); }
+    else toast.error('Ошибка публикации');
   };
 
   const inputClass = 'w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all';
@@ -83,7 +111,7 @@ export default function CreateGig() {
                 <input type="text" placeholder="React, Next.js..." value={form.tagInput} onChange={(e) => setForm({ ...form, tagInput: e.target.value })} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())} className={inputClass} />
                 <Button variant="secondary" size="md" onClick={addTag}>+</Button>
               </div>
-              {form.tags.length > 0 && <div className="flex flex-wrap gap-2 mt-3">{form.tags.map((tag) => <Badge key={tag} variant="green" className="cursor-pointer" onClick={() => setForm({ ...form, tags: form.tags.filter((t) => t !== tag) })}>{tag} x</Badge>)}</div>}
+              {form.tags.length > 0 && <div className="flex flex-wrap gap-2 mt-3">{form.tags.map((tag) => <Badge key={tag} variant="green" className="cursor-pointer" onClick={() => setForm({ ...form, tags: form.tags.filter((t) => t !== tag) })}>{tag} ×</Badge>)}</div>}
             </div>
           </div>
         )}
@@ -109,24 +137,34 @@ export default function CreateGig() {
         )}
         {step === 2 && (
           <div className="space-y-6">
-            <h3 className="text-base font-semibold text-heading mb-4">{t('create_gig.upload_images')}</h3>
+            <h3 className="text-base font-semibold text-heading">{t('create_gig.upload_images')}</h3>
             <div className="grid sm:grid-cols-3 gap-4">
-              {[1, 2, 3].map((n) => (
-                <label key={n} className="aspect-video rounded-xl border-2 border-dashed border-gold/20 hover:border-gold flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-gold/10">
-                  <Upload size={24} className="text-muted" /><span className="text-xs text-muted">{t('create_gig.image_n')} {n}</span><input type="file" className="hidden" accept="image/*" />
-                </label>
+              {form.images.map((url, i) => (
+                <div key={i} className="relative aspect-video rounded-xl overflow-hidden border-2 border-gold/30">
+                  <img src={url} alt="" className="w-full h-full object-cover" />
+                  <button onClick={() => removeImage(i)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-void/80 flex items-center justify-center text-neon-rose cursor-pointer hover:bg-void"><X size={12} /></button>
+                  {i === 0 && <span className="absolute bottom-2 left-2 text-[10px] bg-gold/80 text-void px-2 py-0.5 rounded font-bold">ГЛАВНАЯ</span>}
+                </div>
               ))}
+              {form.images.length < 5 && (
+                <label className={`aspect-video rounded-xl border-2 border-dashed border-gold/20 hover:border-gold flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-gold/10 ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
+                  {uploadingImage ? <Loader2 size={24} className="text-gold animate-spin" /> : <Upload size={24} className="text-muted" />}
+                  <span className="text-xs text-muted">{uploadingImage ? 'Загрузка...' : `Фото ${form.images.length + 1}`}</span>
+                  <input type="file" className="hidden" accept="image/*" multiple onChange={handleImageUpload} disabled={uploadingImage} />
+                </label>
+              )}
             </div>
-            <p className="text-xs text-muted mt-2">{t('create_gig.image_hint')}</p>
+            <p className="text-xs text-muted">Первое изображение — обложка. Максимум 5 фото. JPG, PNG, WebP.</p>
           </div>
         )}
         {step === 3 && (
           <div className="space-y-6">
             <div className="flex items-center gap-2 mb-4"><Eye size={20} className="text-gold" /><h3 className="text-base font-semibold text-heading">{t('create_gig.preview')}</h3></div>
+            {form.images.length > 0 && <img src={form.images[0]} alt="" className="w-full aspect-video object-cover rounded-xl mb-4" />}
             <div className="space-y-4">
               <div><p className="text-xs text-muted mb-1">{t('create_gig.gig_title')}</p><p className="text-lg font-medium text-heading">{form.title || t('gig.not_specified')}</p></div>
               <div><p className="text-xs text-muted mb-1">{t('create_gig.category')}</p><p className="text-sm text-body">{(categories || []).find((c) => c.slug === form.category)?.name || t('gig.not_selected')}</p></div>
-              <div><p className="text-xs text-muted mb-1">{t('create_gig.description')}</p><p className="text-sm text-body leading-relaxed">{form.description || t('gig.not_specified')}</p></div>
+              <div><p className="text-xs text-muted mb-1">{t('create_gig.description')}</p><p className="text-sm text-body leading-relaxed whitespace-pre-line">{form.description || t('gig.not_specified')}</p></div>
               {form.tags.length > 0 && <div><p className="text-xs text-muted mb-1">{t('create_gig.technologies')}</p><div className="flex flex-wrap gap-2">{form.tags.map((tag) => <Badge key={tag} variant="default">{tag}</Badge>)}</div></div>}
               <div className="border-t border-gold/20 pt-4">
                 <p className="text-xs text-muted mb-3">{t('create_gig.step_prices')}</p>

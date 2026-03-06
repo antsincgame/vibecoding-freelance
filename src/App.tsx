@@ -25,6 +25,8 @@ import AdminOrders from './pages/admin/AdminOrders';
 import AdminReviews from './pages/admin/AdminReviews';
 import AdminTickets from './pages/admin/AdminTickets';
 import Support from './pages/Support';
+import OrderDetail from './pages/OrderDetail';
+import Chat from './pages/Chat';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -127,6 +129,15 @@ function AppContent() {
           } />
           <Route path="/support" element={
             <ProtectedRoute><Support /></ProtectedRoute>
+          } />
+          <Route path="/orders/:id" element={
+            <ProtectedRoute><OrderDetail /></ProtectedRoute>
+          } />
+          <Route path="/chat" element={
+            <ProtectedRoute><Chat /></ProtectedRoute>
+          } />
+          <Route path="/chat/:id" element={
+            <ProtectedRoute><Chat /></ProtectedRoute>
           } />
           <Route path="/dashboard" element={
             <RequireFlProfile><Dashboard /></RequireFlProfile>

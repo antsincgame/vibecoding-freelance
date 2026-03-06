@@ -498,6 +498,41 @@ export async function getMessages(conversationId: string): Promise<any[]> {
   return Array.isArray(data) ? data : [data];
 }
 
+export async function startConversation(otherUserId: string, otherName: string, otherAvatar: string): Promise<string | null> {
+  try {
+    const acc = getAccount();
+    const user = await acc.get();
+    const { data: myProfile } = await db().from('fl_profiles').select('*').eq('user_id', user.$id).maybeSingle();
+
+    // Check if conversation already exists
+    const existing = await getConversations();
+    const found = existing.find((c: any) => {
+      const ids = Array.isArray(c.participant_ids) ? c.participant_ids : [];
+      return ids.includes(otherUserId);
+    });
+    if (found) return found.id;
+
+    const names: Record<string, string> = {};
+    names[user.$id] = myProfile?.name || user.name || 'User';
+    names[otherUserId] = otherName;
+
+    const avatars: Record<string, string> = {};
+    avatars[user.$id] = myProfile?.avatar || '';
+    avatars[otherUserId] = otherAvatar;
+
+    const { data, error } = await db().from('fl_conversations').insert({
+      participant_ids: JSON.stringify([user.$id, otherUserId]),
+      participant_names: JSON.stringify(names),
+      participant_avatars: JSON.stringify(avatars),
+      last_message: '',
+      last_message_at: new Date().toISOString(),
+      order_id: '',
+    });
+    if (error || !data) return null;
+    return data.id;
+  } catch { return null; }
+}
+
 export async function sendMessage(conversationId: string, content: string): Promise<boolean> {
   try {
     const acc = getAccount();
