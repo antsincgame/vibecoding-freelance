@@ -1,63 +1,91 @@
-# Vibecoding Project — Cursor Rules
+# VibeCoder Freelance — Cursor Instructions
 
-## Backend: Appwrite Self-Hosted
-- **Endpoint**: https://appwrite.vibecoding.by/v1
-- **Project ID**: 69aa2114000211b48e63
-- **Database ID**: vibecoding
-- **API Key**: standard_06b8634032f75c7d02d49e7a4add952c4183146ce5def3dc0f4a9df7e18307b29193788a0aa7694e6146ac3339a99eae5de4c3ce24b6a284e41f84dad5683cbc9a60ab5b18084171ad9b9a60d470bbce068b4ee21c8231467bd92bec43c9ed9dcfbe6e23f784c4c77e0c88beeacb60f4a7873f2baa936246a7aa4bacbd3c0d57
+## Project Overview
+VibeCoder — фриланс-маркетплейс AI-разработчиков и вайб-кодеров. React + TypeScript + Vite + Tailwind CSS.
 
-## MCP Server
-Используй Appwrite MCP сервер для работы с базой данных. Все операции с данными выполняй через MCP tools (databases, users, storage).
+## Tech Stack
+- Frontend: React 18, TypeScript, Vite, Tailwind CSS
+- Backend: Appwrite 1.7.4 (self-hosted)
+- Auth: Appwrite Account (shared across vibecoding.by projects)
+- Deployment: Coolify on VPS 45.135.234.145
 
-## Коллекции в БД (vibecoding)
-### С данными:
-- **blog_posts** (19) — title, slug, excerpt, content, image_url, meta_title, meta_description, meta_keywords, is_published, published_at, created_at, updated_at
-- **courses** (3) — title, description, duration, age_group, price, image_url, features(JSON string), is_active, order_index, slug, meta_title, meta_description, meta_keywords, seo_text, homework_optional
-- **course_modules** (2) — course_id, title, order_index, created_at, updated_at
-- **course_lessons** (1) — module_id, title, duration, youtube_url, order_index, kinescope_embed, homework_description
-- **faqs** (6) — question, answer, category, order_index, is_active
-- **profiles** (9) — email, full_name, avatar_url, role(admin/user), username, title, bio, location, is_freelancer, response_time, success_rate, freelancer_level, is_online, orders_completed
-- **site_settings** (6) — key, value, description, updated_at
-- **system_settings** (17) — key, value, description, updated_at (содержит resend_api_key, email настройки)
-- **student_works** (6) — student_name, student_age, project_title, project_description, project_url, image_url, tool_type, is_active, order_index
-- **trial_registrations** (9) — age_group, parent_name, child_name, child_age, phone, email, course_id, message, status
-- **founder_questions** (1) — name, email, phone, question, status, answered_at
-- **grodno_applications** (2) — name, phone, email, tariff, comment, source, created_at
-- **email_logs** — resend_email_id, recipient_email, subject, template_type, status, error_message
-- **inbox** (14) — message_id, from_email, from_name, to_email, subject, text_content, html_content, is_read, is_archived
+## Appwrite Connection
+Endpoint: https://appwrite.vibecoding.by/v1
+Project ID: 69aa2114000211b48e63
+API Key: standard_06b8634032f75c7d02d49e7a4add952c4183146ce5def3dc0f4a9df7e18307b29193788a0aa7694e6146ac3339a99eae5de4c3ce24b6a284e41f84dad5683cbc9a60ab5b18084171ad9b9a60d470bbce068b4ee21c8231467bd92bec43c9ed9dcfbe6e23f784c4c77e0c88beeacb60f4a7873f2baa936246a7aa4bacbd3c0d57
+Database: vibecoding
+Storage bucket: images
 
-### Пустые (готовы к использованию):
-- auth_tokens, video_testimonials, student_enrollments, lesson_progress, homework_submissions, lesson_files, email_settings, email_templates, lessons, openrouter_settings, webhook_logs
-- fl_categories, fl_gigs, fl_gig_packages, fl_orders, fl_conversations, fl_messages, fl_favorites, fl_reviews
+## Environment Variables (Coolify)
+VITE_APPWRITE_ENDPOINT=https://appwrite.vibecoding.by/v1
+VITE_APPWRITE_PROJECT=69aa2114000211b48e63
 
-## Storage Buckets
-- **images** — основные изображения
-- **homework-attachments** — файлы домашних заданий
-- **lesson-files** — файлы уроков
-- **video-testimonials** — видео отзывы
+## Database Wrapper (CRITICAL)
+Appwrite SDK wrapped in Supabase-compatible API in shared/src/auth/supabase.ts
+- getSupabase() returns chainable query builder
+- getAccount() returns Appwrite Account instance
+- Usage: db().from('collection').select('*').eq('field', value)
+- Insert: db().from('collection').insert({ ... })
+- Update: db().from('collection').update({ ... }).eq('id', docId)
+- Delete: db().from('collection').delete().eq('id', docId)
+- Single: .maybeSingle() returns { data: row | null }
+- Field 'id' auto-maps to '$id' in Appwrite
+- JSON fields (tags, skills, images, packages) stored as strings, auto-parsed on read
+- Always add fallback: Array.isArray(x) ? x : JSON.parse(x)
 
-## Auth
-- Appwrite Account API (email/password + Google OAuth)
-- При создании пользователя — создавать profile в коллекции profiles с тем же ID
-- Google OAuth настроен
+## Collections (13 total)
 
-## Архитектура фронтенда
-- React + Vite + TypeScript
-- Shared submodule `@vibecoding/shared` содержит Appwrite-совместимый враппер с API как у Supabase
-- `supabase.from('table').select().eq().order()` — это НЕ Supabase, это Appwrite враппер
-- JSON поля (features и др.) хранятся как строки, парсятся автоматически в враппере
-- Upsert поддерживает `onConflict` параметр
+### fl_profiles — user profiles
+user_id(100,req), username(100,req), name(200,req), avatar(500), title(200), bio(2000), location(100), skills(1000,JSON), role(20: freelancer/client/admin/moderator), level(20: new/verified/pro), rating(float), review_count(int), orders_completed(int), response_time(50), is_online(bool), member_since(50), success_rate(int), balance(int)
 
-## API (vibecoding-api)
-- Express сервер на https://vibecoding.by/functions/v1
-- node-appwrite SDK
-- Эндпоинты: upload-image, send-email, create-user, delete-user, generate-quote, send-test-email, send-homework-notification, send-verification-email, resend-webhook, inbound-email, verify-email, send-password-reset, verify-reset-token, reset-password, auth-exchange, health
+### fl_gigs — services/kworks
+title(300,req), description(5000), short_description(500), image(500), images(2000,JSON), freelancer_id(100,req), freelancer_name(200), freelancer_username(100), rating(float), review_count(int), orders_count(int), tags(500,JSON), category(100), category_slug(100), is_featured(bool), status(20: pending/active/paused/rejected/deleted), package_economy(1000,JSON), package_standard(1000,JSON), package_premium(1000,JSON), rejection_reason(300), moderated_by(50), moderated_at(30)
+NOTE: freelancer_avatar DELETED — use enrichGigAvatars() from fl_profiles
 
-## Деплой
-- Coolify автодеплой через GitHub App (vibecoding-coolify)
-- Push в main → автобилд через Nixpacks
-- Env переменные в Coolify (не в .env файлах)
+### fl_orders
+gig_id(100,req), gig_title(300), buyer_id(100,req), client_id(100,req,=buyer_id), seller_id(100,req), seller_name(200), seller_avatar(500), package_type(20), price(int,req), status(30: new/in_progress/delivered/completed/cancelled/revision), requirements(2000), delivery_days(int), delivered_at(50), completed_at(50)
 
-## Язык
-- Интерфейс на русском
-- Код и комментарии можно на английском
+### fl_reviews
+gig_id(100,req), order_id(100), author_id(100,req), author_name(200), author_avatar(500), rating(int,req), text(2000), reply(2000)
+
+### fl_categories
+slug(100,req), name(200,req), icon(50), description(500), gig_count(int,NOT USED), sort_order(int)
+
+### fl_favorites — user_id(100,req), gig_id(100,req)
+### fl_conversations — participant_ids(500,req,JSON), participant_names(500,JSON), participant_avatars(1000,JSON), order_id(100), last_message(500), last_message_at(50)
+### fl_messages — conversation_id(100,req), sender_id(100,req), content(5000,req), type(20), read(bool)
+### fl_tickets — user_id, user_name, user_email, subject(300), category(50), status(20), priority(20), related_id(100), assigned_to(100), closed_at(50)
+### fl_ticket_messages — ticket_id, sender_id, sender_name, message(5000), is_admin(bool)
+### fl_projects — user_id(100,req), user_name(200), user_avatar(300), title(300,req), description(3000), category(100), status(20), budget_from(int), budget_to(int), deadline_days(int), responses_count(int)
+### fl_portfolio — user_id(100,req), image(500), title(200,req), description(500), link(300), tags(500,JSON)
+### fl_gig_extras — gig_id(100,req), title(200,req), description(500), price(int), delivery_days_add(int), sort_order(int)
+
+## Key Files
+- src/lib/freelance-db.ts — ALL database functions (CRUD for gigs, orders, reviews, profiles, chat, favorites)
+- src/lib/admin-api.ts — Admin/moderator functions + role checks (ADMIN_EMAILS, MODERATOR_EMAILS)
+- src/lib/email.ts — Email notifications via Resend
+- src/lib/upload.ts — Appwrite Storage file uploads
+- src/hooks/useData.ts — React data hooks
+- src/types/index.ts — TypeScript interfaces
+- shared/src/auth/supabase.ts — DB wrapper (READ ONLY, submodule)
+- shared/src/components/Header.tsx — Shared header (READ ONLY, submodule)
+
+## Admin Roles
+- ADMIN_EMAILS in admin-api.ts = full access to all admin pages
+- MODERATOR_EMAILS = limited access (gigs moderation, users, reviews, tickets, chat)
+- AdminLayout checks getAdminRole() and filters nav items
+
+## Key Patterns
+- Gigs go through moderation: createGig() sets status='pending', admin approves to 'active'
+- enrichGigAvatars() loads freelancer avatars+levels from fl_profiles (MUST call after mapGig)
+- AI features (AIGigAnalyzer, AIMatching) call Claude API directly from browser
+- All JSON stored as strings, parsed on read by wrapper or manually
+- Categories gig_count is calculated dynamically, NOT from DB field
+
+## Git
+Repo: github.com/antsincgame/vibecoding-freelance
+Shared submodule: github.com/antsincgame/vibecoding-shared
+Credentials: see environment or ask admin
+
+## Migration Scripts (run on server with: node scripts/xxx.js)
+setup-collections.js, seed-rich.js, migrate-moderation.js, migrate-projects.js, migrate-portfolio.js, create-bucket.js
