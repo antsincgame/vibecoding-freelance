@@ -16,6 +16,8 @@ import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import FreelancerDashboard from './pages/FreelancerDashboard';
 import CreateGig from './pages/CreateGig';
+import SetupProfile from './pages/SetupProfile';
+import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,6 +29,21 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return null;
   if (!user) return <Navigate to="/auth" replace />;
+  return <>{children}</>;
+}
+
+function RequireFlProfile({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    getCurrentFreelancerProfile().then(p => setHasProfile(!!p));
+  }, [user]);
+
+  if (loading || hasProfile === null) return null;
+  if (!user) return <Navigate to="/auth" replace />;
+  if (!hasProfile) return <Navigate to="/setup-profile" replace />;
   return <>{children}</>;
 }
 
@@ -63,14 +80,17 @@ function AppContent() {
           <Route path="/gigs/:id" element={<GigDetail />} />
           <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/setup-profile" element={
+            <ProtectedRoute><SetupProfile /></ProtectedRoute>
+          } />
           <Route path="/dashboard" element={
-            <ProtectedRoute><Dashboard /></ProtectedRoute>
+            <RequireFlProfile><Dashboard /></RequireFlProfile>
           } />
           <Route path="/dashboard/freelancer" element={
-            <ProtectedRoute><FreelancerDashboard /></ProtectedRoute>
+            <RequireFlProfile><FreelancerDashboard /></RequireFlProfile>
           } />
           <Route path="/dashboard/create-gig" element={
-            <ProtectedRoute><CreateGig /></ProtectedRoute>
+            <RequireFlProfile><CreateGig /></RequireFlProfile>
           } />
         </Routes>
       </main>

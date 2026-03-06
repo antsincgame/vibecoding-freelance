@@ -288,6 +288,40 @@ export async function getCurrentFreelancerProfile(): Promise<Freelancer | null> 
   } catch { return null; }
 }
 
+export async function createFreelancerProfile(data: {
+  username: string; name: string; avatar?: string; title?: string;
+  bio?: string; location?: string; skills?: string[]; role?: string;
+}): Promise<boolean> {
+  try {
+    const acc = getAccount();
+    const user = await acc.get();
+    const { error } = await db().from('fl_profiles').insert({
+      user_id: user.$id,
+      username: data.username,
+      name: data.name,
+      avatar: data.avatar || '',
+      title: data.title || '',
+      bio: data.bio || '',
+      location: data.location || '',
+      skills: JSON.stringify(data.skills || []),
+      role: data.role || 'freelancer',
+      rating: 0,
+      review_count: 0,
+      orders_completed: 0,
+      response_time: '',
+      is_online: false,
+      member_since: new Date().toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }),
+      success_rate: 0,
+      level: 'new',
+      balance: 0,
+    });
+    return !error;
+  } catch (e) {
+    console.error('createFreelancerProfile error:', e);
+    return false;
+  }
+}
+
 export async function updateFreelancerProfile(updates: Partial<Freelancer>): Promise<boolean> {
   try {
     const acc = getAccount();
