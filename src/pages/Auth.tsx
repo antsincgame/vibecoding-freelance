@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@vibecoding/shared';
-import { Zap, Mail, Lock, User, AtSign, Github, Globe, Eye, EyeOff } from 'lucide-react';
+import { Zap, Mail, Lock, User, Github, Globe, Eye, EyeOff } from 'lucide-react';
 import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';
 
@@ -17,7 +17,7 @@ export default function Auth() {
   const [mode, setMode] = useState<AuthMode>('login');
   const [role, setRole] = useState<Role>('client');
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ name: '', username: '', email: '', password: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +38,6 @@ export default function Auth() {
   const validate = () => {
     const e: Record<string, string> = {};
     if (mode === 'register' && !form.name.trim()) e.name = t('auth.enter_name');
-    if (mode === 'register' && !form.username.trim()) e.username = t('auth.enter_username');
     if (!form.email.includes('@')) e.email = t('auth.invalid_email');
     if (form.password.length < 6) e.password = t('auth.min_6_chars');
     setErrors(e);
@@ -119,22 +118,13 @@ export default function Auth() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'register' && (
-              <>
-                <div>
-                  <div className="relative">
-                    <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
-                    <input type="text" placeholder={t('auth.name')} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputClass('name')} />
-                  </div>
-                  {errors.name && <p className="text-xs text-neon-rose mt-1">{errors.name}</p>}
+              <div>
+                <div className="relative">
+                  <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                  <input type="text" placeholder={t('auth.name')} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputClass('name')} />
                 </div>
-                <div>
-                  <div className="relative">
-                    <AtSign size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
-                    <input type="text" placeholder={t('auth.username')} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} className={inputClass('username')} />
-                  </div>
-                  {errors.username && <p className="text-xs text-neon-rose mt-1">{errors.username}</p>}
-                </div>
-              </>
+                {errors.name && <p className="text-xs text-neon-rose mt-1">{errors.name}</p>}
+              </div>
             )}
             <div>
               <div className="relative">
