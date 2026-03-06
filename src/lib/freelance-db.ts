@@ -31,6 +31,7 @@ function mapGig(row: any): Gig {
     level: 'new',
   };
 
+  // If no avatar in gig, will be enriched later from fl_profiles
   const parsePkg = (raw: any): GigPackage => {
     if (!raw) return { name: '', price: 0, deliveryDays: 0, description: '', features: [] };
     const p = typeof raw === 'string' ? JSON.parse(raw) : raw;

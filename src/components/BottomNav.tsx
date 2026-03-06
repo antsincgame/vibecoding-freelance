@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Home, Search, ShoppingBag, MessageCircle, User } from 'lucide-react';
+import { Home, Search, Briefcase, MessageCircle, User } from 'lucide-react';
 
 interface BottomNavProps {
   onOpenSearch: () => void;
@@ -13,9 +13,9 @@ export default function BottomNav({ onOpenSearch }: BottomNavProps) {
   const navItems = [
     { icon: Home, label: t('category.home'), href: '/' },
     { icon: Search, label: t('common.search'), href: '#search' },
-    { icon: ShoppingBag, label: t('common.orders'), href: '/dashboard' },
-    { icon: MessageCircle, label: t('common.messages'), href: '/dashboard' },
-    { icon: User, label: t('common.profile'), href: '/auth' },
+    { icon: Briefcase, label: 'Проекты', href: '/projects' },
+    { icon: MessageCircle, label: 'Чат', href: '/chat' },
+    { icon: User, label: t('common.profile'), href: '/dashboard' },
   ];
 
   return (

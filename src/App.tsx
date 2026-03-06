@@ -29,6 +29,7 @@ import OrderDetail from './pages/OrderDetail';
 import Chat from './pages/Chat';
 import EditProfile from './pages/EditProfile';
 import EditGig from './pages/EditGig';
+import Projects from './pages/Projects';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -124,6 +125,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/categories/:slug" element={<Category />} />
           <Route path="/gigs/:id" element={<GigDetail />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/setup-profile" element={
