@@ -34,6 +34,10 @@ import EditGig from './pages/EditGig';
 import Projects from './pages/Projects';
 import ForSellers from './pages/ForSellers';
 import FAQ from './pages/FAQ';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import NotFound from './pages/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -143,6 +147,8 @@ function AppContent() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/for-sellers" element={<ForSellers />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/setup-profile" element={
@@ -175,6 +181,7 @@ function AppContent() {
           <Route path="/profile/edit" element={
             <ProtectedRoute><EditProfile /></ProtectedRoute>
           } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
@@ -198,10 +205,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }

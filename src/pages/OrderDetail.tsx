@@ -70,6 +70,16 @@ export default function OrderDetail() {
     setOrder({ ...order, ...updates });
     toast.success('Статус обновлён');
     if (newStatus === 'completed') setShowReview(true);
+
+    // Email notification
+    try {
+      const { notifyOrderStatus } = await import('../lib/email');
+      // Notify the other party
+      const notifyId = isBuyer ? order.seller_id : order.buyer_id;
+      const { data: notifyProfile } = await db.from('fl_profiles').select('*').eq('user_id', notifyId).maybeSingle();
+      // We don't have email in fl_profiles, so we skip for now
+      // Email could be sent via API endpoint that has access to Appwrite users
+    } catch {}
   };
 
   const handleReview = async () => {

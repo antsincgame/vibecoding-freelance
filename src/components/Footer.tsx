@@ -49,6 +49,8 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link to="/support" className="text-sm text-muted hover:text-gold transition-colors">Поддержка</Link></li>
               <li><Link to="/faq" className="text-sm text-muted hover:text-gold transition-colors">Вопросы и ответы</Link></li>
+              <li><Link to="/terms" className="text-sm text-muted hover:text-gold transition-colors">Правила сервиса</Link></li>
+              <li><Link to="/privacy" className="text-sm text-muted hover:text-gold transition-colors">Конфиденциальность</Link></li>
               <li><a href="https://vibecoding.by" target="_blank" className="text-sm text-muted hover:text-gold transition-colors">Школа VibeCoding</a></li>
               <li><a href="https://t.me/vibecoding" target="_blank" className="text-sm text-muted hover:text-gold transition-colors flex items-center gap-1"><MessageCircle size={12} /> Telegram</a></li>
             </ul>

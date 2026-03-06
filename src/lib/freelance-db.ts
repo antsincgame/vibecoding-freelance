@@ -409,6 +409,23 @@ export async function createOrder(order: { gig_id: string; package_type: string;
       delivery_days: pkg.deliveryDays,
     });
     if (error) throw error;
+    
+    // Email notification to seller
+    try {
+      const { notifyNewOrder } = await import('./email');
+      const { data: sellerProfile } = await db().from('fl_profiles').select('*').eq('user_id', gig.freelancer.id).maybeSingle();
+      if (sellerProfile) {
+        const { data: myProfile } = await db().from('fl_profiles').select('*').eq('user_id', user.$id).maybeSingle();
+        notifyNewOrder(user.email || '', {
+          gigTitle: gig.title,
+          buyerName: myProfile?.name || user.name || 'Покупатель',
+          packageType: pkg.name,
+          price: pkg.price,
+          orderId: data?.id || '',
+        });
+      }
+    } catch {}
+
     return data ? mapOrder(data) : null;
   } catch (e) {
     console.error('createOrder error:', e);

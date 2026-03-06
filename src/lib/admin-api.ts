@@ -211,6 +211,15 @@ export async function adminReplyTicket(ticketId: string, message: string) {
   });
   if (!error) {
     await db().from('fl_tickets').update({ status: 'answered' }).eq('id', ticketId);
+    
+    // Email notification to user
+    try {
+      const ticket = await adminGetTicket(ticketId);
+      if (ticket?.user_email) {
+        const { notifyTicketReply } = await import('./email');
+        notifyTicketReply(ticket.user_email, { subject: ticket.subject, preview: message.slice(0, 200) });
+      }
+    } catch {}
   }
   return { error };
 }
