@@ -305,7 +305,7 @@ const authCompat = {
       if (provider === 'google') {
         const endpoint = import.meta.env.VITE_APPWRITE_ENDPOINT;
         const project = import.meta.env.VITE_APPWRITE_PROJECT_ID || import.meta.env.VITE_APPWRITE_PROJECT;
-        const success = encodeURIComponent(options?.redirectTo || window.location.origin + '/auth/callback');
+        const success = encodeURIComponent(options?.redirectTo || window.location.origin + '/dashboard');
         const failure = encodeURIComponent(window.location.origin + '/login');
         const scopes = encodeURIComponent('openid email profile');
         window.location.href = endpoint + '/account/sessions/oauth2/google?project=' + project + '&success=' + success + '&failure=' + failure;

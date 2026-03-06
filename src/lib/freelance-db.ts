@@ -150,18 +150,29 @@ function formatDate(iso: string): string {
 // Categories API
 // ============================================
 
+// Gig count cache
+let _gigCountCache: Record<string, number> | null = null;
+let _gigCountCacheTime = 0;
+
 export async function getCategories(): Promise<Category[]> {
   try {
     const { data, error } = await db().from('fl_categories').select('*').order('sort_order', { ascending: true });
     if (error || !data) return MOCK_CATEGORIES;
     const cats = (Array.isArray(data) ? data : [data]).map(mapCategory);
-    try {
-      const { data: gigs } = await db().from('fl_gigs').select('*').eq('status', 'active');
-      const gigList = Array.isArray(gigs) ? gigs : gigs ? [gigs] : [];
-      for (const cat of cats) {
-        cat.gigCount = gigList.filter((g: any) => g.category_slug === cat.slug).length;
-      }
-    } catch {}
+    
+    // Cache gig counts for 5 min
+    if (!_gigCountCache || Date.now() - _gigCountCacheTime > CACHE_TTL) {
+      try {
+        const { data: gigs } = await db().from('fl_gigs').select('*').eq('status', 'active');
+        const gigList = Array.isArray(gigs) ? gigs : gigs ? [gigs] : [];
+        _gigCountCache = {};
+        for (const g of gigList) _gigCountCache[g.category_slug] = (_gigCountCache[g.category_slug] || 0) + 1;
+        _gigCountCacheTime = Date.now();
+      } catch {}
+    }
+    if (_gigCountCache) {
+      for (const cat of cats) cat.gigCount = _gigCountCache[cat.slug] || 0;
+    }
     return cats;
   } catch {
     return MOCK_CATEGORIES;
@@ -217,13 +228,27 @@ function filterMockGigs(opts?: { category_slug?: string; featured?: boolean; lim
   return result.slice(offset, offset + limit);
 }
 
+// Profile cache (5 min TTL)
+let _profileCache: any[] | null = null;
+let _profileCacheTime = 0;
+const CACHE_TTL = 5 * 60 * 1000;
+
+async function getProfilesCache(): Promise<any[]> {
+  if (_profileCache && Date.now() - _profileCacheTime < CACHE_TTL) return _profileCache;
+  try {
+    const { data } = await db().from('fl_profiles').select('*');
+    _profileCache = Array.isArray(data) ? data : data ? [data] : [];
+    _profileCacheTime = Date.now();
+    return _profileCache;
+  } catch { return _profileCache || []; }
+}
+
 async function enrichGigAvatars(gigs: Gig[]) {
   if (gigs.length === 0) return;
   const uniqueIds = [...new Set(gigs.map(g => g.freelancer.id).filter(Boolean))];
   if (uniqueIds.length === 0) return;
   try {
-    const { data } = await db().from('fl_profiles').select('*');
-    const profiles = Array.isArray(data) ? data : data ? [data] : [];
+    const profiles = await getProfilesCache();
     for (const gig of gigs) {
       const prof = profiles.find((p: any) => p.user_id === gig.freelancer.id);
       if (prof) {

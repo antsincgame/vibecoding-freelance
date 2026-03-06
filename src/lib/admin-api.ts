@@ -32,14 +32,20 @@ export async function isModerator(): Promise<boolean> {
 
 export type AdminRole = 'admin' | 'moderator' | null;
 
+let _adminRoleCache: AdminRole = undefined as any;
+let _adminRoleCacheTime = 0;
+
 export async function getAdminRole(): Promise<AdminRole> {
+  if (_adminRoleCache !== undefined && Date.now() - _adminRoleCacheTime < 60000) return _adminRoleCache;
   try {
     const acc = getAccount();
     const user = await acc.get();
-    if (ADMIN_EMAILS.includes(user.email)) return 'admin';
-    if (MODERATOR_EMAILS.includes(user.email)) return 'moderator';
-    return null;
+    _adminRoleCache = ADMIN_EMAILS.includes(user.email) ? 'admin' : MODERATOR_EMAILS.includes(user.email) ? 'moderator' : null;
+    _adminRoleCacheTime = Date.now();
+    return _adminRoleCache;
   } catch {
+    _adminRoleCache = null;
+    _adminRoleCacheTime = Date.now();
     return null;
   }
 }

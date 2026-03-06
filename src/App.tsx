@@ -145,6 +145,7 @@ function AppContent() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/users/:username" element={<UserProfile />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/callback" element={<Navigate to="/dashboard" replace />} />
           <Route path="/setup-profile" element={
             <ProtectedRoute><SetupProfile /></ProtectedRoute>
           } />
