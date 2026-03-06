@@ -107,6 +107,7 @@ function AppContent() {
         searchPlaceholder="Найти услуги"
         loginPath="/auth"
         profilePath="/dashboard"
+        extraLinks={[{ to: '/admin', label: 'Админка', style: { color: '#ff006e' } }]}
       />
       <CategoriesBar />
       <main className="pt-[100px] min-h-screen bg-void relative z-[1]">
