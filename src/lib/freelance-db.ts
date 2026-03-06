@@ -219,7 +219,7 @@ export async function createGig(gigData: any): Promise<Gig | null> {
       category: gigData.category,
       category_slug: gigData.categorySlug,
       is_featured: false,
-      status: 'active',
+      status: 'pending', // goes through moderation
       package_economy: JSON.stringify(gigData.packages?.economy || {}),
       package_standard: JSON.stringify(gigData.packages?.standard || {}),
       package_premium: JSON.stringify(gigData.packages?.premium || {}),

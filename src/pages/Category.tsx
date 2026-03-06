@@ -31,6 +31,9 @@ export default function Category() {
   const [page, setPage] = useState(1);
   const ITEMS_PER_PAGE = 12;
 
+  // Reset page on filter/slug change
+  const resetPage = () => setPage(1);
+
   const sortOptions = [
     { value: 'popular', label: t('category.popular') },
     { value: 'new', label: t('category.new') },
@@ -76,7 +79,7 @@ export default function Category() {
         <div className="flex items-center gap-2 ml-auto">
           <span className="text-sm text-muted hidden sm:inline">{t('category.sort')}</span>
           <div className="relative">
-            <select value={sort} onChange={(e) => setSort(e.target.value)} className="bg-nebula-light border border-gold/30 rounded-xl px-4 py-2 pr-8 text-sm text-body appearance-none cursor-pointer focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40">
+            <select value={sort} onChange={(e) => { setSort(e.target.value); resetPage(); }} className="bg-nebula-light border border-gold/30 rounded-xl px-4 py-2 pr-8 text-sm text-body appearance-none cursor-pointer focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40">
               {sortOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
             </select>
             <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
@@ -90,14 +93,14 @@ export default function Category() {
             <div>
               <h4 className="text-sm font-heading font-medium text-heading mb-3">{t('category.price')}</h4>
               <div className="flex gap-2">
-                <input type="number" placeholder={t('category.price_from')} value={priceMin} onChange={(e) => setPriceMin(e.target.value)} className="w-full bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 font-mono" />
-                <input type="number" placeholder={t('category.price_to')} value={priceMax} onChange={(e) => setPriceMax(e.target.value)} className="w-full bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 font-mono" />
+                <input type="number" placeholder={t('category.price_from')} value={priceMin} onChange={(e) => { setPriceMin(e.target.value); resetPage(); }} className="w-full bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 font-mono" />
+                <input type="number" placeholder={t('category.price_to')} value={priceMax} onChange={(e) => { setPriceMax(e.target.value); resetPage(); }} className="w-full bg-gold/10 border border-gold/30 rounded-lg px-3 py-2 text-sm text-heading placeholder:text-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 font-mono" />
               </div>
             </div>
             <div>
               <h4 className="text-sm font-heading font-medium text-heading mb-3">{t('category.min_rating')}</h4>
               <div className="flex gap-2">
-                {[0, 3, 4, 4.5].map((r) => (<button key={r} onClick={() => setMinRating(r)} className={`px-3 py-1.5 text-sm rounded-lg border transition-all cursor-pointer ${minRating === r ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 bg-gold/10 text-muted hover:text-body'}`}>{r === 0 ? t('common.all') : `${r}+`}</button>))}
+                {[0, 3, 4, 4.5].map((r) => (<button key={r} onClick={() => { setMinRating(r); resetPage(); }} className={`px-3 py-1.5 text-sm rounded-lg border transition-all cursor-pointer ${minRating === r ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 bg-gold/10 text-muted hover:text-body'}`}>{r === 0 ? t('common.all') : `${r}+`}</button>))}
               </div>
             </div>
             <div>

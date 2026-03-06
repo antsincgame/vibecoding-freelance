@@ -34,9 +34,9 @@ export default function EditGig() {
       tags: gig.tags,
       tagInput: '',
       images: gig.images,
-      economy: { price: String(gig.packages.economy.price), days: String(gig.packages.economy.deliveryDays), desc: gig.packages.economy.description, features: gig.packages.economy.features.join(', ') },
-      standard: { price: String(gig.packages.standard.price), days: String(gig.packages.standard.deliveryDays), desc: gig.packages.standard.description, features: gig.packages.standard.features.join(', ') },
-      premium: { price: String(gig.packages.premium.price), days: String(gig.packages.premium.deliveryDays), desc: gig.packages.premium.description, features: gig.packages.premium.features.join(', ') },
+      economy: { price: String(gig.packages.economy.price || ''), days: String(gig.packages.economy.deliveryDays || ''), desc: gig.packages.economy.description || '', features: (gig.packages.economy.features || []).join(', ') },
+      standard: { price: String(gig.packages.standard.price || ''), days: String(gig.packages.standard.deliveryDays || ''), desc: gig.packages.standard.description || '', features: (gig.packages.standard.features || []).join(', ') },
+      premium: { price: String(gig.packages.premium.price || ''), days: String(gig.packages.premium.deliveryDays || ''), desc: gig.packages.premium.description || '', features: (gig.packages.premium.features || []).join(', ') },
     });
   }, [gig]);
 
