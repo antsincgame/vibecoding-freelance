@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@vibecoding/shared';
-import { Zap, Mail, Lock, User, Github, Globe, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Github, Globe, Eye, EyeOff } from 'lucide-react';
 import Button from '../components/ui/Button';
 import toast from 'react-hot-toast';
 
@@ -84,10 +84,6 @@ export default function Auth() {
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sacred-bg">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6">
-            <Zap size={28} className="text-gold" />
-            <span className="text-2xl font-display font-bold tracking-wider text-gold-gradient">VIBECODER</span>
-          </Link>
           <h1 className="text-2xl font-heading font-bold text-heading">
             {mode === 'login' ? t('auth.welcome') : t('auth.create_account')}
           </h1>
