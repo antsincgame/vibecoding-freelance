@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '@vibecoding/shared';
-import { LayoutDashboard, FolderTree, Package, Users, ShoppingBag, Star, Settings, ArrowLeft, Shield } from 'lucide-react';
+import { LayoutDashboard, FolderTree, Package, Users, ShoppingBag, Star, Settings, ArrowLeft, Shield, HeadphonesIcon } from 'lucide-react';
 import { isAdmin } from '../../lib/admin-api';
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { path: '/admin/users', icon: Users, label: 'Пользователи' },
   { path: '/admin/orders', icon: ShoppingBag, label: 'Заказы' },
   { path: '/admin/reviews', icon: Star, label: 'Отзывы' },
+  { path: '/admin/tickets', icon: HeadphonesIcon, label: 'Поддержка' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -74,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Mobile nav */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-nebula border-t border-gold/20 flex">
-        {navItems.slice(0, 5).map((item) => {
+        {navItems.slice(0, 6).map((item) => {
           const active = location.pathname === item.path;
           return (
             <Link key={item.path} to={item.path} className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs transition-all ${active ? 'text-gold' : 'text-muted'}`}>

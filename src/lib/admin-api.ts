@@ -146,3 +146,138 @@ export async function adminDeleteReview(id: string) {
   const { error } = await db().from('fl_reviews').delete().eq('id', id);
   return { error };
 }
+
+// ============================================
+// Moderation
+// ============================================
+
+export async function adminApproveGig(id: string) {
+  const acc = getAccount();
+  const user = await acc.get();
+  return adminUpdateGig(id, {
+    status: 'active',
+    rejection_reason: '',
+    moderated_by: user.email,
+    moderated_at: new Date().toISOString(),
+  });
+}
+
+export async function adminRejectGig(id: string, reason: string) {
+  const acc = getAccount();
+  const user = await acc.get();
+  return adminUpdateGig(id, {
+    status: 'rejected',
+    rejection_reason: reason,
+    moderated_by: user.email,
+    moderated_at: new Date().toISOString(),
+  });
+}
+
+// ============================================
+// Tickets / Support
+// ============================================
+
+export async function adminGetTickets(status?: string) {
+  let q = db().from('fl_tickets').select('*').order('$createdAt', { ascending: false });
+  if (status && status !== 'all') q = q.eq('status', status);
+  const { data } = await q;
+  return Array.isArray(data) ? data : data ? [data] : [];
+}
+
+export async function adminGetTicket(id: string) {
+  const { data } = await db().from('fl_tickets').select('*').eq('id', id).maybeSingle();
+  return data;
+}
+
+export async function adminUpdateTicket(id: string, updates: any) {
+  const { data, error } = await db().from('fl_tickets').update(updates).eq('id', id);
+  return { data, error };
+}
+
+export async function adminGetTicketMessages(ticketId: string) {
+  const { data } = await db().from('fl_ticket_messages').select('*').eq('ticket_id', ticketId).order('$createdAt', { ascending: true });
+  return Array.isArray(data) ? data : data ? [data] : [];
+}
+
+export async function adminReplyTicket(ticketId: string, message: string) {
+  const acc = getAccount();
+  const user = await acc.get();
+  const { error } = await db().from('fl_ticket_messages').insert({
+    ticket_id: ticketId,
+    sender_id: user.$id,
+    sender_name: user.name || user.email,
+    message,
+    is_admin: true,
+  });
+  if (!error) {
+    await db().from('fl_tickets').update({ status: 'answered' }).eq('id', ticketId);
+  }
+  return { error };
+}
+
+// ============================================
+// User-facing ticket functions
+// ============================================
+
+export async function createTicket(data: { subject: string; category: string; message: string; related_id?: string }) {
+  const acc = getAccount();
+  const user = await acc.get();
+  
+  // Get fl_profile for name
+  const { data: profile } = await db().from('fl_profiles').select('*').eq('user_id', user.$id).maybeSingle();
+
+  const { data: ticket, error } = await db().from('fl_tickets').insert({
+    user_id: user.$id,
+    user_name: profile?.name || user.name || 'User',
+    user_email: user.email,
+    subject: data.subject,
+    category: data.category || 'general',
+    status: 'open',
+    priority: 'normal',
+    related_id: data.related_id || '',
+    assigned_to: '',
+    closed_at: '',
+  });
+
+  if (error || !ticket) return { error: error || { message: 'Failed' } };
+
+  // Add first message
+  await db().from('fl_ticket_messages').insert({
+    ticket_id: ticket.id,
+    sender_id: user.$id,
+    sender_name: profile?.name || user.name || 'User',
+    message: data.message,
+    is_admin: false,
+  });
+
+  return { data: ticket, error: null };
+}
+
+export async function getMyTickets() {
+  const acc = getAccount();
+  const user = await acc.get();
+  const { data } = await db().from('fl_tickets').select('*').eq('user_id', user.$id).order('$createdAt', { ascending: false });
+  return Array.isArray(data) ? data : data ? [data] : [];
+}
+
+export async function getTicketMessages(ticketId: string) {
+  return adminGetTicketMessages(ticketId);
+}
+
+export async function replyToTicket(ticketId: string, message: string) {
+  const acc = getAccount();
+  const user = await acc.get();
+  const { data: profile } = await db().from('fl_profiles').select('*').eq('user_id', user.$id).maybeSingle();
+  
+  const { error } = await db().from('fl_ticket_messages').insert({
+    ticket_id: ticketId,
+    sender_id: user.$id,
+    sender_name: profile?.name || user.name || 'User',
+    message,
+    is_admin: false,
+  });
+  if (!error) {
+    await db().from('fl_tickets').update({ status: 'open' }).eq('id', ticketId);
+  }
+  return { error };
+}

@@ -23,6 +23,8 @@ import AdminGigs from './pages/admin/AdminGigs';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminReviews from './pages/admin/AdminReviews';
+import AdminTickets from './pages/admin/AdminTickets';
+import Support from './pages/Support';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -93,6 +95,7 @@ function AppContent() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/reviews" element={<AdminReviews />} />
+        <Route path="/admin/tickets" element={<AdminTickets />} />
       </Routes>
     );
   }
@@ -121,6 +124,9 @@ function AppContent() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/setup-profile" element={
             <ProtectedRoute><SetupProfile /></ProtectedRoute>
+          } />
+          <Route path="/support" element={
+            <ProtectedRoute><Support /></ProtectedRoute>
           } />
           <Route path="/dashboard" element={
             <RequireFlProfile><Dashboard /></RequireFlProfile>
