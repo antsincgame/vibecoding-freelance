@@ -6,8 +6,9 @@ import { getSupabase, getAccount } from '@vibecoding/shared';
 
 const db = () => getSupabase();
 
-// Admin email whitelist
+// Admin/Moderator access
 const ADMIN_EMAILS = ['igorsuhockii@gmail.com', 'graf.arlou@ya.ru'];
+const MODERATOR_EMAILS: string[] = []; // add moderator emails here
 
 export async function isAdmin(): Promise<boolean> {
   try {
@@ -16,6 +17,30 @@ export async function isAdmin(): Promise<boolean> {
     return ADMIN_EMAILS.includes(user.email);
   } catch {
     return false;
+  }
+}
+
+export async function isModerator(): Promise<boolean> {
+  try {
+    const acc = getAccount();
+    const user = await acc.get();
+    return MODERATOR_EMAILS.includes(user.email) || ADMIN_EMAILS.includes(user.email);
+  } catch {
+    return false;
+  }
+}
+
+export type AdminRole = 'admin' | 'moderator' | null;
+
+export async function getAdminRole(): Promise<AdminRole> {
+  try {
+    const acc = getAccount();
+    const user = await acc.get();
+    if (ADMIN_EMAILS.includes(user.email)) return 'admin';
+    if (MODERATOR_EMAILS.includes(user.email)) return 'moderator';
+    return null;
+  } catch {
+    return null;
   }
 }
 
@@ -115,6 +140,14 @@ export async function adminDeleteProfile(id: string) {
 
 export async function adminSetUserLevel(id: string, level: string) {
   return adminUpdateProfile(id, { level });
+}
+
+export async function adminVerifyUser(id: string) {
+  return adminUpdateProfile(id, { level: 'verified' });
+}
+
+export async function adminUnverifyUser(id: string) {
+  return adminUpdateProfile(id, { level: 'new' });
 }
 
 // ============================================

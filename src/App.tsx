@@ -64,15 +64,15 @@ function RequireFlProfile({ children }: { children: React.ReactNode }) {
       if (!existing) {
         // Auto-create fl_profile from Appwrite account data
         const { createFreelancerProfile } = await import('./lib/freelance-db');
-        const { isAdmin } = await import('./lib/admin-api');
+        const { getAdminRole } = await import('./lib/admin-api');
         const name = profile?.full_name || user.name || user.email?.split('@')[0] || 'User';
         const username = (user.email?.split('@')[0] || 'user_' + Date.now()).toLowerCase().replace(/[^a-z0-9_]/g, '');
-        const admin = await isAdmin();
+        const adminRole = await getAdminRole();
         await createFreelancerProfile({
           username,
           name,
           avatar: profile?.avatar_url || '',
-          role: admin ? 'admin' : 'client',
+          role: adminRole || 'client',
         });
       }
       setReady(true);
@@ -98,7 +98,7 @@ function AppContent() {
     return () => document.removeEventListener('open-search', handler);
   }, []);
 
-  // Admin routes — no main layout
+  // Admin/Moderator routes — no main layout, access checked in AdminLayout
   if (isAdmin) {
     return (
       <Routes>

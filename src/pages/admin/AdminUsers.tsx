@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Shield, Trash2, Award, ChevronUp, ChevronDown, ExternalLink } from 'lucide-react';
+import { Shield, Trash2, Award, ChevronUp, ChevronDown, ExternalLink, ShieldCheck } from 'lucide-react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import { adminGetProfiles, adminSetUserLevel, adminDeleteProfile, adminUpdateProfile } from '../../lib/admin-api';
+import { adminGetProfiles, adminSetUserLevel, adminDeleteProfile, adminUpdateProfile, adminVerifyUser, adminUnverifyUser } from '../../lib/admin-api';
 import toast from 'react-hot-toast';
 
 const LEVELS: Record<string, { label: string; color: string }> = {
@@ -68,6 +68,7 @@ export default function AdminUsers() {
                       <select value={p.role || 'freelancer'} onChange={(e) => { adminUpdateProfile(p.id, { role: e.target.value }); toast.success('Роль обновлена'); load(); }} className="bg-transparent text-sm text-muted cursor-pointer focus:outline-none">
                         <option value="freelancer">freelancer</option>
                         <option value="client">client</option>
+                        <option value="moderator">moderator</option>
                         <option value="admin">admin</option>
                       </select>
                     </td>
@@ -81,6 +82,11 @@ export default function AdminUsers() {
                     <td className="py-3 px-4 text-sm text-muted">{p.location || '-'}</td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex gap-1 justify-end">
+                        {(p.level === 'new') ? (
+                          <button onClick={() => { adminVerifyUser(p.id); toast.success('Верифицирован'); load(); }} className="p-2 text-muted hover:text-neon-cyan hover:bg-gold/10 rounded-lg cursor-pointer" title="Верифицировать"><ShieldCheck size={14} /></button>
+                        ) : (p.level === 'verified') ? (
+                          <button onClick={() => { adminSetUserLevel(p.id, 'pro'); toast.success('PRO!'); load(); }} className="p-2 text-neon-cyan hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer" title="Повысить до PRO"><Award size={14} /></button>
+                        ) : null}
                         <a href={`/users/${p.username}`} target="_blank" className="p-2 text-muted hover:text-gold hover:bg-gold/10 rounded-lg cursor-pointer"><ExternalLink size={14} /></a>
                         <button onClick={() => handleDelete(p.id, p.name)} className="p-2 text-muted hover:text-neon-rose hover:bg-gold/10 rounded-lg cursor-pointer"><Trash2 size={14} /></button>
                       </div>

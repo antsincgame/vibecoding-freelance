@@ -12,6 +12,7 @@ import Skeleton from '../components/ui/Skeleton';
 import Portfolio from '../components/Portfolio';
 import VibeScore from '../components/VibeScore';
 import Achievements from '../components/Achievements';
+import VerifiedBadge from '../components/VerifiedBadge';
 import { useFreelancerByUsername, useFreelancerGigs, useGigReviews } from '../hooks/useData';
 
 export default function UserProfile() {
@@ -63,8 +64,7 @@ export default function UserProfile() {
           <div className="flex-1 space-y-3">
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl font-heading font-bold text-heading">{user.name}</h1>
-              {user.level === 'pro' && <Badge variant="amber">PRO</Badge>}
-              {user.level === 'verified' && <Badge variant="blue"><ShieldCheck size={12} className="mr-1" />{t('profile.verified')}</Badge>}
+              {user.level !== 'new' && <VerifiedBadge level={user.level} />}
               <VibeScore skills={user.skills} ordersCompleted={user.ordersCompleted} rating={user.rating} reviewCount={user.reviewCount} gigTags={(userGigs || []).flatMap(g => g.tags)} size="sm" />
             </div>
             <p className="text-body">{user.title}</p>

@@ -6,6 +6,7 @@ import Avatar from './ui/Avatar';
 import StarRating from './ui/StarRating';
 import { VibeScoreBadge } from './VibeScore';
 import { calculateVibeScore } from './VibeScore';
+import { VerifiedCheck } from './VerifiedBadge';
 
 interface GigCardProps {
   gig: Gig;
@@ -34,6 +35,7 @@ export default function GigCard({ gig, index = 0 }: GigCardProps) {
         <div className="flex items-center gap-2">
           <Avatar src={gig.freelancer.avatar} alt={gig.freelancer.name} size="sm" isOnline={gig.freelancer.isOnline} />
           <span className="text-sm text-muted truncate">{gig.freelancer.name}</span>
+          <VerifiedCheck level={gig.freelancer.level} />
           {gig.freelancer.level === 'pro' && (
             <span className="ml-auto text-[10px] font-bold bg-gold/20 text-gold px-2 py-0.5 rounded-full border border-gold/30">PRO</span>
           )}
