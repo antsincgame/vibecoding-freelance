@@ -57,9 +57,14 @@ export default function GigDetail() {
     if (!user) { toast.error('Войдите чтобы заказать'); return; }
     if (!showOrderForm) { setShowOrderForm(true); return; }
     setOrdering(true);
-    const order = await createOrder({ gig_id: gig.id, package_type: activePackage, requirements });
+    try {
+      const order = await createOrder({ gig_id: gig.id, package_type: activePackage, requirements });
+      if (order) { toast.success('Заказ создан!'); navigate(`/orders/${order.id}`); }
+      else { toast.error('Ошибка. Откройте консоль (F12) для деталей'); }
+    } catch (e: any) {
+      toast.error('Ошибка: ' + (e?.message || 'unknown'));
+    }
     setOrdering(false);
-    if (order) { toast.success('Заказ создан!'); navigate(`/orders/${order.id}`); } else { toast.error('Ошибка создания заказа'); }
   };
 
   const handleMessage = async () => {

@@ -401,45 +401,44 @@ export async function createOrder(order: { gig_id: string; package_type: string;
     const acc = getAccount();
     const user = await acc.get();
     const gig = await getGigById(order.gig_id);
-    if (!gig) throw new Error('Gig not found');
+    if (!gig) { console.error('createOrder: gig not found', order.gig_id); return null; }
 
     const pkg = gig.packages[order.package_type as keyof typeof gig.packages];
-    if (!pkg) throw new Error('Package not found');
+    if (!pkg) { console.error('createOrder: package not found', order.package_type); return null; }
 
-    const { data, error } = await db().from('fl_orders').insert({
+    const orderData = {
       gig_id: order.gig_id,
-      gig_title: gig.title,
+      gig_title: (gig.title || '').slice(0, 295),
       buyer_id: user.$id,
-      seller_id: gig.freelancer.id,
-      seller_name: gig.freelancer.name,
-      seller_avatar: gig.freelancer.avatar,
-      package_type: pkg.name,
-      price: pkg.price,
+      seller_id: gig.freelancer.id || 'unknown',
+      seller_name: (gig.freelancer.name || '').slice(0, 195),
+      seller_avatar: (gig.freelancer.avatar || '').slice(0, 495),
+      package_type: (order.package_type || '').slice(0, 19),
+      price: Math.round(Number(pkg.price) || 0),
       status: 'new',
-      requirements: order.requirements || '',
-      delivery_days: pkg.deliveryDays,
-    });
-    if (error) throw error;
+      requirements: (order.requirements || '').slice(0, 1995),
+      delivery_days: Math.round(Number(pkg.deliveryDays) || 1),
+    };
+
+    console.log('createOrder: inserting', orderData);
+    const { data, error } = await db().from('fl_orders').insert(orderData);
+    if (error) { console.error('createOrder error:', error); return null; }
     
-    // Email notification to seller
+    // Email notification to seller (non-blocking)
     try {
       const { notifyNewOrder } = await import('./email');
-      const { data: sellerProfile } = await db().from('fl_profiles').select('*').eq('user_id', gig.freelancer.id).maybeSingle();
-      if (sellerProfile) {
-        const { data: myProfile } = await db().from('fl_profiles').select('*').eq('user_id', user.$id).maybeSingle();
-        notifyNewOrder(user.email || '', {
-          gigTitle: gig.title,
-          buyerName: myProfile?.name || user.name || 'Покупатель',
-          packageType: pkg.name,
-          price: pkg.price,
-          orderId: data?.id || '',
-        });
-      }
+      notifyNewOrder(user.email || '', {
+        gigTitle: gig.title,
+        buyerName: user.name || 'Покупатель',
+        packageType: order.package_type,
+        price: pkg.price,
+        orderId: data?.id || '',
+      });
     } catch {}
 
     return data ? mapOrder(data) : null;
-  } catch (e) {
-    console.error('createOrder error:', e);
+  } catch (e: any) {
+    console.error('createOrder exception:', e?.message || e);
     return null;
   }
 }
