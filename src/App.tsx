@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from '@vibecoding/shared';
 import { Header } from '@vibecoding/shared';
 import '@vibecoding/shared/styles';
-import CategoriesBar from './components/CategoriesBar';
+import { megaMenuCategories } from './data/megaMenu';
 import NotificationBell from './components/NotificationBell';
 import WishlistBadge from './components/WishlistBadge';
 import Footer from './components/Footer';
@@ -132,6 +132,7 @@ function AppContent() {
         navLinks={[
           ...(user ? [{ to: '/projects', label: 'Биржа' }] : []),
         ]}
+        megaMenu={megaMenuCategories}
         extraLinks={[
           { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
         ]}
@@ -140,7 +141,6 @@ function AppContent() {
         <WishlistBadge />
         <NotificationBell />
       </div>
-      <CategoriesBar />
       <main className="pt-[100px] min-h-screen bg-void relative z-[1]">
         <Routes>
           <Route path="/" element={<Home />} />
