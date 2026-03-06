@@ -100,6 +100,10 @@ export function useGigReviews(gigId: string | undefined) {
   );
 }
 
+export function useLatestReviews(limit = 3) {
+  return useAsync<Review[]>(() => fdb.getLatestReviews(limit), [limit]);
+}
+
 // ============================================
 // Orders
 // ============================================

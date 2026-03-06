@@ -385,6 +385,12 @@ export async function getReviewsByGig(gigId: string): Promise<Review[]> {
   return (Array.isArray(data) ? data : [data]).map(mapReview);
 }
 
+export async function getLatestReviews(limit = 3): Promise<Review[]> {
+  const { data, error } = await db().from('fl_reviews').select('*').order('$createdAt', { ascending: false }).limit(limit);
+  if (error || !data) return [];
+  return (Array.isArray(data) ? data : [data]).map(mapReview);
+}
+
 export async function createReview(review: { gig_id: string; order_id?: string; rating: number; text: string }): Promise<boolean> {
   try {
     const acc = getAccount();

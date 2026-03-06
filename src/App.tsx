@@ -6,6 +6,7 @@ import { Header } from '@vibecoding/shared';
 import '@vibecoding/shared/styles';
 import CategoriesBar from './components/CategoriesBar';
 import NotificationBell from './components/NotificationBell';
+import WishlistBadge from './components/WishlistBadge';
 import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
 import CommandPalette from './components/CommandPalette';
@@ -139,7 +140,8 @@ function AppContent() {
           { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
         ]}
       />
-      <div className="fixed top-3 right-[200px] z-[51] hidden md:block">
+      <div className="fixed top-3 right-[200px] z-[51] hidden md:flex items-center gap-2">
+        <WishlistBadge />
         <NotificationBell />
       </div>
       <CategoriesBar />

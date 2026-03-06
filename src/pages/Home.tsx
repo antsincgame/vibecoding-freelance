@@ -13,7 +13,7 @@ import Skeleton from '../components/ui/Skeleton';
 import SEO from '../components/SEO';
 import AIMatching from '../components/AIMatching';
 import LiveOrderTicker from '../components/LiveOrderTicker';
-import { useCategories, useFeaturedGigs, useTopFreelancers } from '../hooks/useData';
+import { useCategories, useFeaturedGigs, useTopFreelancers, useLatestReviews } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
 
@@ -43,6 +43,7 @@ export default function Home() {
   const { data: categories, loading: catLoading } = useCategories();
   const { data: featuredGigs, loading: gigsLoading } = useFeaturedGigs();
   const { data: freelancers } = useTopFreelancers(8);
+  const { data: latestReviews } = useLatestReviews(3);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -245,20 +246,19 @@ export default function Home() {
           <h2 className="font-display text-3xl font-bold text-gold-gradient tracking-[0.1em] uppercase mb-3">Отзывы заказчиков</h2>
         </div>
         <div className="grid sm:grid-cols-3 gap-6">
-          {[
-            { name: 'Михаил К.', role: 'Стартап-фаундер', text: 'MVP был готов за 2 дня. Раньше это занимало месяц. Вайб-кодинг — это революция.', rating: 5, avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80' },
-            { name: 'Ольга С.', role: 'Владелец бизнеса', text: 'AI-бот для поддержки экономит нам 3 часа в день. Окупился за первую неделю.', rating: 5, avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&q=80' },
-            { name: 'Алексей И.', role: 'Продакт-менеджер', text: 'Получил полноценный SaaS с подписками за 7 дней. Cursor + Claude = космос.', rating: 5, avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&q=80' },
-          ].map((t, i) => (
-            <div key={i} className="card p-6">
-              <div className="flex gap-0.5 mb-3">{Array.from({length: t.rating}).map((_, j) => <span key={j} className="text-gold text-sm">★</span>)}</div>
-              <p className="text-sm text-body leading-relaxed mb-4">"{t.text}"</p>
+          {(latestReviews || []).map((review, i) => (
+            <div key={review.id || i} className="card p-6">
+              <div className="flex gap-0.5 mb-3">{Array.from({length: review.rating}).map((_, j) => <span key={j} className="text-gold text-sm">★</span>)}{Array.from({length: 5 - review.rating}).map((_, j) => <span key={j} className="text-muted/30 text-sm">★</span>)}</div>
+              <p className="text-sm text-body leading-relaxed mb-4">"{review.text}"</p>
               <div className="flex items-center gap-3">
-                <img src={t.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
-                <div><p className="text-sm font-medium text-heading">{t.name}</p><p className="text-xs text-muted">{t.role}</p></div>
+                <Avatar src={review.avatar} alt={review.author} size="sm" />
+                <p className="text-sm font-medium text-heading">{review.author}</p>
               </div>
             </div>
           ))}
+          {(!latestReviews || latestReviews.length === 0) && (
+            <div className="col-span-3 text-center py-8 text-muted text-sm">Отзывы появятся после первых заказов</div>
+          )}
         </div>
       </section>
 
