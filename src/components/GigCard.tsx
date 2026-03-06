@@ -21,12 +21,13 @@ export default function GigCard({ gig, index = 0 }: GigCardProps) {
       className="group block card overflow-hidden opacity-0 animate-fade-in transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(212,175,55,0.15)]"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="aspect-video overflow-hidden relative">
+      <div className="aspect-video overflow-hidden relative bg-nebula">
         <img
           src={gig.image}
           alt={gig.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).src = `https://placehold.co/800x450/0a0a14/d4af37?text=${encodeURIComponent(gig.title.slice(0, 20))}`; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>

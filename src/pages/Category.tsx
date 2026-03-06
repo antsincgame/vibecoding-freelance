@@ -28,6 +28,9 @@ export default function Category() {
   const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  const [maxDays, setMaxDays] = useState(0);
+  const [levelFilter, setLevelFilter] = useState('');
+
   const [page, setPage] = useState(1);
   const ITEMS_PER_PAGE = 12;
 
@@ -48,6 +51,8 @@ export default function Category() {
     if (priceMax) filtered = filtered.filter((g) => g.packages.economy.price <= Number(priceMax));
     if (minRating > 0) filtered = filtered.filter((g) => g.rating >= minRating);
     if (selectedTechs.length > 0) filtered = filtered.filter((g) => g.tags.some((tag) => selectedTechs.includes(tag)));
+    if (maxDays > 0) filtered = filtered.filter((g) => g.packages.economy.deliveryDays <= maxDays);
+    if (levelFilter) filtered = filtered.filter((g) => g.freelancer.level === levelFilter);
     if (searchQuery && isAll) filtered = filtered.filter((g) => g.title.toLowerCase().includes(searchQuery.toLowerCase()) || g.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
     switch (sort) {
       case 'cheap': return [...filtered].sort((a, b) => a.packages.economy.price - b.packages.economy.price);
@@ -107,6 +112,22 @@ export default function Category() {
               <h4 className="text-sm font-heading font-medium text-heading mb-3">{t('category.technologies')}</h4>
               <div className="flex flex-wrap gap-2">
                 {techFilters.map((tech) => (<button key={tech} onClick={() => toggleTech(tech)} className={`px-3 py-1.5 text-xs rounded-lg border transition-all cursor-pointer ${selectedTechs.includes(tech) ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 bg-gold/10 text-muted hover:text-body'}`}>{tech}</button>))}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-heading font-medium text-heading mb-3">Срок выполнения</h4>
+              <div className="flex flex-wrap gap-2">
+                {[{ v: 0, l: 'Любой' }, { v: 1, l: '1 день' }, { v: 3, l: 'До 3 дн.' }, { v: 7, l: 'До 7 дн.' }].map((d) => (
+                  <button key={d.v} onClick={() => { setMaxDays(d.v); resetPage(); }} className={`px-3 py-1.5 text-xs rounded-lg border transition-all cursor-pointer ${maxDays === d.v ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 bg-gold/10 text-muted hover:text-body'}`}>{d.l}</button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-heading font-medium text-heading mb-3">Уровень продавца</h4>
+              <div className="flex flex-wrap gap-2">
+                {[{ v: '', l: 'Все' }, { v: 'pro', l: '⭐ PRO' }, { v: 'verified', l: '✓ Верифицирован' }].map((lvl) => (
+                  <button key={lvl.v} onClick={() => { setLevelFilter(lvl.v); resetPage(); }} className={`px-3 py-1.5 text-xs rounded-lg border transition-all cursor-pointer ${levelFilter === lvl.v ? 'border-gold bg-gold/10 text-gold' : 'border-gold/20 bg-gold/10 text-muted hover:text-body'}`}>{lvl.l}</button>
+                ))}
               </div>
             </div>
             {filtersOpen && <Button variant="primary" size="md" className="w-full lg:hidden" onClick={() => setFiltersOpen(false)}>{t('common.apply')}</Button>}
