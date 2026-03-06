@@ -11,8 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <Zap size={24} className="text-gold" />
-              <span className="text-lg font-display font-bold tracking-wider text-gold-gradient">VIBECODER</span>
+              <img src="/logo.png" alt="VibeCoder" className="h-10" />
             </Link>
             <p className="text-sm text-muted leading-relaxed mb-4">Маркетплейс AI-разработчиков и вайб-кодеров нового поколения</p>
             <div className="flex items-center gap-3 text-xs text-muted">

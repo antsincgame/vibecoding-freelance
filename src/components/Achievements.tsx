@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Zap, Star, Clock, Award, Rocket, Shield, Bot, Target, Crown, Flame, Heart, MessageCircle } from 'lucide-react';
 
 interface Achievement {
@@ -54,6 +55,7 @@ interface Props {
 }
 
 export default function Achievements({ stats, showLocked = false, compact = false }: Props) {
+  const [expanded, setExpanded] = useState(false);
   const unlocked = getUnlockedAchievements(stats);
   const all = showLocked ? ACHIEVEMENTS : unlocked;
 
@@ -73,6 +75,8 @@ export default function Achievements({ stats, showLocked = false, compact = fals
     );
   }
 
+  const visible = expanded ? all : all.slice(0, 3);
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
@@ -80,8 +84,8 @@ export default function Achievements({ stats, showLocked = false, compact = fals
         <h3 className="text-sm font-heading font-semibold text-heading">Достижения</h3>
         <span className="text-xs text-muted">{unlocked.length}/{ACHIEVEMENTS.length}</span>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {all.map((a) => {
+      <div className="grid grid-cols-3 gap-3">
+        {visible.map((a) => {
           const isUnlocked = unlocked.some(u => u.id === a.id);
           return (
             <div key={a.id} className={`p-3 rounded-xl border text-center transition-all ${isUnlocked ? 'bg-gold/5 border-gold/20' : 'bg-white/[0.02] border-white/5 opacity-40'}`}>
@@ -92,6 +96,11 @@ export default function Achievements({ stats, showLocked = false, compact = fals
           );
         })}
       </div>
+      {all.length > 3 && (
+        <button onClick={() => setExpanded(!expanded)} className="mt-3 text-xs text-gold hover:underline cursor-pointer">
+          {expanded ? 'Свернуть' : `Показать все (${all.length})`}
+        </button>
+      )}
     </div>
   );
 }
