@@ -49,13 +49,15 @@ function RequireFlProfile({ children }: { children: React.ReactNode }) {
       if (!existing) {
         // Auto-create fl_profile from Appwrite account data
         const { createFreelancerProfile } = await import('./lib/freelance-db');
+        const { isAdmin } = await import('./lib/admin-api');
         const name = profile?.full_name || user.name || user.email?.split('@')[0] || 'User';
         const username = (user.email?.split('@')[0] || 'user_' + Date.now()).toLowerCase().replace(/[^a-z0-9_]/g, '');
+        const admin = await isAdmin();
         await createFreelancerProfile({
           username,
           name,
           avatar: profile?.avatar_url || '',
-          role: 'client',
+          role: admin ? 'admin' : 'client',
         });
       }
       setReady(true);
