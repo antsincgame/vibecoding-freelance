@@ -6,9 +6,9 @@
 const sdk = require('node-appwrite');
 
 const ENDPOINT = process.env.APPWRITE_ENDPOINT || 'https://appwrite.vibecoding.by/v1';
-const PROJECT_ID = process.env.APPWRITE_PROJECT_ID || '69aa2114000211b48e63';
-const API_KEY = process.env.APPWRITE_API_KEY || 'standard_06b8634032f75c7d02d49e7a4add952c4183146ce5def3dc0f4a9df7e18307b29193788a0aa7694e6146ac3339a99eae5de4c3ce24b6a284e41f84dad5683cbc9a60ab5b18084171ad9b9a60d470bbce068b4ee21c8231467bd92bec43c9ed9dcfbe6e23f784c4c77e0c88beeacb60f4a7873f2baa936246a7aa4bacbd3c0d57';
-const DB_ID = 'vibecoding';
+const PROJECT_ID = process.env.APPWRITE_PROJECT_ID || '69ab4e9d00342b2b9f9f';
+const API_KEY = process.env.APPWRITE_API_KEY || 'standard_ac07ab782ca017c0c46c029aa448ff921576b4b5decf8fd166ebdbb1c111351c635a03055648c2b69c234ec4e778f7ebff9d2495b1d230e2fb4c1b5e16b515669efef6b820b1382b746cacf6e2984a7650095d22e6fa3b3730b5153257650b0cd5ed192466b7ec79686e4ed0cac9ebff1136ff038c9db9489d32f7a3136182ed';
+const DB_ID = 'freelance';
 
 const client = new sdk.Client().setEndpoint(ENDPOINT).setProject(PROJECT_ID).setKey(API_KEY);
 const databases = new sdk.Databases(client);

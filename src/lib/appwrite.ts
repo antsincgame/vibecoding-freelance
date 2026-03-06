@@ -3,7 +3,7 @@ import { Client, Databases, Account, Query, ID } from 'appwrite';
 let client: Client | null = null;
 let databases: Databases | null = null;
 let account: Account | null = null;
-const DB_ID = 'vibecoding';
+const DB_ID = 'freelance';
 
 function getClient(): Client {
   if (client) return client;
