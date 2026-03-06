@@ -151,7 +151,18 @@ function formatDate(iso: string): string {
 export async function getCategories(): Promise<Category[]> {
   const { data, error } = await db().from('fl_categories').select('*').order('sort_order', { ascending: true });
   if (error || !data) return [];
-  return (Array.isArray(data) ? data : [data]).map(mapCategory);
+  const cats = (Array.isArray(data) ? data : [data]).map(mapCategory);
+  
+  // Count real gigs per category
+  try {
+    const { data: gigs } = await db().from('fl_gigs').select('*').eq('status', 'active');
+    const gigList = Array.isArray(gigs) ? gigs : gigs ? [gigs] : [];
+    for (const cat of cats) {
+      cat.gigCount = gigList.filter((g: any) => g.category_slug === cat.slug).length;
+    }
+  } catch {}
+  
+  return cats;
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {

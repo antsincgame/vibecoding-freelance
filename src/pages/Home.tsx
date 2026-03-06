@@ -12,6 +12,7 @@ import Avatar from '../components/ui/Avatar';
 import Skeleton from '../components/ui/Skeleton';
 import SEO from '../components/SEO';
 import AIMatching from '../components/AIMatching';
+import LiveOrderTicker from '../components/LiveOrderTicker';
 import { useCategories, useFeaturedGigs, useTopFreelancers } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
@@ -103,12 +104,17 @@ export default function Home() {
       <section className="relative py-12 -mt-12 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="card p-6 sm:p-8 flex flex-wrap items-center justify-center gap-8 sm:gap-16 text-center">
-            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-gold">500+</p><p className="text-xs text-muted mt-1">Услуг в каталоге</p></div>
-            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-cyan">50+</p><p className="text-xs text-muted mt-1">AI-фрилансеров</p></div>
-            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-green">1 000+</p><p className="text-xs text-muted mt-1">Выполненных заказов</p></div>
-            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-accent-violet">4.8 ★</p><p className="text-xs text-muted mt-1">Средний рейтинг</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-gold">{(categories || []).reduce((sum, c) => sum + c.gigCount, 0) || '...'}</p><p className="text-xs text-muted mt-1">Услуг в каталоге</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-cyan">{(freelancers || []).length || '...'}</p><p className="text-xs text-muted mt-1">AI-фрилансеров</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-neon-green">4.8 ★</p><p className="text-xs text-muted mt-1">Средний рейтинг</p></div>
+            <div><p className="text-3xl sm:text-4xl font-bold font-mono text-accent-violet">0%</p><p className="text-xs text-muted mt-1">Комиссия</p></div>
           </div>
         </div>
+      </section>
+
+      {/* LIVE ORDER TICKER */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        <LiveOrderTicker />
       </section>
 
       <section ref={whyRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -268,6 +274,44 @@ export default function Home() {
               ⚡ {tool}
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* LATEST NEWS */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-display text-2xl font-bold text-gold-gradient tracking-[0.1em] uppercase">Новости</h2>
+          <Link to="/news" className="text-sm text-gold hover:underline">Все новости →</Link>
+        </div>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {[
+            { emoji: '🚀', title: 'Запуск VibeCoder', desc: 'Первый маркетплейс для AI-разработчиков и вайб-кодеров', date: '6 марта 2026' },
+            { emoji: '🤖', title: 'AI-функции', desc: 'AI-подбор специалиста, анализ кворков, Vibe Score', date: '6 марта 2026' },
+            { emoji: '⚡', title: 'MVP за 1-3 дня', desc: 'Cursor + Claude + v0 = создаём проекты в разы быстрее', date: '6 марта 2026' },
+          ].map((news, i) => (
+            <Link key={i} to="/news" className="card p-5 hover:border-gold/30 transition-all group">
+              <span className="text-2xl">{news.emoji}</span>
+              <h3 className="text-sm font-heading font-semibold text-heading mt-3 group-hover:text-gold transition-colors">{news.title}</h3>
+              <p className="text-xs text-muted mt-1 leading-relaxed">{news.desc}</p>
+              <p className="text-[10px] text-muted mt-3">{news.date}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* BECOME FREELANCER CTA */}
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-gold/5 via-neon-cyan/5 to-accent-violet/5" />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-display text-3xl font-bold tracking-[0.1em] uppercase mb-4">
+            <span className="text-heading">Ты </span>
+            <span className="neon-text text-[var(--neon-cyan)]">вайб-кодер?</span>
+          </h2>
+          <p className="text-body text-lg font-heading font-light mb-8 max-w-2xl mx-auto">Зарабатывай на своих навыках. Создавай проекты с AI-инструментами, получай заказы, расти в рейтинге. 0% комиссия.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/for-sellers"><Button variant="primary" size="lg">Стать фрилансером <ArrowRight size={18} /></Button></Link>
+            <Link to="/how-it-works"><Button variant="secondary" size="lg">Как это работает</Button></Link>
+          </div>
         </div>
       </section>
 
