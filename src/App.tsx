@@ -27,6 +27,8 @@ import AdminTickets from './pages/admin/AdminTickets';
 import Support from './pages/Support';
 import OrderDetail from './pages/OrderDetail';
 import Chat from './pages/Chat';
+import EditProfile from './pages/EditProfile';
+import EditGig from './pages/EditGig';
 import { getCurrentFreelancerProfile } from './lib/freelance-db';
 
 function ScrollToTop() {
@@ -147,6 +149,12 @@ function AppContent() {
           } />
           <Route path="/dashboard/create-gig" element={
             <RequireFlProfile><CreateGig /></RequireFlProfile>
+          } />
+          <Route path="/dashboard/edit-gig/:id" element={
+            <RequireFlProfile><EditGig /></RequireFlProfile>
+          } />
+          <Route path="/profile/edit" element={
+            <ProtectedRoute><EditProfile /></ProtectedRoute>
           } />
         </Routes>
       </main>

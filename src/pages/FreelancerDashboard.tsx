@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Package, ShoppingBag, BarChart3, Wallet, Eye, TrendingUp, ArrowUpRight, Pause, Edit3, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import Skeleton from '../components/ui/Skeleton';
@@ -114,7 +115,7 @@ export default function FreelancerDashboard() {
                       </div>
                       <div className="flex items-center gap-2 self-end sm:self-center">
                         <span className="text-sm font-mono text-heading font-bold">{t('common.from')} {gig.packages.economy.price.toLocaleString('ru-RU')} ₽</span>
-                        <button className="p-2 text-muted hover:text-body rounded-lg hover:bg-gold/10 transition-all cursor-pointer"><Edit3 size={16} /></button>
+                        <Link to={`/dashboard/edit-gig/${gig.id}`} className="p-2 text-muted hover:text-body rounded-lg hover:bg-gold/10 transition-all cursor-pointer"><Edit3 size={16} /></Link>
                         <button onClick={() => handlePauseGig(gig.id)} className="p-2 text-muted hover:text-gold rounded-lg hover:bg-gold/10 transition-all cursor-pointer"><Pause size={16} /></button>
                         <button onClick={() => handleDeleteGig(gig.id)} className="p-2 text-muted hover:text-neon-rose rounded-lg hover:bg-gold/10 transition-all cursor-pointer"><Trash2 size={16} /></button>
                       </div>

@@ -9,9 +9,7 @@ import GigCard from '../components/GigCard';
 import Skeleton from '../components/ui/Skeleton';
 import { useMyOrders, useFavoriteGigs } from '../hooks/useData';
 import { useAuth } from '@vibecoding/shared';
-import { updateFreelancerProfile } from '../lib/freelance-db';
 import type { Order } from '../types';
-import toast from 'react-hot-toast';
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -21,8 +19,6 @@ export default function Dashboard() {
 
   const { data: orders, loading: ordersLoading } = useMyOrders('buyer');
   const { data: favoriteGigs, loading: favsLoading } = useFavoriteGigs();
-
-  const [settingsForm, setSettingsForm] = useState({ name: profile?.full_name || '', city: '' });
 
   const statusConfig: Record<Order['status'], { label: string; variant: 'green' | 'violet' | 'emerald' | 'blue' }> = {
     new: { label: t('dashboard.status_new'), variant: 'green' },
@@ -49,11 +45,6 @@ export default function Dashboard() {
     { label: t('dashboard.total_orders'), value: allOrders.length, icon: TrendingUp, color: 'text-gold' },
     { label: t('dashboard.pending'), value: allOrders.filter((o) => o.status === 'new' || o.status === 'delivered').length, icon: AlertCircle, color: 'text-accent-amber' },
   ];
-
-  const handleSaveSettings = async () => {
-    const ok = await updateFreelancerProfile({ name: settingsForm.name, location: settingsForm.city });
-    if (ok) toast.success('Сохранено'); else toast.error('Ошибка');
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
@@ -168,19 +159,13 @@ export default function Dashboard() {
                   <Avatar src={profile?.avatar_url || ''} alt={profile?.full_name || ''} size="lg" />
                   <div><p className="text-sm font-medium text-heading">{profile?.full_name || 'Пользователь'}</p><p className="text-xs text-muted">{user?.email}</p></div>
                 </div>
-                <div>
-                  <label className="block text-sm text-muted mb-1.5">{t('dashboard.name_label')}</label>
-                  <input type="text" value={settingsForm.name} onChange={(e) => setSettingsForm({...settingsForm, name: e.target.value})} className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all" />
+                <Link to="/profile/edit">
+                  <Button variant="primary" size="md">Редактировать профиль</Button>
+                </Link>
+                <div className="border-t border-gold/20 pt-4 space-y-3">
+                  <Link to="/dashboard/freelancer" className="flex items-center gap-2 text-sm text-gold hover:underline">Панель фрилансера →</Link>
+                  <Link to="/support" className="flex items-center gap-2 text-sm text-body hover:text-gold">Техподдержка →</Link>
                 </div>
-                <div>
-                  <label className="block text-sm text-muted mb-1.5">{t('dashboard.email_label')}</label>
-                  <input type="text" defaultValue={user?.email || ''} disabled className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-muted focus:outline-none transition-all opacity-60" />
-                </div>
-                <div>
-                  <label className="block text-sm text-muted mb-1.5">{t('dashboard.city_label')}</label>
-                  <input type="text" value={settingsForm.city} onChange={(e) => setSettingsForm({...settingsForm, city: e.target.value})} className="w-full bg-gold/10 border border-gold/30 rounded-xl px-4 py-3 text-sm text-heading focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/40 transition-all" />
-                </div>
-                <Button variant="primary" size="md" onClick={handleSaveSettings}>{t('common.save')}</Button>
               </div>
             </div>
           )}
