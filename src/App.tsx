@@ -92,6 +92,7 @@ function AppContent() {
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const { user } = useAuth();
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
@@ -126,12 +127,10 @@ function AppContent() {
       <Header
         logoText="VIBECODER" logoImage="/logo.png"
         logoTo="/"
-        onOpenSearch={openSearch}
-        searchPlaceholder="Найти услуги"
         loginPath="/auth"
         profilePath="/dashboard"
         navLinks={[
-          { to: '/projects', label: 'Биржа' },
+          ...(user ? [{ to: '/projects', label: 'Биржа' }] : []),
           { to: '/for-sellers', label: 'Фрилансеру' },
           { to: '/how-it-works', label: 'Как работает' },
           { to: '/news', label: 'Новости' },
@@ -150,7 +149,9 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/categories/:slug" element={<Category />} />
           <Route path="/gigs/:id" element={<GigDetail />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={
+            <ProtectedRoute><Projects /></ProtectedRoute>
+          } />
           <Route path="/for-sellers" element={<ForSellers />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
