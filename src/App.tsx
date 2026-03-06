@@ -131,9 +131,6 @@ function AppContent() {
         profilePath="/dashboard"
         navLinks={[
           ...(user ? [{ to: '/projects', label: 'Биржа' }] : []),
-          { to: '/for-sellers', label: 'Фрилансеру' },
-          { to: '/how-it-works', label: 'Как работает' },
-          { to: '/news', label: 'Новости' },
         ]}
         extraLinks={[
           { to: '/admin', label: 'Админка', style: { color: '#ff006e' } },
