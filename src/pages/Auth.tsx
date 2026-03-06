@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@vibecoding/shared';
 import { Zap, Mail, Lock, User, AtSign, Github, Globe, Eye, EyeOff } from 'lucide-react';
@@ -13,12 +13,21 @@ export default function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, signIn, signUp, signInWithGoogle } = useAuth();
+  const [searchParams] = useSearchParams();
   const [mode, setMode] = useState<AuthMode>('login');
   const [role, setRole] = useState<Role>('client');
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: '', username: '', email: '', password: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+
+  // Set initial mode based on URL query parameter
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'signup' || tab === 'register') {
+      setMode('register');
+    }
+  }, [searchParams]);
 
   // Redirect if already logged in
   if (user) {
