@@ -410,6 +410,7 @@ export async function createOrder(order: { gig_id: string; package_type: string;
       gig_id: order.gig_id,
       gig_title: (gig.title || '').slice(0, 295),
       buyer_id: user.$id,
+      client_id: user.$id,
       seller_id: gig.freelancer.id || 'unknown',
       seller_name: (gig.freelancer.name || '').slice(0, 195),
       seller_avatar: (gig.freelancer.avatar || '').slice(0, 495),
