@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import BottomNav from './components/BottomNav';
 import CommandPalette from './components/CommandPalette';
 import CursorTrail from './components/CursorTrail';
+import { PerformanceModeProvider, usePerformanceModeContext } from './contexts/PerformanceModeContext';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import GigDetail from './pages/GigDetail';
@@ -93,6 +94,7 @@ function AppContent() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
   const { user } = useAuth();
+  const { perfMode } = usePerformanceModeContext();
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
@@ -121,7 +123,7 @@ function AppContent() {
 
   return (
     <>
-      <CursorTrail />
+      {!perfMode && <CursorTrail />}
       <ScrollToTop />
       <Header onOpenSearch={openSearch} />
       <div className="fixed top-3 right-[200px] z-[51] hidden md:flex items-center gap-2">
@@ -204,7 +206,9 @@ export default function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <AuthProvider>
-          <AppContent />
+          <PerformanceModeProvider>
+            <AppContent />
+          </PerformanceModeProvider>
         </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>

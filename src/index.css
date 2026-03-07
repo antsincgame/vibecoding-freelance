@@ -278,6 +278,15 @@
     opacity: 0.6;
   }
 
+  /* Glitch text — static gradient for perf mode */
+  .glitch-text-simple {
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, #fff 40%, var(--neon-violet) 70%, var(--neon-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+  }
+
   /* Badges */
   .badge-cyan {
     background: rgba(0, 245, 255, 0.12);
@@ -679,6 +688,14 @@
     opacity: 0;
     animation: pulseRing 2s ease-out infinite;
   }
+
+  /* Glitch text simple — static gradient for perf mode */
+  .glitch-text-simple {
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, #fff 30%, var(--neon-violet) 60%, var(--neon-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 /* ===== KEYFRAMES ===== */
@@ -733,6 +750,30 @@
   0%, 100% { opacity: 0.3; filter: blur(0.5px); }
   50% { opacity: 0.8; filter: blur(0px); }
 }
+
+  /* Glitch text simple — static gradient for perf mode */
+  .glitch-text-simple {
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, #fff 30%, var(--neon-violet) 60%, var(--neon-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+/* Performance mode — снижение нагрузки для 4GB RAM */
+.perf-mode * { cursor: auto !important; }
+.perf-mode body::after { display: none; }
+.perf-mode .card::before,
+.perf-mode .card::after { animation: none; display: none; }
+.perf-mode .glitch-text::before,
+.perf-mode .glitch-text::after { display: none; }
+.perf-mode .matrix-col { display: none; }
+.perf-mode .particle { display: none; }
+.perf-mode .neon-lamp-h::before,
+.perf-mode .neon-brush-top::before,
+.perf-mode .neon-brush-bottom::after { animation: none; }
+.perf-mode .animate-glow-breathe,
+.perf-mode .animate-float-particle,
+.perf-mode .animate-spiral-rotate { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .card::before, .card::after { animation: none; }

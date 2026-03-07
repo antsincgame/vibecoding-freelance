@@ -15,6 +15,7 @@ import LiveOrderTicker from '../components/LiveOrderTicker';
 import { useCategories, useFeaturedGigs, useTopFreelancers, useLatestReviews } from '../hooks/useData';
 import { popularSearches } from '../lib/freelance-db';
 import { useInView } from '../hooks/useInView';
+import { usePerformanceModeContext } from '../contexts/PerformanceModeContext';
 
 const iconMap: Record<string, React.ElementType> = {
   Globe, Smartphone, Bot, Brain, Layout, Server, Database, Sparkles, Code, Bug, Cloud,
@@ -105,6 +106,7 @@ function CyberSpiral() {
 export default function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { perfMode } = usePerformanceModeContext();
   const [searchQuery, setSearchQuery] = useState('');
   const { ref: catRef, isInView: catVisible } = useInView();
   const { ref: gigsRef, isInView: gigsVisible } = useInView();
@@ -126,13 +128,13 @@ export default function Home() {
       {/* HERO */}
       <section className="relative min-h-[70vh] sm:min-h-[80vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden sacred-bg">
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] max-w-[900px] max-h-[900px] bg-[radial-gradient(ellipse_at_center,rgba(0,245,255,0.12)_0%,rgba(139,92,246,0.05)_30%,transparent_60%)] animate-glow-breathe" />
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] max-w-[900px] max-h-[900px] bg-[radial-gradient(ellipse_at_center,rgba(0,245,255,0.12)_0%,rgba(139,92,246,0.05)_30%,transparent_60%)] ${perfMode ? 'opacity-60' : 'animate-glow-breathe'}`} />
           <div className="absolute top-10 right-10 sm:top-20 sm:right-20 w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] bg-[radial-gradient(circle,rgba(139,92,246,0.08)_0%,transparent_55%)]" />
           <div className="absolute bottom-20 left-10 w-[60vw] h-[60vw] max-w-[400px] max-h-[400px] bg-[radial-gradient(circle,rgba(0,245,255,0.06)_0%,transparent_55%)]" />
         </div>
-        <MatrixRain />
-        <CyberSpiral />
-        <NeonParticles />
+        {!perfMode && <MatrixRain />}
+        {!perfMode && <CyberSpiral />}
+        {!perfMode && <NeonParticles />}
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 text-center py-20 sm:py-28 space-y-10">
           <div className="space-y-6">
@@ -142,7 +144,7 @@ export default function Home() {
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-[0.05em] sm:tracking-[0.1em] uppercase leading-[1.15]">
               <span
-                className="quantum-shimmer glitch-text break-words"
+                className={`break-words ${perfMode ? 'glitch-text-simple' : 'quantum-shimmer glitch-text'}`}
                 data-text="Фриланс биржа"
               >
                 Фриланс биржа
